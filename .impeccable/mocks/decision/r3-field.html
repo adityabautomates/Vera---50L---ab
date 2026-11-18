@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Field</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Field: one deep ultramarine field, live. Material flows through it left to right; where it leaks, the stream breaks and burns coral. No loader, no intro. */
+:root{
+  --ground:#1316A6; --ground-2:#0C0E73; --fg:#F4F4FF; --fg-2:#CDD0FF; --fg-3:#A9AEF5; --line:rgba(244,244,255,.22);
+  --coral:#FF7A57;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif; --sans:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ground-2);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+#fx{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.wrap{position:relative;z-index:1;padding-left:max(24px,3.4vw);padding-right:max(24px,3.4vw)}
+header{display:flex;align-items:center;gap:28px;padding-top:24px;padding-bottom:24px;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.logo{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em;text-transform:none;text-decoration:none}
+nav{display:flex;gap:26px;color:var(--fg-2)}nav a{text-decoration:none}nav a:hover{color:var(--fg)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--line);border-radius:99px;padding:3px}
+.mkt button{font:500 12px var(--sans);letter-spacing:.06em;text-transform:uppercase;border:0;background:none;color:var(--fg-2);padding:7px 13px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--fg);color:var(--ground-2)}
+.hero{min-height:calc(100svh - 82px);display:grid;grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:1fr auto;gap:24px 48px;padding-top:24px;padding-bottom:36px}
+h1{grid-column:1;align-self:center;margin:0;font-family:var(--display);font-weight:300;line-height:.9}
+h1 .num{display:block;font-size:clamp(84px,15vw,250px);letter-spacing:-.055em;font-variation-settings:"opsz" 96;font-variant-numeric:tabular-nums}
+h1 .sub{display:block;font-family:var(--sans);font-weight:400;font-size:clamp(20px,2.1vw,30px);line-height:1.25;letter-spacing:-.01em;max-width:30ch;margin-top:22px;color:var(--fg)}
+.side{grid-column:2;grid-row:1;align-self:end;font-size:13px;line-height:1.55;color:var(--fg-2);background:rgba(12,14,115,.72);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.side dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-variant-numeric:tabular-nums}
+.side dt{color:var(--fg-3)}.side dd{margin:0;text-align:right;color:var(--fg)}
+.side dd.c{color:var(--coral)}
+.side p{margin:0 0 14px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+.act{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:end;border-top:1px solid var(--line);padding-top:24px}
+.lede{margin:0;font-size:17px;line-height:1.55;color:var(--fg-2);max-width:48ch}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+form label{grid-column:1/-1;font-size:13px;color:var(--fg-2)}
+input{font:400 17px var(--sans);padding:15px 20px;border-radius:99px;border:1px solid rgba(244,244,255,.5);background:rgba(12,14,115,.55);color:var(--fg);min-width:0}
+input::placeholder{color:var(--fg-3)}
+form button{font:600 16px var(--sans);padding:15px 24px;border-radius:99px;border:0;background:var(--fg);color:var(--ground-2);cursor:pointer;white-space:nowrap;display:flex;gap:10px;align-items:center}
+form button i{width:8px;height:8px;border-radius:50%;background:var(--coral)}
+form button:hover{background:#fff}
+.fine{grid-column:1/-1;font-size:13px;color:var(--fg-3);margin:4px 0 0}
+.probe{position:fixed;z-index:2;pointer-events:none;font-size:13px;line-height:1.4;padding:8px 11px;border-radius:8px;background:rgba(12,14,115,.9);border:1px solid var(--line);transform:translate(16px,-50%);display:none;white-space:nowrap}
+.probe b{color:var(--coral);font-weight:600}
+/* flow section */
+.flow{padding-top:120px;padding-bottom:64px}
+h2{font-family:var(--display);font-weight:300;font-size:clamp(36px,4.6vw,68px);letter-spacing:-.04em;line-height:1;margin:0 0 56px;max-width:16ch;text-wrap:balance}
+.stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.st{padding:22px 24px 26px 0;position:relative}
+.st+.st{padding-left:24px;border-left:1px solid var(--line)}
+.st span{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+.st b{display:block;font-family:var(--display);font-weight:300;font-size:clamp(44px,5vw,76px);letter-spacing:-.04em;line-height:1;margin:14px 0 10px;font-variant-numeric:tabular-nums}
+.st p{margin:0;font-size:14px;color:var(--fg-2);line-height:1.5}
+.st em{font-style:normal;color:var(--coral);font-weight:600}
+.flow .note{margin-top:28px;font-size:13px;color:var(--fg-3)}
+.how{padding-top:64px;padding-bottom:120px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:56px;border-top:1px solid var(--line)}
+.how h2{font-size:clamp(30px,3.2vw,46px);margin:0}
+ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;counter-reset:s}
+ol li{counter-increment:s;display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;padding:18px 0;border-bottom:1px solid var(--line);color:var(--fg-2);line-height:1.55}
+ol li::before{content:counter(s,decimal-leading-zero);font-family:var(--display);font-size:22px;color:var(--fg)}
+ol li b{color:var(--fg);font-weight:600}
+.team{display:flex;gap:40px;flex-wrap:wrap;margin-top:40px;font-size:14px;color:var(--fg-2)}
+.team b{display:block;color:var(--fg);font-weight:500;font-size:15px}
+@media (max-width:900px){
+  nav{display:none}header{gap:14px}
+  .hero{grid-template-columns:1fr;min-height:0;padding-top:20px;padding-bottom:32px;background:linear-gradient(180deg,rgba(12,14,115,.25),rgba(12,14,115,.7) 30%,rgba(12,14,115,.7))}
+  .side{grid-column:1;grid-row:auto}
+  .act{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}form button{justify-content:center;padding:16px}
+  .stages{grid-template-columns:1fr 1fr}.st:nth-child(3){padding-left:0;border-left:0}.st:nth-child(n+3){border-top:1px solid var(--line)}
+  .how{grid-template-columns:1fr;gap:28px;padding-top:48px;padding-bottom:72px}
+  .flow{padding-top:72px;padding-bottom:40px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="probe" id="probe" aria-hidden="true"></div>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#">The leak</a><a href="#flow">The flow</a><a href="#how">How we work</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <h1><span class="num" id="num">₹23,010</span><span class="sub" id="sub">of cement one site paid for and never used. Vera finds it in your own registers.</span></h1>
+    <aside class="side" aria-label="Sample reading">
+      <p>Sample reading</p>
+      <dl id="dl"></dl>
+    </aside>
+    <div class="act">
+      <p class="lede" id="lede">Every bag flows from purchase order to challan to store to the work. Vera follows each one and shows you where the stream breaks, priced in rupees. Point at the field: the coral breaks are the leaks.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit"><i aria-hidden="true"></i>Start free leak check</button>
+        <p class="fine" id="fine">One site, three months of records, free. No new app for your supervisors.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="flow wrap" id="flow">
+    <h2>Four registers. One stream. Two breaks.</h2>
+    <div class="stages" id="stages"></div>
+    <p class="note">Sample data · Cement, one site, one quarter</p>
+  </section>
+
+  <section class="how wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><span><b>Send three months of records.</b> POs, challans and store registers for one site. Photos and WhatsApp notes are fine.</span></li>
+        <li><span><b>We follow every bag.</b> From order to delivery to store to the work it was meant for.</span></li>
+        <li><span><b>You get the breaks.</b> Each one with its date, quantity, stage and value, in about ten working days.</span></li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',p:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',st:['Purchase order','Challan','Store issue','Used per BOQ'],
+   sub:'of cement one site paid for and never used. Vera finds it in your own registers.',
+   lede:'Every bag flows from purchase order to challan to store to the work. Vera follows each one and shows you where the stream breaks, priced in rupees. Point at the field: the coral breaks are the leaks.',
+   fine:'One site, three months of records, free. No new app for your supervisors.'},
+ ae:{cur:'AED ',p:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',st:['LPO','Delivery note','Store issue','Used per BOQ'],
+   sub:'of cement one site paid for and never used. Vera finds it in your own registers.',
+   lede:'Every bag flows from LPO to delivery note to store to the work. Vera follows each one and shows you where the stream breaks, priced in dirhams. Point at the field: the coral breaks are the leaks.',
+   fine:'One site, three months of records, free. No new app for your foremen.'}
+};
+let mkt='in';
+const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(mkt==='in'?'en-IN':'en-US');
+// leak breaks in normalised field coords (x 0..1 left->right, y 0..1 top->bottom)
+const BR=[{x:.56,y:.30,b:8,k:'s',wk:3},{x:.60,y:.62,b:10,k:'s',wk:6},{x:.74,y:.22,b:6,k:'w',wk:4},{x:.80,y:.47,b:12,k:'w',wk:8},{x:.86,y:.72,b:9,k:'w',wk:10},{x:.91,y:.36,b:14,k:'w',wk:12}];
+function ui(){const t=M[mkt];
+ $('num').textContent=fmt(59*t.p); $('sub').textContent=t.sub; $('lede').textContent=t.lede; $('fine').textContent=t.fine; $('wa').placeholder=t.ph;
+ $('dl').innerHTML=`<dt>Site</dt><dd>${t.site}</dd><dt>Material</dt><dd>Cement, Jul–Sep</dd><dt>Ordered</dt><dd>500 bags</dd><dt>Breaks found</dt><dd class="c">6</dd><dt>Unaccounted</dt><dd class="c">59 bags</dd>`;
+ const v=[500,500,482,441], notes=['Ordered and paid',`Matches the ${t.st[0]==='LPO'?'LPO':'order'}`,'<em>18 bags</em> never reached the store','<em>41 bags</em> issued, not in the work'];
+ $('stages').innerHTML=t.st.map((s,i)=>`<div class="st"><span>${s}</span><b>${v[i]}</b><p>${notes[i]}</p></div>`).join('');
+ document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===mkt));}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>{mkt=b.dataset.m;ui()});
+$('f').addEventListener('submit',e=>{e.preventDefault();const v=$('wa').value.replace(/\D/g,'');$('fine').textContent=v.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+ui();
+// ---------- shader field ----------
+const cv=$('fx'), gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
+let mouse=[-1,-1], scrollY0=0;
+const probe=$('probe');
+addEventListener('pointermove',e=>{mouse=[e.clientX/innerWidth,e.clientY/innerHeight];
+  if(scrollY>innerHeight*.6){probe.style.display='none';return}
+  const t=M[mkt]; let best=null,bd=.05; for(const b of BR){const d=Math.hypot((b.x-mouse[0])*innerWidth/innerHeight,b.y-mouse[1]);if(d<bd){bd=d;best=b}}
+  if(best&&!e.target.closest('form,a,button,h1,aside,p')){probe.style.display='block';probe.style.left=e.clientX+'px';probe.style.top=e.clientY+'px';
+    probe.innerHTML=`Week ${best.wk} · <b>${best.b} bags · ${fmt(best.b*t.p)}</b><br>${best.k==='s'?'Delivered, never entered the store':'Issued, not in the measured work'}`}else probe.style.display='none'});
+if(!gl){cv.style.background='var(--ground)';return}
+const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+const fs=`precision highp float;
+uniform vec2 uR;uniform float uT;uniform vec2 uM;uniform float uS;uniform vec3 uB[6];
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+void main(){
+ vec2 uv=gl_FragCoord.xy/uR; uv.y=1.-uv.y; float asp=uR.x/uR.y;
+ vec2 q=vec2(uv.x*asp,uv.y+uS*.25);
+ float t=uT*.04;
+ // flow lines: horizontal streams warped by slow noise and by the cursor
+ vec2 md=vec2((uv.x-uM.x)*asp,uv.y-uM.y); float mf=exp(-dot(md,md)*18.)*(uM.x<0.?0.:1.);
+ float warp=fbm(q*vec2(1.2,2.4)+vec2(-t,t*.3))*1.6+mf*.9;
+ float leak=0.;
+ for(int i=0;i<6;i++){ vec2 d=vec2((uv.x-uB[i].x)*asp,uv.y-uB[i].y); float right=smoothstep(-.02,.12,d.x);
+   float g=exp(-dot(d,d)*(55./max(uB[i].z,.4))); leak+=g; warp+=right*exp(-d.y*d.y*60.)*d.x*2.2*uB[i].z; }
+ float v=uv.y*46.+warp*6.;
+ float line=smoothstep(.18,0.,abs(fract(v)-.5)-.30);
+ float dash=.55+.45*sin(uv.x*asp*40.-uT*1.2+floor(v)*2.1);
+ float fade=smoothstep(0.,.25,uv.x)*.8+.2;
+ vec3 g1=vec3(.075,.086,.65), g2=vec3(.047,.055,.45), g3=vec3(.16,.10,.70);
+ vec3 col=mix(g2,g1,smoothstep(0.,1.,uv.x*.7+fbm(q*.8+t)*.6));
+ col=mix(col,g3,smoothstep(.55,1.,fbm(q*1.3-t*.7))*.5);
+ vec3 lc=mix(vec3(.62,.66,1.),vec3(1.,.48,.34),clamp(leak*1.4,0.,1.));
+ col+=lc*line*dash*fade*(.16+leak*.5);
+ col+=vec3(1.,.48,.34)*smoothstep(.2,1.,leak)*.12;
+ col+=(h(gl_FragCoord.xy+fract(uT)*91.)-.5)*.05;
+ gl_FragColor=vec4(col,1.);
+}`;
+function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(s));return s}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const L=k=>gl.getUniformLocation(pr,k), uR=L('uR'),uT=L('uT'),uM=L('uM'),uS=L('uS'),uB=L('uB');
+gl.uniform3fv(uB,new Float32Array(BR.flatMap(b=>[b.x,b.y,b.b/10])));
+let sm=[-1,-1];
+function size(){const d=Math.min(devicePixelRatio||1,1.5);cv.width=Math.round(innerWidth*d);cv.height=Math.round(innerHeight*d);gl.viewport(0,0,cv.width,cv.height)}
+function draw(t){ if(mouse[0]>=0){sm[0]+=(mouse[0]-sm[0])*.08;sm[1]+=(mouse[1]-sm[1])*.08;if(sm[0]<0)sm=[...mouse]}
+  gl.uniform2f(uR,cv.width,cv.height);gl.uniform1f(uT,RM?12:t*.001);gl.uniform2f(uM,sm[0],sm[1]);gl.uniform1f(uS,scrollY/innerHeight);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4); if(!RM)requestAnimationFrame(draw)}
+addEventListener('resize',()=>{size();if(RM)draw(0)});
+if(RM)addEventListener('scroll',()=>draw(0),{passive:true});
+size();requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

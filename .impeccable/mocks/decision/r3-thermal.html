@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Thermal survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300..800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+/* Thermal survey: the page is a thermography report. The hero is the camera view of one site; leaks read as heat. */
+:root{
+  --bg:#07070C; --bg-2:#101019; --fg:#F2F1F5; --fg-2:#B9B8C6; --fg-3:#8C8B9C; --rule:#26252F;
+  --hot:#FFB21A; --mag:#C2177E;
+  --sans:"Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+.wrap{padding-left:max(24px,3.4vw);padding-right:max(24px,3.4vw)}
+header{position:absolute;inset:0 0 auto;z-index:5;display:flex;align-items:center;gap:32px;padding-top:22px;padding-bottom:22px}
+.logo{font-weight:700;font-size:21px;letter-spacing:-.02em;text-decoration:none}
+nav{display:flex;gap:26px;font-size:14px;color:var(--fg-2)}nav a{text-decoration:none}nav a:hover{color:var(--fg)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid #3a3946;border-radius:99px;padding:3px;background:rgba(7,7,12,.6)}
+.mkt button{font:500 13px var(--sans);border:0;background:none;color:var(--fg-2);padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+/* hero = camera */
+.cam{position:relative;height:min(100svh,920px);min-height:640px;overflow:hidden;background:var(--bg)}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,7,12,.92) 0%,rgba(7,7,12,.75) 30%,rgba(7,7,12,0) 58%);pointer-events:none}
+.copy{position:absolute;left:0;top:0;bottom:0;width:min(620px,52vw);display:flex;flex-direction:column;justify-content:center;z-index:3;padding-top:110px;padding-bottom:140px}
+h1{font-weight:300;font-size:clamp(42px,5vw,76px);line-height:1.02;letter-spacing:-.035em;margin:0 0 22px;text-wrap:balance}
+h1 b{font-weight:600}
+.lede{font-size:18px;line-height:1.55;color:var(--fg-2);max-width:44ch;margin:0 0 26px}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;max-width:500px}
+form label{grid-column:1/-1;font-size:13px;color:var(--fg-2)}
+input{font:400 17px var(--sans);padding:15px 18px;border-radius:12px;border:1px solid #4a4957;background:rgba(16,16,25,.9);color:var(--fg);min-width:0}
+input::placeholder{color:var(--fg-3)}
+form button{font:600 16px var(--sans);padding:15px 22px;border-radius:12px;border:0;background:var(--hot);color:#140c00;cursor:pointer;white-space:nowrap}
+form button:hover{background:#ffc34d}
+.fine{font-size:13px;color:var(--fg-3);margin:12px 0 0}
+/* viewfinder chrome */
+.vf{position:absolute;inset:86px max(24px,3.4vw) 92px auto;width:min(58vw,1000px);pointer-events:none;z-index:2}
+.vf i{position:absolute;width:26px;height:26px;border-color:rgba(242,241,245,.7);border-style:solid;border-width:0}
+.vf i:nth-child(1){left:0;top:0;border-left-width:1.5px;border-top-width:1.5px}.vf i:nth-child(2){right:0;top:0;border-right-width:1.5px;border-top-width:1.5px}
+.vf i:nth-child(3){left:0;bottom:0;border-left-width:1.5px;border-bottom-width:1.5px}.vf i:nth-child(4){right:0;bottom:0;border-right-width:1.5px;border-bottom-width:1.5px}
+.meta{position:absolute;top:10px;left:14px;right:60px;display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--fg-2);font-variant-numeric:tabular-nums}
+.meta b{color:var(--fg);font-weight:600}
+.scale{position:absolute;right:max(24px,3.4vw);top:120px;bottom:130px;width:14px;z-index:3;border-radius:3px;background:linear-gradient(0deg,#05030f 0%,#2e0a6e 18%,#8a0f86 38%,#d7333a 58%,#f98d12 76%,#ffd84a 90%,#fff6d6 100%)}
+.scale span{position:absolute;right:22px;font-size:12px;color:var(--fg-2);white-space:nowrap;font-variant-numeric:tabular-nums;transform:translateY(-50%)}
+.spot{position:absolute;z-index:4;pointer-events:none;transform:translate(-50%,-50%);display:none}
+.spot svg{display:block}
+.spot div{position:absolute;left:22px;top:-12px;white-space:nowrap;background:rgba(7,7,12,.86);border:1px solid #3a3946;border-radius:6px;padding:6px 9px;font-size:13px;line-height:1.35}
+.spot div b{display:block;font-size:15px;font-variant-numeric:tabular-nums}
+.bar{position:absolute;left:0;right:0;bottom:0;z-index:3;padding-left:3.4vw;padding-right:3.4vw;display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding-top:20px;padding-bottom:20px;border-top:1px solid rgba(242,241,245,.1);background:rgba(7,7,12,.7)}
+.mode{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--fg-2)}
+.mode input{width:180px;accent-color:var(--hot);padding:0;border:0;background:none}
+.bar .note{font-size:13px;color:var(--fg-3)}
+.bar .tot{margin-left:auto;font-size:14px;color:var(--fg-2)}.bar .tot b{color:var(--fg);font-size:22px;font-weight:600;margin-left:8px;font-variant-numeric:tabular-nums}
+/* report */
+.report{padding-top:96px;padding-bottom:48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px}
+h2{font-weight:300;font-size:clamp(30px,3.2vw,46px);letter-spacing:-.03em;line-height:1.08;margin:0 0 16px;text-wrap:balance}
+.report p{color:var(--fg-2);line-height:1.6;margin:0;max-width:40ch}
+table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:500;font-size:12px;color:var(--fg-3);padding:0 12px 12px 0;border-bottom:1px solid var(--rule)}
+td{padding:14px 12px 14px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td:last-child,th:last-child{text-align:right;padding-right:0}
+tbody tr{cursor:pointer}tbody tr:hover td,tbody tr[aria-selected=true] td{background:var(--bg-2)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:10px;vertical-align:0}
+td small{display:block;color:var(--fg-3);font-size:13px}
+.tw{overflow-x:auto}
+.how{padding-top:48px;padding-bottom:96px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;border-top:1px solid var(--rule)}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;counter-reset:s}
+ol li{counter-increment:s;line-height:1.55;color:var(--fg-2);font-size:15px;border-top:1px solid #3a3946;padding-top:16px}
+ol li::before{content:"Step " counter(s);display:block;font-size:12px;color:var(--hot);margin-bottom:8px;font-weight:600}
+ol li b{display:block;color:var(--fg);font-weight:600;margin-bottom:4px}
+.team{display:flex;gap:40px;flex-wrap:wrap;margin-top:48px;font-size:14px;color:var(--fg-2)}
+.team b{display:block;color:var(--fg);font-weight:500;font-size:15px}
+@media (max-width:900px){
+  nav{display:none}header{gap:16px}
+  .cam{height:auto;min-height:0;display:flex;flex-direction:column}
+  .copy{position:relative;width:auto;padding-top:96px;padding-bottom:24px}
+  .scrim,.vf,.scale{display:none}
+  #gl{position:relative;height:430px}
+  .bar{position:relative;padding-left:24px;padding-right:24px}
+  form{grid-template-columns:1fr}form button{padding:16px}
+  .report,.how{grid-template-columns:1fr;gap:28px;padding-top:56px;padding-bottom:32px}
+  ol{grid-template-columns:1fr;gap:20px}
+}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#">The leak</a><a href="#report">Survey report</a><a href="#how">How we work</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="cam" aria-label="Sample thermal-style survey of one building site">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="scrim"></div>
+    <div class="vf" aria-hidden="true"><i></i><i></i><i></i><i></i><div class="meta"><b id="msite">Site 03, Indore</b><span>Cement · Jul–Sep</span><span>4 registers matched</span><span>Sample data</span></div></div>
+    <div class="scale" aria-hidden="true" id="scale"></div>
+    <div class="spot" id="spot" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#F2F1F5" stroke-width="1.5"><circle cx="17" cy="17" r="7"/><path d="M17 0v9M17 25v9M0 17h9M25 17h9"/></svg><div id="spotv"></div></div>
+    <div class="copy wrap">
+      <h1>Your sites look fine in daylight. <b>Vera shows where the material is going.</b></h1>
+      <p class="lede" id="lede">Vera matches purchase orders, challans, store issues and BOQ for every floor, then maps the gaps onto your building in rupees. Hot means money that left the site.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free. No new app for your supervisors.</p>
+    </div>
+    <div class="bar">
+      <label class="mode" for="mix">Daylight <input id="mix" type="range" min="0" max="100" value="100"> Vera view</label>
+      <span class="note">Drag to orbit. Point at the building to read a spot.</span>
+      <span class="tot">Unaccounted<b id="tot">₹23,010</b></span>
+    </div>
+  </section>
+
+  <section class="report wrap" id="report">
+    <div><h2>The survey report</h2><p>Every hotspot comes with its location, the registers that disagree and what it cost. Select a row to find it on the building.</p><p style="margin-top:14px;font-size:13px;color:var(--fg-3)">Sample data</p></div>
+    <div class="tw"><table><thead><tr><th>Spot</th><th>Where</th><th>What the registers show</th><th>Value</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+
+  <section class="how wrap" id="how">
+    <div><h2>How the free check works</h2></div>
+    <div>
+      <ol>
+        <li><b>Send three months</b>POs, challans and store registers for one site. Photos and WhatsApp notes are fine.</li>
+        <li><b>We match every bag</b>From order to delivery to store to the floor it was meant for.</li>
+        <li><b>You get the survey</b>Each hotspot with its floor, quantity and value, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',p:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',r:['challan','store'],
+   lede:'Vera matches purchase orders, challans, store issues and BOQ for every floor, then maps the gaps onto your building in rupees. Hot means money that left the site.',fine:'One site, three months of records, free. No new app for your supervisors.'},
+ ae:{cur:'AED ',p:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',r:['delivery note','store'],
+   lede:'Vera matches LPOs, delivery notes, store issues and BOQ for every floor, then maps the gaps onto your building in dirhams. Hot means money that left the site.',fine:'One site, three months of records, free. No new app for your foremen.'}
+};
+let mkt='in';
+const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(mkt==='in'?'en-IN':'en-US');
+// hotspots: x,y,z,bags,radius
+const HS=[
+ {id:'Sp1',pos:[-9.2,0.9,3.2],b:8,r:2.2,where:'Site store, gate side',what:k=>`8 bags on the ${M[mkt].r[0]}, never entered the store`},
+ {id:'Sp2',pos:[-9.2,0.9,-0.5],b:10,r:2.4,where:'Site store, rear',what:k=>`10 bags on the ${M[mkt].r[0]}, never entered the store`},
+ {id:'Sp3',pos:[3.5,3.4,1.0],b:6,r:2.0,where:'Floor 1 slab',what:k=>'6 bags issued, not in the measured slab'},
+ {id:'Sp4',pos:[-1.5,6.6,-1.2],b:12,r:2.6,where:'Floor 2 columns',what:k=>'12 bags issued, not in the measured columns'},
+ {id:'Sp5',pos:[2.8,9.8,1.8],b:9,r:2.2,where:'Floor 3 slab',what:k=>'9 bags issued, not in the measured slab'},
+ {id:'Sp6',pos:[-2.6,13.0,0.6],b:14,r:2.8,where:'Floor 4 blockwork',what:k=>'14 bags issued, not in the measured blockwork'}
+];
+// iron-bow palette (JS mirror of shader)
+const STOPS=[[0,[5,3,15]],[.18,[46,10,110]],[.38,[138,15,134]],[.58,[215,51,58]],[.76,[249,141,18]],[.9,[255,216,74]],[1,[255,246,214]]];
+function iron(t){t=Math.max(0,Math.min(1,t));for(let i=1;i<STOPS.length;i++){if(t<=STOPS[i][0]){const a=STOPS[i-1],b=STOPS[i],k=(t-a[0])/(b[0]-a[0]);return a[1].map((v,j)=>Math.round(v+(b[1][j]-v)*k))}}return STOPS[6][1]}
+function heatAt(p){let h=0;for(const s of HS){const dx=p.x-s.pos[0],dy=p.y-s.pos[1],dz=p.z-s.pos[2];h+=(s.b/14)*Math.exp(-(dx*dx+dy*dy+dz*dz)/(s.r*s.r))}return h}
+// ---------- three ----------
+const cv=$('gl');
+if(!window.THREE){cv.style.background='#101019';return}
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const S=new THREE.Scene();S.background=new THREE.Color(0x07070c);
+const C=new THREE.PerspectiveCamera(32,1,.1,400);
+const hsU=HS.map(s=>new THREE.Vector4(s.pos[0],s.pos[1],s.pos[2],s.b/14)), rU=HS.map(s=>s.r);
+const U={uHS:{value:hsU},uR:{value:rU},uMix:{value:1},uT:{value:0},uLight:{value:new THREE.Vector3(.5,.8,.35).normalize()}};
+const mat=new THREE.ShaderMaterial({uniforms:U,vertexShader:`
+ varying vec3 vW; varying vec3 vN;
+ void main(){ vec4 w=modelMatrix*vec4(position,1.); vW=w.xyz; vN=normalize(mat3(modelMatrix)*normal); gl_Position=projectionMatrix*viewMatrix*w; }`,
+ fragmentShader:`
+ uniform vec4 uHS[6]; uniform float uR[6]; uniform float uMix; uniform float uT; uniform vec3 uLight;
+ varying vec3 vW; varying vec3 vN;
+ vec3 iron(float t){ t=clamp(t,0.,1.);
+  vec3 c0=vec3(.02,.012,.06),c1=vec3(.18,.04,.43),c2=vec3(.54,.06,.53),c3=vec3(.84,.2,.23),c4=vec3(.98,.55,.07),c5=vec3(1.,.85,.29),c6=vec3(1.,.96,.84);
+  if(t<.18) return mix(c0,c1,t/.18); if(t<.38) return mix(c1,c2,(t-.18)/.2); if(t<.58) return mix(c2,c3,(t-.38)/.2);
+  if(t<.76) return mix(c3,c4,(t-.58)/.18); if(t<.9) return mix(c4,c5,(t-.76)/.14); return mix(c5,c6,(t-.9)/.1); }
+ float hash(vec3 p){ return fract(sin(dot(p,vec3(12.9898,78.233,37.719)))*43758.5453); }
+ void main(){
+  float h=0.;
+  for(int i=0;i<6;i++){ vec3 d=vW-uHS[i].xyz; h+=uHS[i].w*exp(-dot(d,d)/(uR[i]*uR[i])); }
+  float lam=max(dot(normalize(vN),uLight),0.);
+  float base=.16+.10*lam+.04*sin(vW.y*1.7)+.03*hash(floor(vW*3.));
+  float t=clamp(base+h*.82,0.,1.);
+  vec3 th=iron(t);
+  vec3 day=vec3(.62,.61,.58)*(.42+.58*lam)+vec3(.02)*hash(floor(vW*6.));
+  gl_FragColor=vec4(mix(day,th,uMix),1.);
+ }`});
+const G=new THREE.Group();S.add(G);
+function box(w,h,d,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);G.add(m);return m}
+// ground
+box(40,.2,26,-2,-.1,0);
+// frame G+4 (floors 0..4), 3.2 m storeys
+const FL=5, SH=3.2, cols=[-4.5,-1.5,1.5,4.5], rowsZ=[-3,0,3];
+for(let f=0;f<FL;f++){ const y=f*SH;
+  for(const x of cols)for(const z of rowsZ){ if(f===FL-1&&x===4.5)continue; box(.45,SH-.3,.45,x+1,y+SH/2,z);}
+  const full=f<FL-1; box(full?10.6:7.6,.32,7.4,full?1:-.5,y+SH-.15,0);
+  if(f<3){ box(10.2,SH-.4,.22,1,y+SH/2-.1,-3.6); if(f<2) box(.22,SH-.4,7,-4.1,y+SH/2-.1,0); }
+}
+// partial top: rebar stubs as thin boxes
+for(const x of cols.slice(0,3))for(const z of rowsZ) box(.08,1.2,.08,x+1,FL*SH+.6,z);
+// site store shed + bag stacks
+box(3.6,2.4,5.4,-9.6,1.2,1.4);
+for(let i=0;i<6;i++) box(.9,.45,.6,-7+ (i%3)*1.0,.225+Math.floor(i/3)*.45,4.6);
+// tower crane
+box(.5,22,.5,8.8,11,-5);box(14,.4,.5,4.8,21.6,-5);
+// orbit
+let az=-.62, el=.36, dist=46, tAz=az, tEl=el, drag=null, auto=!RM;
+const tgt=new THREE.Vector3(-1.2,6.2,0);
+function place(){C.position.set(tgt.x+dist*Math.cos(el)*Math.sin(az),tgt.y+dist*Math.sin(el),tgt.z+dist*Math.cos(el)*Math.cos(az));C.lookAt(tgt)}
+let shiftX=0;
+function resize(){const r=cv.getBoundingClientRect();R.setSize(r.width,r.height,false);C.aspect=r.width/r.height;
+  const wide=r.width>900; dist=wide?46:52; shiftX=wide?-r.width*.17:0; C.setViewOffset(r.width,r.height,shiftX,0,r.width,r.height); C.updateProjectionMatrix()}
+cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,az:tAz,el:tEl};auto=false;cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointerup',()=>drag=null);
+const ray=new THREE.Raycaster(), mv=new THREE.Vector2(); let hover=null;
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();
+  if(drag){tAz=drag.az-(e.clientX-drag.x)*.006;tEl=Math.max(.08,Math.min(.9,drag.el+(e.clientY-drag.y)*.004));}
+  hover={x:e.clientX-r.left,y:e.clientY-r.top,w:r.width,h:r.height}; spot();});
+cv.addEventListener('pointerleave',()=>{hover=null;$('spot').style.display='none'});
+function where(p){ if(p.x<-7.5) return 'Site store'; if(p.y<.15) return 'Ground'; const f=Math.floor(p.y/SH); return f<=0?'Ground floor':'Floor '+f; }
+function spot(){ if(!hover)return; mv.set(hover.x/hover.w*2-1,-(hover.y/hover.h)*2+1); ray.setFromCamera(mv,C);
+  const hit=ray.intersectObjects(G.children,false)[0]; const el=$('spot');
+  if(!hit||U.uMix.value<.3){el.style.display='none';return}
+  const h=heatAt(hit.point), bags=Math.round(h*14*.9);
+  el.style.display='block'; el.style.left=hover.x+'px'; el.style.top=(hover.y+cv.offsetTop)+'px';
+  $('spotv').innerHTML=bags>=1?`${where(hit.point)}<b>${fmt(bags*M[mkt].p)}</b>about ${bags} bags unaccounted`:`${where(hit.point)}<b>Clean</b>registers agree`;
+}
+function frame(t){ if(auto) tAz=-.62+Math.sin(t*.00012)*.35; az+=(tAz-az)*.08; el+=(tEl-el)*.08; place(); U.uT.value=t*.001; R.render(S,C); if(!RM||drag) requestAnimationFrame(frame); }
+addEventListener('resize',()=>{resize();if(RM)R.render(S,C)});
+resize(); place(); requestAnimationFrame(frame);
+if(RM) cv.addEventListener('pointermove',()=>{place();R.render(S,C)});
+$('mix').addEventListener('input',e=>{U.uMix.value=e.target.value/100; if(RM)R.render(S,C); spot()});
+// report rows
+function rowsDraw(){ const t=M[mkt]; $('rows').innerHTML=HS.map(s=>{const c=iron(.2+s.b/14*.8);return `<tr tabindex="0" data-id="${s.id}" aria-selected="false"><td><span class="sw" style="background:rgb(${c})"></span>${s.id}</td><td>${s.where}</td><td>${s.what()}<small>${s.b} bags</small></td><td>${fmt(s.b*t.p)}</td></tr>`}).join('');
+  [...$('rows').children].forEach(tr=>{const go=()=>{const s=HS.find(h=>h.id===tr.dataset.id);[...$('rows').children].forEach(x=>x.setAttribute('aria-selected',x===tr));
+    tAz=Math.atan2(s.pos[0]-tgt.x+8,s.pos[2]-tgt.z+12)*.6-.4; tEl=Math.max(.1,Math.min(.7,(s.pos[1]-tgt.y)/30+.3)); auto=false; U.uMix.value=1;$('mix').value=100; cv.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'}); if(RM){place();R.render(S,C)}};
+    tr.onclick=go; tr.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}}); }
+function scale(){const t=M[mkt];$('scale').innerHTML=[1,.75,.5,.25,0].map(k=>`<span style="top:${(1-k)*100}%">${fmt(k*14*t.p)}</span>`).join('')}
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+ $('lede').textContent=t.lede;$('fine').textContent=t.fine;$('wa').placeholder=t.ph;$('msite').textContent=t.site;$('tot').textContent=fmt(59*t.p);rowsDraw();scale();}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const v=$('wa').value.replace(/\D/g,'');$('fine').textContent=v.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+setM('in');
+})();
+</script>
+</body>
+</html>
