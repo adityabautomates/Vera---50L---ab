@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Meridian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap">
+<style>
+/* Meridian: a pale graticule globe carrying both markets. Supply routes in cobalt, losses in vermilion. The market toggle turns the world. */
+:root{
+  --bg:#ECEEF4; --ink:#12141C; --ink-2:#454957; --ink-3:#5E6270; --rule:#D5D8E2;
+  --cob:#2440F0; --ver:#E8401C; --ver-t:#B8300E;
+  --sans:"Onest",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+:focus-visible{outline:2px solid var(--cob);outline-offset:3px}
+.wrap{padding-left:max(24px,4vw);padding-right:max(24px,4vw)}
+header{display:flex;align-items:center;gap:30px;padding-top:22px;padding-bottom:22px;position:relative;z-index:2}
+.logo{font-weight:800;font-size:21px;letter-spacing:-.03em;text-decoration:none;color:inherit}
+nav{display:flex;gap:26px;font-size:14px;color:var(--ink-2)}nav a{text-decoration:none;color:inherit}nav a:hover{color:var(--ink)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--rule);border-radius:99px;padding:3px;background:#F8F9FC}
+.mkt button{font:500 13px var(--sans);border:0;background:none;color:var(--ink-2);padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--ink);color:#fff}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;min-height:calc(100vh - 80px);min-height:calc(100svh - 80px);position:relative}
+.copy{position:relative;z-index:2;padding-bottom:48px}
+h1{font-weight:600;font-size:clamp(38px,4.4vw,68px);line-height:1.02;letter-spacing:-.04em;margin:0 0 22px;text-wrap:balance}
+.lede{font-size:18px;line-height:1.55;color:var(--ink-2);max-width:44ch;margin:0 0 26px}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;max-width:500px}
+form label{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+input{font:400 17px var(--sans);padding:15px 18px;border:1px solid #BEC2CE;border-radius:12px;background:#F8F9FC;color:var(--ink);min-width:0}
+form button{font:600 16px var(--sans);padding:15px 22px;border-radius:12px;border:0;background:#1F36E0;color:#fff;cursor:pointer;white-space:nowrap}
+form button:hover{background:#1A32CC}
+.fine{font-size:13px;color:var(--ink-3);margin:12px 0 0}
+.stage{position:relative;height:min(84vh,800px);margin-right:calc(-1 * max(24px,4vw))}
+.globe{position:absolute;inset:0}
+#g{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+#g:active{cursor:grabbing}
+.sites{position:absolute;right:max(24px,4vw);bottom:24px;width:300px;background:rgba(251,250,247,.9);border:1px solid var(--rule);border-radius:16px;padding:16px 18px;z-index:2;backdrop-filter:blur(6px)}
+.sites .sh{font-size:13px;font-weight:500;color:var(--ink-3);margin:0 0 8px;display:flex;justify-content:space-between}
+.sites ul{list-style:none;margin:0;padding:0}
+.sites li button{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 8px;border-radius:10px;cursor:pointer;font-size:15px}
+.sites li button:hover,.sites li button[aria-current=true]{background:#E6E8F0}
+.sites li button:focus-visible{outline:2px solid var(--cob)}
+.sites small{grid-column:1/-1;font-size:12px;color:var(--ink-3)}
+.sites b{font-weight:600;font-variant-numeric:tabular-nums;color:var(--ver-t)}
+.labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lab{position:absolute;left:0;top:0;font-size:12px;font-weight:500;color:#fff;white-space:nowrap;transition:opacity .3s}
+.lab.on{font-weight:700}
+.lab.src{color:#FFD97A;font-size:11px}
+.lab.reg{color:rgba(255,255,255,.72);font-size:11px;font-style:italic;letter-spacing:.02em}
+.tip{position:absolute;pointer-events:none;background:#F8F9FC;border:1px solid var(--rule);border-radius:10px;padding:9px 12px;font-size:13px;line-height:1.4;display:none;z-index:3;white-space:nowrap}
+.tip b{display:block;font-size:15px}
+section.band{padding-top:72px;padding-bottom:72px;border-top:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px}
+h2.h{font-weight:600;font-size:clamp(28px,3vw,42px);letter-spacing:-.035em;line-height:1.08;margin:0;text-wrap:balance}
+.markets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+.markets h3{font-size:18px;margin:0 0 8px;font-weight:600}
+.markets p{margin:0;color:var(--ink-2);line-height:1.6}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.55;font-size:15px;border-top:2px solid var(--ink);padding-top:14px}
+ol li::before{content:"0" counter(s);display:block;font-weight:600;color:var(--cob);margin-bottom:10px;font-variant-numeric:tabular-nums}
+ol li b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+.team{display:flex;gap:40px;flex-wrap:wrap;margin-top:44px;font-size:14px;color:var(--ink-2)}
+.team b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+@media (max-width:900px){
+  nav{display:none}header{gap:16px}
+  .hero{grid-template-columns:1fr;min-height:0}
+  .stage{height:auto;order:-1;margin-left:-24px;margin-right:-24px}
+  .globe{position:relative;inset:auto;height:400px}
+  .sites{position:static;width:auto;margin:-40px 24px 0}
+  .copy{padding-top:28px}
+  form{grid-template-columns:1fr}
+  section.band{grid-template-columns:1fr;gap:28px}
+  .markets,ol{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#">The leak</a><a href="#markets">Markets</a><a href="#how">How we work</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <div class="copy">
+      <h1 id="h1">Every site you run, read the same way.</h1>
+      <p class="lede" id="lede">From Nagpur to Surat, Vera follows each delivery from purchase order to the work it was bought for, using the WhatsApp notes your supervisors already send. You see which site is losing material, and how much.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free.</p>
+    </div>
+    <div class="stage" id="stage">
+      <div class="globe" id="gw"><canvas id="g" aria-label="Globe showing four sample sites and their supply routes. Drag to turn."></canvas>
+      <div class="labels" id="labels" aria-hidden="true"></div>
+      <div class="tip" id="tip"></div></div>
+      <div class="sites"><div class="sh"><span>Material not in the work, Jul–Sep</span><span>Sample</span></div><ul id="list"></ul></div>
+    </div>
+  </section>
+  <section class="band wrap" id="markets">
+    <h2 class="h">Built for how India and the UAE build</h2>
+    <div class="markets">
+      <div><h3>India</h3><p>Purchase orders, challans and store registers kept across sites by supervisors on WhatsApp. Values in rupees, GST-ready line items.</p></div>
+      <div><h3>UAE</h3><p>LPOs, delivery notes and store issues across Dubai sites, often in several languages. Values in dirhams, VAT-ready line items.</p></div>
+    </div>
+  </section>
+  <section class="band wrap" id="how">
+    <h2 class="h">How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b>Orders, delivery records and store registers for one site. Photos and WhatsApp notes are fine.</li>
+        <li><b>We trace every delivery</b>From the order to the work it was meant for, matched against your BOQ.</li>
+        <li><b>You get the leaks</b>Each with its stage, date, quantity and value, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const SITES={
+ in:[{n:'Site 01, Nagpur',lat:21.15,lon:79.09,v:31200,pct:84.0,src:[19.96,79.30],from:'Chandrapur'},{n:'Site 02, Wakad',lat:18.60,lon:73.76,v:18720,pct:90.4,src:[17.40,76.80],from:'Gulbarga'},
+     {n:'Site 03, Indore',lat:22.72,lon:75.86,v:23010,pct:88.2,src:[24.58,80.83],from:'Satna'},{n:'Site 04, Surat',lat:21.17,lon:72.83,v:14040,pct:92.8,src:[23.05,69.65],from:'Kutch'}],
+ ae:[{n:'Site 01, JVC',lat:25.06,lon:55.21,v:1440,pct:89.0,src:[25.79,55.94],from:'Ras Al Khaimah',fan:[2.6,-1.4]},{n:'Site 02, Business Bay',lat:25.19,lon:55.27,v:2106,pct:85.6,src:[25.12,56.33],from:'Fujairah',fan:[1.9,2.3]},
+     {n:'Site 03, Al Quoz',lat:25.13,lon:55.23,v:1062,pct:88.2,src:[22.84,69.72],from:'Mundra',fan:[-.8,2.9]},{n:'Site 04, Dubai South',lat:24.90,lon:55.16,v:648,pct:94.0,src:[24.45,54.65],from:'Abu Dhabi',fan:[-2.5,-.7]}]
+};
+const T={
+ in:{cur:'₹',loc:'en-IN',ph:'+91 98xxx xxxxx',focus:[21.2,75.2],zoom:3.5,lede:'From Nagpur to Surat, Vera follows each delivery from purchase order to the work it was bought for, using the WhatsApp notes your supervisors already send. You see which site is losing material, and how much.'},
+ ae:{cur:'AED ',loc:'en-US',ph:'+971 5x xxx xxxx',focus:[24.9,57.6],zoom:3.35,lede:'From JVC to Dubai South, Vera follows each delivery from LPO to the work it was bought for, using the WhatsApp notes your foremen already send. You see which site is losing material, and how much.'}
+};
+let mkt='in', sel=2;
+const fmt=n=>T[mkt].cur+Math.round(n).toLocaleString(T[mkt].loc);
+function list(){ $('list').innerHTML=SITES[mkt].map((s,i)=>`<li><button data-i="${i}" aria-current="${i===sel}"><span>${s.n}</span><b>${fmt(s.v)}</b><small>${s.pct.toFixed(1)}% of material accounted for</small></button></li>`).join('');
+  $('list').querySelectorAll('button').forEach(b=>{b.onclick=()=>{sel=+b.dataset.i;list();focusSite()};b.onmouseenter=()=>hi(+b.dataset.i);b.onmouseleave=()=>hi(-1)}) }
+function setM(m){mkt=m;sel=2;document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('lede').textContent=T[m].lede;$('wa').placeholder=T[m].ph;list();if(G)G.market(m)}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const v=$('wa').value.replace(/\D/g,'');$('fine').textContent=v.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+T[mkt].ph+'.'});
+let G=null; function hi(i){if(G)G.hi(i)} function focusSite(){if(G)G.focus(sel)}
+list();
+if(!window.THREE){return}
+const cv=$('g'), stage=$('gw');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(2,devicePixelRatio));
+const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(30,1,.1,100);cam.position.set(0,0,6);
+const globe=new THREE.Group();scene.add(globe);
+const P=(lat,lon,r=1)=>{const a=lat*Math.PI/180,o=lon*Math.PI/180;return new THREE.Vector3(r*Math.cos(a)*Math.sin(o),r*Math.sin(a),r*Math.cos(a)*Math.cos(o))};
+// body
+globe.add(new THREE.Mesh(new THREE.SphereGeometry(.995,96,64),new THREE.ShaderMaterial({vertexShader:'varying vec3 vN;varying vec3 vV;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}',
+ fragmentShader:'varying vec3 vN;varying vec3 vV;void main(){float f=clamp(dot(vN,vV),0.,1.);vec3 lit=normalize(vec3(-.5,.6,.8));float l=clamp(dot(vN,lit),0.,1.);vec3 c=mix(vec3(.07,.11,.55),vec3(.15,.27,.97),pow(f,.6));c+=vec3(.06,.08,.12)*pow(l,3.);gl_FragColor=vec4(c,1.);}'})));
+// graticule
+const gm=new THREE.LineBasicMaterial({color:0xFFFFFF,transparent:true,opacity:.13});
+for(let lat=-80;lat<=80;lat+=5){const pts=[];for(let o=0;o<=360;o+=3)pts.push(P(lat,o,1.001));globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),gm))}
+for(let o=0;o<360;o+=5){const pts=[];for(let a=-90;a<=90;a+=3)pts.push(P(a,o,1.001));globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),gm))}
+// dot field
+{const N=42000,pos=new Float32Array(N*3);for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),t=i*2.39996;pos.set([r*Math.sin(t)*1.002,y*1.002,r*Math.cos(t)*1.002],i*3)}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));globe.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xFFFFFF,size:.0028,transparent:true,opacity:.38})))}
+// horizon ring
+const ring=new THREE.Object3D();
+// sites + arcs
+const items={in:[],ae:[]}, labels=$('labels');
+const spot=(lat,lon)=>P(lat,lon);
+for(const m of ['in','ae'])SITES[m].forEach((s,i)=>{
+  const truePt=P(s.lat,s.lon), b=s.fan?P(s.lat+s.fan[0],s.lon+s.fan[1]):truePt, a=P(s.src[0],s.src[1]), d=a.distanceTo(b);
+  const mid=a.clone().add(b).multiplyScalar(.5).normalize().multiplyScalar(1+Math.max(.012,d*.32));
+  const pts=new THREE.QuadraticBezierCurve3(a,mid,b).getPoints(90);
+  const lg=new THREE.BufferGeometry().setFromPoints(pts),lm=new THREE.LineBasicMaterial({color:0xFFC94D,transparent:true,opacity:1});globe.add(new THREE.Line(lg,lm));
+  const src=new THREE.Mesh(new THREE.CircleGeometry(.0034,20),new THREE.MeshBasicMaterial({color:0xFFC94D,transparent:true}));src.position.copy(a.clone().multiplyScalar(1.002));src.lookAt(a.clone().multiplyScalar(2));globe.add(src);
+  let lead=null;if(s.fan){lead=new THREE.Line(new THREE.BufferGeometry().setFromPoints([truePt.clone().multiplyScalar(1.002),b.clone().multiplyScalar(1.002)]),new THREE.LineBasicMaterial({color:0xFFFFFF,transparent:true,opacity:.6}));globe.add(lead)}
+  const max=m==='in'?31200:2106, rr=(m==='in'?1:.8)*(.0055+.0075*Math.sqrt(s.v/max));
+  const dot=new THREE.Mesh(new THREE.CircleGeometry(rr,32),new THREE.MeshBasicMaterial({color:0xFF5A36,transparent:true}));dot.position.copy(b.clone().multiplyScalar(1.003));dot.lookAt(b.clone().multiplyScalar(2));
+  const halo=new THREE.Mesh(new THREE.RingGeometry(rr*1.3,rr*1.5,40),new THREE.MeshBasicMaterial({color:0xFF5A36,transparent:true}));halo.position.copy(dot.position);halo.quaternion.copy(dot.quaternion);
+  dot.userData={m,i};globe.add(dot,halo);
+  const el=document.createElement('span');el.className='lab';el.textContent=s.n.split(', ')[1];labels.appendChild(el);
+  const se=document.createElement('span');se.className='lab src';se.textContent=s.from;labels.appendChild(se);
+  items[m].push({lm,dot,halo,lg,n:pts.length,src,lead,el,se,a,b});
+});
+const REG=[['Arabian Sea',15.5,64.5],['Gulf of Oman',23.6,59.6],['Bay of Bengal',15,88]].map(([t,la,lo])=>{const el=document.createElement('span');el.className='lab reg';el.textContent=t;labels.appendChild(el);return{el,p:P(la,lo)}});
+let rotY=0,rotX=0,tY=0,tX=0,dist=6,tDist=6,hov=-1;
+function aim(lat,lon,z){const mob=innerWidth<900;tY=-(lon+(mob?0:9))*Math.PI/180;tX=(lat-(mob?4:11))*Math.PI/180;tDist=z}
+// cross-fade groups
+let fade={in:1,ae:0};
+G={market(m){aim(...T[m].focus,T[m].zoom)},hi(i){hov=i},focus(i){const s=SITES[mkt][i];aim(s.lat+(s.fan?s.fan[0]:0)*.5,s.lon+(s.fan?s.fan[1]:0)*.5+(mkt==='ae'?1.2:0),T[mkt].zoom*.86)}};
+aim(...T.in.focus,T.in.zoom);rotY=tY-.9;rotX=tX;dist=RM?T.in.zoom:5;
+// drag
+let drag=null;cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,ry:tY,rx:tX};cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointerup',()=>drag=null);
+const ray=new THREE.Raycaster(),mv=new THREE.Vector2(),tip=$('tip');
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();
+  if(drag){tY=drag.ry+(e.clientX-drag.x)*.006;tX=Math.max(-1.2,Math.min(1.2,drag.rx+(e.clientY-drag.y)*.006));return}
+  mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,cam);
+  const hit=ray.intersectObjects(items[mkt].map(o=>o.dot))[0];
+  if(hit){const s=SITES[mkt][hit.object.userData.i];hov=hit.object.userData.i;tip.innerHTML=`<b>${fmt(s.v)}</b>${s.n} · ${s.pct.toFixed(1)}% accounted for`;tip.style.display='block';
+    const sr=stage.getBoundingClientRect();tip.style.left=Math.min(e.clientX-sr.left+14,sr.width-250)+'px';tip.style.top=(e.clientY-sr.top+14)+'px'}
+  else{if(tip.style.display==='block'){hov=-1;tip.style.display='none'}}});
+cv.addEventListener('pointerleave',()=>{tip.style.display='none';hov=-1});
+function size(){const w=stage.clientWidth,h=stage.clientHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.setViewOffset(w,h,-w*.04,-h*.13,w,h);cam.updateProjectionMatrix()}
+addEventListener('resize',size);size();
+const t0=performance.now();
+function frame(now){const t=(now-t0)/1000,k=RM?1:.06;
+  rotY+=(tY-rotY)*k;rotX+=(tX-rotX)*k;dist+=(tDist-dist)*(RM?1:.05);
+  globe.rotation.set(rotX,rotY,0);cam.position.z=dist;cam.lookAt(0,0,0);
+  ring.scale.setScalar(1);ring.lookAt(cam.position);
+  const W=stage.clientWidth,H=stage.clientHeight,v=new THREE.Vector3(),cp=cam.position.clone();
+  const place=(el,p,show,dx=10,dy=-8)=>{v.copy(p).applyMatrix4(globe.matrixWorld);const facing=v.clone().normalize().dot(cp.clone().sub(v).normalize())>.15;v.project(cam);
+    if(!show||!facing){el.style.opacity=0;return}el.style.opacity=1;el.style.transform=`translate(${((v.x+1)/2*W+dx).toFixed(1)}px,${((1-v.y)/2*H+dy).toFixed(1)}px)`};
+  globe.updateMatrixWorld();
+  for(const m of ['in','ae']){fade[m]+=((m===mkt?1:.22)-fade[m])*(RM?1:.08);
+    items[m].forEach((o,i)=>{const dim=m===mkt&&hov>=0&&hov!==i?.3:1, f=fade[m]*dim;
+      o.lm.opacity=.85*f;o.dot.material.opacity=.95*f;o.src.material.opacity=f;if(o.lead)o.lead.material.opacity=.45*f;
+      const prog=RM||m!==mkt?1:Math.min(1,((t*.55+i*.21)%2.4)/1.3);o.lg.setDrawRange(0,Math.max(2,Math.floor(o.n*prog)));
+      const pulse=RM?0:(t*.7+i*.25)%1;o.halo.scale.setScalar(1+pulse*.9);o.halo.material.opacity=(1-pulse)*.5*f;
+      o.dot.scale.setScalar(m===mkt&&i===sel?1.3:1);
+      place(o.el,o.b,m===mkt,14,-9);o.el.classList.toggle('on',m===mkt&&i===sel);place(o.se,o.a,m===mkt&&(hov===i||i===sel),8,6)})}
+  REG.forEach(r=>place(r.el,r.p,true,-30,0));
+  R.render(scene,cam);requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Phosphor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300..700&display=swap">
+<style>
+/* Phosphor: a midnight instrument. Four registers trace across one screen; where they part, the gap burns amber. */
+:root{
+  --bg:#060A14; --bg-2:#0C1324; --ink:#EEF2FA; --ink-2:#AEB8CC; --ink-3:#8E99B0; --rule:#1C2640;
+  --po:#E9EEF8; --ch:#47D7FF; --st:#5CF2A4; --wk:#C9A6FF; --gap:#FFB02E;
+  --sans:"Sora",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+:focus-visible{outline:2px solid var(--gap);outline-offset:3px}
+.wrap{padding-left:max(24px,4vw);padding-right:max(24px,4vw)}
+header{display:flex;align-items:center;gap:30px;padding-top:22px;padding-bottom:22px}
+.logo{font-weight:700;font-size:21px;letter-spacing:-.03em;text-decoration:none;color:inherit}
+nav{display:flex;gap:26px;font-size:14px;color:var(--ink-2)}nav a{text-decoration:none;color:inherit}nav a:hover{color:var(--ink)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--rule);border-radius:99px;padding:3px}
+.mkt button{font:500 13px var(--sans);border:0;background:none;color:var(--ink-2);padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.hero{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);gap:56px;align-items:center;padding-top:40px;padding-bottom:80px}
+h1{font-weight:600;font-size:clamp(36px,3.9vw,60px);line-height:1.04;letter-spacing:-.04em;margin:0 0 20px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--gap)}
+.lede{font-size:17px;line-height:1.6;color:var(--ink-2);max-width:42ch;margin:0 0 26px;font-weight:300}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;max-width:500px}
+form label{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+input{font:400 16px var(--sans);padding:15px 18px;border:1px solid #2A3654;border-radius:12px;background:var(--bg-2);color:var(--ink);min-width:0}
+input::placeholder{color:#7A869E}
+form button{font:600 15px var(--sans);padding:15px 22px;border-radius:12px;border:0;background:var(--gap);color:#1A1004;cursor:pointer;white-space:nowrap}
+form button:hover{background:#FFC25A}
+.fine{font-size:13px;color:var(--ink-3);margin:12px 0 0}
+.scope{background:linear-gradient(180deg,#0B1222,#080D1A);border:1px solid var(--rule);border-radius:22px;padding:18px}
+.sh{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--ink-2);margin-bottom:12px;flex-wrap:wrap}
+.sh .sp{min-width:8px}
+.key{display:flex;gap:14px;flex-wrap:wrap}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:14px;height:2px;border-radius:2px;display:inline-block}
+.screen{position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(120% 90% at 50% 40%,#0D1830 0%,#070C18 70%);outline:none}
+.screen:focus-visible{outline:2px solid var(--gap);outline-offset:3px}
+canvas{display:block;width:100%;height:clamp(300px,30vw,420px);cursor:ew-resize;touch-action:pan-y}
+.read{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;margin-top:12px;background:var(--rule);border-radius:12px;overflow:hidden}
+.read div{background:#0A1020;padding:12px 14px;font-size:12px;color:var(--ink-3)}
+.read b{display:block;font-size:19px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:4px}
+.read .g b{color:var(--gap)}
+.sites{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.sites button{font:500 13px var(--sans);padding:8px 14px;border-radius:99px;border:1px solid var(--rule);background:none;color:var(--ink-2);cursor:pointer}
+.sites button[aria-pressed=true]{border-color:var(--ink-2);color:var(--ink);background:#141D33}
+section.band{padding-top:80px;padding-bottom:88px;border-top:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);gap:56px}
+h2{font-weight:600;font-size:clamp(28px,2.8vw,40px);letter-spacing:-.035em;line-height:1.1;margin:0;text-wrap:balance}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.6;font-size:15px;font-weight:300;border-top:1px solid var(--rule);padding-top:16px}
+ol li::before{content:counter(s);display:block;font-weight:600;color:var(--gap);margin-bottom:10px;font-size:15px}
+ol li b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+.team{display:flex;gap:40px;flex-wrap:wrap;margin-top:44px;font-size:14px;color:var(--ink-2)}
+.team b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+@media (max-width:900px){
+  nav{display:none}header{gap:16px}
+  .hero{grid-template-columns:1fr;gap:36px;padding-top:16px}
+  form{grid-template-columns:1fr}
+  .read{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .read .g{grid-column:1/-1}
+  section.band{grid-template-columns:1fr;gap:28px}
+  ol{grid-template-columns:1fr}
+  .key{display:none}
+}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#">The leak</a><a href="#how">How we work</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <div>
+      <h1>Four registers should draw one line. <em>Vera watches where they part.</em></h1>
+      <p class="lede" id="lede">Purchase orders, challans, store issues and measured work, read from the WhatsApp notes your supervisors already send. When the traces separate, that gap is material leaving your site.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free.</p>
+    </div>
+    <div class="scope">
+      <div class="sh"><span id="title">Site 03, Indore · cement, bags behind the order · Jul–Sep</span><span class="sp"></span><span class="key" id="key"></span><span>Sample data</span></div>
+      <div class="screen" id="screen" tabindex="0" role="slider" aria-label="Week cursor" aria-valuemin="1" aria-valuemax="13" aria-valuenow="13">
+        <canvas id="c"></canvas>
+      </div>
+      <div class="read" aria-live="polite">
+        <div id="r0"></div><div id="r1"></div><div id="r2"></div><div id="r3"></div><div class="g" id="rg"></div>
+      </div>
+      <div class="sites" id="sites" role="group" aria-label="Site"></div>
+    </div>
+  </section>
+  <section class="band wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b>Orders, delivery records and store registers for one site. Photos and WhatsApp notes are fine.</li>
+        <li><b>We draw the four traces</b>Every delivery matched from order to the work it was meant for, against your BOQ.</li>
+        <li><b>You get the gaps</b>Each with its stage, week, quantity and value, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const T={in:{cur:'₹',loc:'en-IN',p:390,ph:'+91 98xxx xxxxx',st:['Purchase order','Challan','Store issue','In the work'],who:'supervisors',
+  lede:'Purchase orders, challans, store issues and measured work, read from the WhatsApp notes your supervisors already send. When the traces separate, that gap is material leaving your site.',
+  sites:[['Site 01','Nagpur',620,40,40],['Site 02','Wakad',440,12,36],['Site 03','Indore',500,18,41],['Site 04','Surat',380,6,30]]},
+ ae:{cur:'AED ',loc:'en-US',p:18,ph:'+971 5x xxx xxxx',st:['LPO','Delivery note','Store issue','In the work'],who:'foremen',
+  lede:'LPOs, delivery notes, store issues and measured work, read from the WhatsApp notes your foremen already send. When the traces separate, that gap is material leaving your site.',
+  sites:[['Site 01','JVC',640,30,50],['Site 02','Business Bay',720,47,70],['Site 03','Al Quoz',500,18,41],['Site 04','Dubai South',560,12,24]]}};
+const W=13;
+let mkt='in', si=2, cursor=13, series=null;
+const fmt=n=>T[mkt].cur+Math.round(n).toLocaleString(T[mkt].loc);
+function build(){const [,,tot,l1,l2]=T[mkt].sites[si];
+  // cumulative per week; leaks concentrated mid-quarter
+  const shape=w=>w/W, po=[],ch=[],st=[],wk=[];
+  const L1=w=>l1*Math.min(1,Math.max(0,(w-4)/5)), L2=w=>l2*Math.min(1,Math.max(0,(w-3)/8));
+  for(let w=0;w<=W;w++){const p=Math.round(tot*shape(w));po.push(p);ch.push(p-Math.round(5*Math.sin(Math.PI*w/W)));
+    st.push(ch[w]-Math.round(L1(w)));wk.push(st[w]-Math.round(L2(w)))}
+  series=[po,ch,st,wk];lo=-Math.ceil((ch[W]-wk[W]+Math.max(...po.map((p,i)=>p-ch[i])))*1.3/10)*10}
+const cv=$('c'),ctx=cv.getContext('2d');let dpr=1,CW=0,CH=0;
+function size(){dpr=Math.min(2,devicePixelRatio);CW=cv.clientWidth;CH=cv.clientHeight;cv.width=CW*dpr;cv.height=CH*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+const COL=['#E9EEF8','#47D7FF','#5CF2A4','#C9A6FF'];
+const PAD={l:44,r:18,t:18,b:30};
+const X=w=>PAD.l+(CW-PAD.l-PAD.r)*w/W; let lo=-70; const D=(k,w)=>series[k][w]-series[0][w]; const Y=v=>PAD.t+(CH-PAD.t-PAD.b)*(6-v)/(6-lo);
+function trace(k){ctx.beginPath();const P=[];for(let w=0;w<=W;w++)P.push([X(w),Y(D(k,w))]);ctx.moveTo(P[0][0],P[0][1]);for(let i=1;i<P.length-1;i++){const mx=(P[i][0]+P[i+1][0])/2,my=(P[i][1]+P[i+1][1])/2;ctx.quadraticCurveTo(P[i][0],P[i][1],mx,my)}ctx.lineTo(P[P.length-1][0],P[P.length-1][1])}
+let t0=performance.now();
+function draw(now){
+  const sweep=RM?1:Math.min(1,((now-t0)/1000%9)/5.5);
+  ctx.clearRect(0,0,CW,CH);
+  // graticule
+  ctx.strokeStyle='rgba(150,175,220,.10)';ctx.lineWidth=1;
+  for(let i=0;i<=W;i++){const x=Math.round(X(i))+.5;ctx.beginPath();ctx.moveTo(x,PAD.t);ctx.lineTo(x,CH-PAD.b);ctx.stroke()}
+  for(let i=0;i<=8;i++){const y=Math.round(PAD.t+(CH-PAD.t-PAD.b)*i/8)+.5;ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(CW-PAD.r,y);ctx.stroke()}
+  ctx.fillStyle='#8E99B0';ctx.font='11px Sora, sans-serif';ctx.textAlign='center';
+  for(let i=1;i<=W;i+=2)ctx.fillText('W'+i,X(i),CH-10);
+  ctx.textAlign='right';const step=lo<-100?50:lo<-50?20:10;for(let v=0;v>=lo;v-=step)ctx.fillText(v?'−'+(-v):'0',PAD.l-8,Y(v)+4);
+  // clip to sweep
+  const sx=X(W*sweep);ctx.save();ctx.beginPath();ctx.rect(0,0,sx+1,CH);ctx.clip();
+  // gap fill between challan (1) and work (3)
+  const g=ctx.createLinearGradient(0,PAD.t,0,CH-PAD.b);g.addColorStop(0,'rgba(255,176,46,.42)');g.addColorStop(1,'rgba(255,176,46,.12)');
+  ctx.beginPath();for(let w=0;w<=W;w++){const x=X(w),y=Y(D(1,w));w?ctx.lineTo(x,y):ctx.moveTo(x,y)}for(let w=W;w>=0;w--)ctx.lineTo(X(w),Y(D(3,w)));ctx.closePath();ctx.fillStyle=g;ctx.fill();
+  // traces with phosphor bloom
+  for(let k=0;k<4;k++){trace(k);ctx.strokeStyle=COL[k];ctx.globalAlpha=.22;ctx.lineWidth=7;ctx.stroke();ctx.globalAlpha=1;ctx.lineWidth=k===3?2.4:1.8;ctx.stroke()}
+  ctx.restore();
+  // beam head
+  if(!RM&&sweep<1){const grd=ctx.createLinearGradient(sx-60,0,sx,0);grd.addColorStop(0,'rgba(140,200,255,0)');grd.addColorStop(1,'rgba(140,200,255,.16)');ctx.fillStyle=grd;ctx.fillRect(sx-60,PAD.t,60,CH-PAD.t-PAD.b)}
+  // cursor
+  const cx=X(cursor);ctx.strokeStyle='rgba(255,255,255,.55)';ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(cx+.5,PAD.t);ctx.lineTo(cx+.5,CH-PAD.b);ctx.stroke();ctx.setLineDash([]);
+  if(sweep*W>=cursor-.01)for(let k=0;k<4;k++){ctx.beginPath();ctx.arc(cx,Y(D(k,cursor)),3.5,0,7);ctx.fillStyle=COL[k];ctx.fill()}
+  // gap label
+  const gap=series[1][cursor]-series[3][cursor];
+  if(gap>0&&sweep*W>=cursor-.01){const y=(Y(D(1,cursor))+Y(D(3,cursor)))/2;ctx.font='600 13px Sora, sans-serif';ctx.textAlign=cursor>9?'right':'left';ctx.fillStyle='#FFC25A';ctx.fillText(gap+' bags apart',cx+(cursor>9?-10:10),y+4)}
+  requestAnimationFrame(draw)}
+function read(){const t=T[mkt];for(let k=0;k<4;k++)$('r'+k).innerHTML=`${t.st[k]}<b>${series[k][cursor]}</b>`;
+  const gap=series[1][cursor]-series[3][cursor];$('rg').innerHTML=`Not in the work, week ${cursor}<b>${gap} bags · ${fmt(gap*t.p)}</b>`;$('screen').setAttribute('aria-valuenow',cursor);
+  $('screen').setAttribute('aria-valuetext',`Week ${cursor}: ${gap} bags not in the work`)}
+function ui(){const t=T[mkt],s=t.sites[si];$('title').textContent=`${s[0]}, ${s[1]} · cement, bags behind the order · Jul–Sep`;
+  $('sites').innerHTML=t.sites.map((x,i)=>`<button aria-pressed="${i===si}" data-i="${i}">${x[1]}</button>`).join('');
+  $('sites').querySelectorAll('button').forEach(b=>b.onclick=()=>{si=+b.dataset.i;build();ui();t0=performance.now()});
+  $('key').innerHTML=t.st.map((x,k)=>`<span><i style="background:${COL[k]}"></i>${x}</span>`).join('');$('lede').textContent=t.lede;$('wa').placeholder=t.ph;read()}
+const sc=$('screen');
+function setFromX(x){const r=cv.getBoundingClientRect();cursor=Math.max(1,Math.min(W,Math.round((x-r.left-PAD.l)/(r.width-PAD.l-PAD.r)*W)));read()}
+let down=false;cv.addEventListener('pointerdown',e=>{down=true;setFromX(e.clientX)});addEventListener('pointerup',()=>down=false);
+cv.addEventListener('pointermove',e=>{if(down||e.pointerType==='mouse')setFromX(e.clientX)});
+sc.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowDown'){cursor=Math.max(1,cursor-1);read();e.preventDefault()}if(e.key==='ArrowRight'||e.key==='ArrowUp'){cursor=Math.min(W,cursor+1);read();e.preventDefault()}});
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>{mkt=b.dataset.m;document.querySelectorAll('.mkt button').forEach(x=>x.setAttribute('aria-pressed',x===b));build();ui()});
+$('f').addEventListener('submit',e=>{e.preventDefault();const v=$('wa').value.replace(/\D/g,'');$('fine').textContent=v.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+T[mkt].ph+'.'});
+addEventListener('resize',size);size();build();ui();requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Contour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400..800;1,400..600&display=swap">
+<style>
+/* Contour: the site surveyed as terrain. Accounted material is level ground; every leak sinks a pit, drawn in contours that heat as they deepen. */
+:root{
+  --bg:#F3F6F5; --paper:#FCFDFD; --ink:#0D1B1E; --ink-2:#3E4D51; --ink-3:#56666A; --rule:#D3DCDA;
+  --teal:#0A7A73; --hot:#D7264F;
+  --sans:"Albert Sans",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.wrap{padding-left:max(24px,4vw);padding-right:max(24px,4vw)}
+header{display:flex;align-items:center;gap:30px;padding-top:22px;padding-bottom:22px}
+.logo{font-weight:800;font-size:21px;letter-spacing:-.03em;text-decoration:none;color:inherit}
+nav{display:flex;gap:26px;font-size:14px;color:var(--ink-2)}nav a{text-decoration:none;color:inherit}nav a:hover{color:var(--ink)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--rule);border-radius:99px;padding:3px;background:var(--paper)}
+.mkt button{font:600 13px var(--sans);border:0;background:none;color:var(--ink-2);padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--ink);color:#fff}
+.hero{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr);gap:48px;align-items:center;padding-top:24px;padding-bottom:72px}
+h1{font-weight:700;font-size:clamp(36px,4vw,62px);line-height:1.02;letter-spacing:-.04em;margin:0 0 20px;text-wrap:balance}
+.lede{font-size:17px;line-height:1.6;color:var(--ink-2);max-width:42ch;margin:0 0 26px}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;max-width:500px}
+form label{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+input{font:400 16px var(--sans);padding:15px 18px;border:1px solid #B9C6C3;border-radius:12px;background:var(--paper);color:var(--ink);min-width:0}
+form button{font:700 15px var(--sans);padding:15px 22px;border-radius:12px;border:0;background:var(--teal);color:#fff;cursor:pointer;white-space:nowrap}
+form button:hover{background:#086660}
+.fine{font-size:13px;color:var(--ink-3);margin:12px 0 0}
+.sheet{position:relative;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px}
+.map{position:relative;border:1px solid var(--rule)}
+canvas{display:block;width:100%;height:clamp(320px,34vw,500px);cursor:crosshair;touch-action:pan-y}
+.tb{position:absolute;left:0;top:0;background:var(--paper);border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);padding:12px 16px;font-size:12px;color:var(--ink-3);line-height:1.5;max-width:300px}
+.tb b{display:block;font-size:15px;color:var(--ink);font-weight:700}
+.ramp{display:flex;align-items:center;gap:8px;margin-top:8px}
+.ramp i{display:block;height:6px;width:120px;border-radius:3px;background:linear-gradient(90deg,#0A7A73,#2FA36B,#E3A21A,#E8582A,#D7264F)}
+.ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.ctl span{font-size:13px;color:var(--ink-3);margin-right:4px}
+.ctl button{font:600 13px var(--sans);padding:8px 14px;border-radius:99px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-2);cursor:pointer}
+.ctl button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;border-radius:8px;padding:9px 12px;font-size:13px;line-height:1.45;display:none;white-space:nowrap;z-index:2}
+.tip b{display:block;font-size:14px}
+section.band{padding-top:80px;padding-bottom:88px;border-top:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr);gap:48px}
+h2{font-weight:700;font-size:clamp(28px,2.8vw,40px);letter-spacing:-.035em;line-height:1.1;margin:0;text-wrap:balance}
+.pits{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+.pits th{text-align:left;font-weight:600;font-size:12px;color:var(--ink-3);padding:0 12px 10px 0;border-bottom:1px solid var(--rule)}
+.pits td{padding:13px 12px 13px 0;border-bottom:1px solid var(--rule)}
+.pits td:last-child,.pits th:last-child{text-align:right;padding-right:0}
+.pits i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:10px;vertical-align:0}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.6;font-size:15px;border-top:2px solid var(--teal);padding-top:14px}
+ol li::before{content:counter(s);display:block;font-weight:700;color:var(--teal);margin-bottom:8px}
+ol li b{display:block;color:var(--ink);font-weight:700;margin-bottom:4px}
+.team{display:flex;gap:40px;flex-wrap:wrap;margin-top:44px;font-size:14px;color:var(--ink-2)}
+.team b{display:block;color:var(--ink);font-weight:700;font-size:15px}
+@media (max-width:900px){
+  nav{display:none}header{gap:16px}
+  .hero,section.band{grid-template-columns:1fr;gap:32px}
+  form{grid-template-columns:1fr}
+  ol{grid-template-columns:1fr}
+  .tb{position:static;border:0;border-top:1px solid var(--rule);max-width:none}
+  .tw{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#">The leak</a><a href="#pits">Where it went</a><a href="#how">How we work</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <div>
+      <h1>Your site looks level on paper. Vera surveys where it sinks.</h1>
+      <p class="lede" id="lede">Every bag you order should land in the work. Vera reads your purchase orders, challans and store issues from the WhatsApp notes your supervisors already send, and maps each shortfall to the place it happened.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free.</p>
+    </div>
+    <div class="sheet">
+      <div class="map" id="map">
+        <canvas id="c" aria-label="Contour map of the site. Each pit is a material shortfall at a location."></canvas>
+        <div class="tip" id="tip"></div>
+        <div class="tb"><b id="tbt">Site 03, Indore</b>Material relief, cement, Jul–Sep · sample data<br>Contour interval 1 bag
+          <div class="ramp"><span>Level</span><i></i><span id="deep">−14 bags</span></div></div>
+      </div>
+      <div class="ctl" role="group" aria-label="Show losses"><span>Show losses</span>
+        <button aria-pressed="false" data-v="1">Delivered, not stored</button><button aria-pressed="false" data-v="2">Issued, not in work</button><button aria-pressed="true" data-v="3">Both</button></div>
+    </div>
+  </section>
+  <section class="band wrap" id="pits">
+    <h2>Six pits, one quarter</h2>
+    <div class="tw"><table class="pits"><thead><tr><th>Location</th><th>What happened</th><th>Bags</th><th>Value</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+  <section class="band wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b>Orders, delivery records and store registers for one site. Photos and WhatsApp notes are fine.</li>
+        <li><b>We survey the site</b>Every delivery traced from the order to the place and work it was meant for.</li>
+        <li><b>You get the map</b>Each shortfall with its location, date, quantity and value, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const T={in:{cur:'₹',loc:'en-IN',p:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',who:'supervisors',docs:'purchase orders, challans and store issues'},
+         ae:{cur:'AED ',loc:'en-US',p:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',who:'foremen',docs:'LPOs, delivery notes and store issues'}};
+const PITS=[
+ {n:'Store gate',x:.17,y:.60,b:8,s:1,what:'Delivered, never entered the store'},
+ {n:'Store, rear bay',x:.22,y:.80,b:10,s:1,what:'Delivered, never entered the store'},
+ {n:'Tower A, floor 1 slab',x:.50,y:.30,b:6,s:2,what:'Issued, not in the measured work'},
+ {n:'Tower A, floor 2 columns',x:.58,y:.56,b:12,s:2,what:'Issued, not in the measured work'},
+ {n:'Tower B, floor 3 slab',x:.80,y:.28,b:9,s:2,what:'Issued, not in the measured work'},
+ {n:'Tower B, floor 4 blockwork',x:.84,y:.62,b:14,s:2,what:'Issued, not in the measured work'}];
+let mkt='in', show=3, amt=PITS.map(()=>1), target=PITS.map(()=>1);
+const fmt=n=>T[mkt].cur+Math.round(n).toLocaleString(T[mkt].loc);
+const cv=$('c'),ctx=cv.getContext('2d');let CW=0,CH=0,dpr=1;
+const GX=180,GY=110;let field=new Float32Array((GX+1)*(GY+1));const off=document.createElement('canvas');off.width=GX+1;off.height=GY+1;const offx=off.getContext('2d');
+// gentle ground undulation
+const und=(x,y)=>.35*Math.sin(x*7.1+y*2.3)+.25*Math.sin(x*3.3-y*6.7+1.2)+.18*Math.sin(x*13+y*11);
+function compute(){const asp=CW/CH;for(let j=0;j<=GY;j++)for(let i=0;i<=GX;i++){const x=i/GX,y=j/GY;let h=und(x,y);
+  PITS.forEach((p,k)=>{if(amt[k]<.001)return;const dx=(x-p.x)*asp,dy=y-p.y,sg=.035+.012*Math.sqrt(p.b);h-=p.b*amt[k]*Math.exp(-(dx*dx+dy*dy)/(2*sg*sg))});field[j*(GX+1)+i]=h}}
+const STOPS=[[0,[10,122,115]],[.25,[47,163,107]],[.5,[227,162,26]],[.75,[232,88,42]],[1,[215,38,79]]];
+function ramp(t){t=Math.max(0,Math.min(1,t));for(let i=1;i<STOPS.length;i++)if(t<=STOPS[i][0]){const [a,ca]=STOPS[i-1],[b,cb]=STOPS[i],k=(t-a)/(b-a);return ca.map((c,j)=>Math.round(c+(cb[j]-c)*k))}return STOPS[4][1]}
+function draw(){ctx.clearRect(0,0,CW,CH);const sx=CW/GX,sy=CH/GY;
+  // site plan underlay
+  ctx.strokeStyle='rgba(13,27,30,.28)';ctx.lineWidth=1;ctx.setLineDash([5,4]);
+  const rect=(x,y,w,h)=>ctx.strokeRect(x*CW+.5,y*CH+.5,w*CW,h*CH);
+  rect(.08,.5,.24,.42);rect(.42,.14,.24,.58);rect(.72,.14,.22,.66);ctx.setLineDash([]);
+  ctx.fillStyle='rgba(13,27,30,.62)';ctx.font='600 11px "Albert Sans",sans-serif';ctx.textAlign='left';
+  ctx.fillText('STORE',.08*CW+8,.5*CH+16);ctx.fillText('TOWER A',.42*CW+8,.14*CH+16);ctx.fillText('TOWER B',.72*CW+8,.14*CH+16);ctx.fillText('GATE',.02*CW,.46*CH);
+  ctx.beginPath();ctx.moveTo(.02*CW,.48*CH);ctx.lineTo(.08*CW,.48*CH);ctx.stroke();
+  // contours
+  {const id=offx.createImageData(GX+1,GY+1);for(let k=0;k<field.length;k++){const h=field[k];if(h<-.6){const c=ramp(Math.min(1,-h/14));id.data.set([c[0],c[1],c[2],Math.min(70,20+(-h)*5)],k*4)}}offx.putImageData(id,0,0);
+   ctx.imageSmoothingEnabled=true;ctx.drawImage(off,0,0,GX+1,GY+1,-sx/2,-sy/2,CW+sx,CH+sy)}
+  const levels=[.6,.3,0,-.3];for(let l=-1;l>=-14;l-=1)levels.push(l);
+  for(const L of levels){const deep=L<-0.6, t=Math.min(1,(-L)/14), c=ramp(t);
+    ctx.strokeStyle=deep?`rgb(${c})`:'rgba(13,27,30,.16)';ctx.lineWidth=deep?((-L)%5===0?2.1:1.2):.9;ctx.beginPath();
+    for(let j=0;j<GY;j++)for(let i=0;i<GX;i++){const a=field[j*(GX+1)+i],b=field[j*(GX+1)+i+1],cc=field[(j+1)*(GX+1)+i+1],d=field[(j+1)*(GX+1)+i];
+      const idx=(a>L?8:0)|(b>L?4:0)|(cc>L?2:0)|(d>L?1:0);if(idx===0||idx===15)continue;
+      const x=i*sx,y=j*sy,e=[[x+sx*(L-a)/(b-a),y],[x+sx,y+sy*(L-b)/(cc-b)],[x+sx*(L-d)/(cc-d),y+sy],[x,y+sy*(L-a)/(d-a)]];
+      const seg=(p,q)=>{ctx.moveTo(e[p][0],e[p][1]);ctx.lineTo(e[q][0],e[q][1])};
+      switch(idx){case 1:case 14:seg(3,2);break;case 2:case 13:seg(2,1);break;case 3:case 12:seg(3,1);break;case 4:case 11:seg(0,1);break;
+        case 5:seg(3,0);seg(2,1);break;case 10:seg(0,1);seg(3,2);break;case 6:case 9:seg(0,2);break;case 7:case 8:seg(3,0);break}}
+    ctx.stroke()}
+  // pit markers
+  PITS.forEach((p,k)=>{if(amt[k]<.5)return;const x=p.x*CW,y=p.y*CH;ctx.fillStyle='#0D1B1E';ctx.beginPath();ctx.arc(x,y,2.5,0,7);ctx.fill();
+    ctx.font='700 12px "Albert Sans",sans-serif';ctx.textAlign='left';ctx.fillText('−'+p.b,x+7,y+4)})}
+function size(){dpr=Math.min(2,devicePixelRatio);CW=cv.clientWidth;CH=cv.clientHeight;cv.width=CW*dpr;cv.height=CH*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);compute();draw()}
+let raf=0;function animate(){cancelAnimationFrame(raf);const from=[...amt],t0=performance.now();
+  const step=n=>{const k=RM?1:Math.min(1,(n-t0)/700),e=1-Math.pow(1-k,3);amt=from.map((f,i)=>f+(target[i]-f)*e);compute();draw();if(k<1)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)}
+function rows(){const t=T[mkt];$('rows').innerHTML=PITS.map((p,k)=>{const c=ramp(Math.min(1,p.b/14));return `<tr><td><i style="background:rgb(${c})"></i>${p.n}</td><td>${p.what}</td><td>${p.b}</td><td>${fmt(p.b*t.p)}</td></tr>`}).join('')+
+  `<tr><td><b>Total</b></td><td></td><td><b>59</b></td><td><b>${fmt(59*t.p)}</b></td></tr>`}
+document.querySelectorAll('.ctl button').forEach(b=>b.onclick=()=>{show=+b.dataset.v;document.querySelectorAll('.ctl button').forEach(x=>x.setAttribute('aria-pressed',x===b));target=PITS.map(p=>(show&p.s)?1:0);animate()});
+const tip=$('tip'),map=$('map');
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  let best=-1,bd=1e9;PITS.forEach((p,k)=>{if(amt[k]<.5)return;const d=Math.hypot((x-p.x)*CW/CH,y-p.y);if(d<bd){bd=d;best=k}});
+  if(best>=0&&bd<.12){const p=PITS[best];tip.innerHTML=`<b>${p.n} · ${p.b} bags · ${fmt(p.b*T[mkt].p)}</b>${p.what}`}
+  else{const i=Math.round(x*GX),j=Math.round(y*GY),h=field[j*(GX+1)+i]||0;tip.innerHTML=h>-.6?'<b>Level</b>Every bag here is accounted for':`<b>${(-h).toFixed(1)} bags below level</b>`}
+  tip.style.display='block';const mr=map.getBoundingClientRect();tip.style.left=Math.min(e.clientX-mr.left+14,mr.width-280)+'px';tip.style.top=(e.clientY-mr.top+14)+'px'});
+cv.addEventListener('pointerleave',()=>tip.style.display='none');
+function setM(m){mkt=m;const t=T[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));$('tbt').textContent=t.site;$('wa').placeholder=t.ph;
+  $('lede').textContent=`Every bag you order should land in the work. Vera reads your ${t.docs} from the WhatsApp notes your ${t.who} already send, and maps each shortfall to the place it happened.`;rows()}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const v=$('wa').value.replace(/\D/g,'');$('fine').textContent=v.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+T[mkt].ph+'.'});
+addEventListener('resize',size);setM('in');size();
+if(!RM){amt=PITS.map(()=>0);animate()}
+})();
+</script>
+</body>
+</html>
