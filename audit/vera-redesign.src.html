@@ -1,0 +1,565 @@
+<title>Vera Redesign Brief</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Hanken+Grotesk:wght@400;500;600;700&family=Martian+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@500&family=Noto+Sans+Malayalam:wght@500&family=Bodoni+Moda:opsz,wght@6..96,500&display=swap">
+<style>
+/* Layout: one 1120px reading column; full-bleed carbon bands for the hero mock and the close. Single committed light "paper" look, set explicitly. */
+:root{
+  --paper:#F5F6F8;        /* cool office white, not cream */
+  --sheet:#FFFFFF;
+  --ink:#14161C;
+  --muted:#474D63;
+  --rule:#D3D8E6;         /* blue-tinted form ruling */
+  --carbon:#1D2775;       /* carbon-copy ink */
+  --carbon-2:#2C3AA3;
+  --carbon-soft:#E6E8F5;
+  --pink:#F4C5D0;         /* duplicate copy */
+  --yellow:#F4DC66;       /* triplicate copy */
+  --stamp:#C2102D;        /* rubber stamp, discrepancy only */
+  --ok:#1C6B47;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --data:"Martian Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+::selection{background:var(--yellow);color:var(--ink)}
+a{color:var(--carbon-2);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--carbon-2);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-stretch:118%;letter-spacing:-0.025em;line-height:1.04;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4.2vw,48px);font-weight:750}
+h3{font-size:21px;font-weight:700;font-stretch:110%;letter-spacing:-0.01em;line-height:1.2}
+p{margin:0}
+.lede{font-size:clamp(18px,2vw,21px);line-height:1.55;color:var(--muted);max-width:62ch}
+section{padding-block:clamp(64px,9vw,112px)}
+section + section{border-top:1px solid var(--rule)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 64px;align-items:end;margin-bottom:48px}
+.sec-head .lede{font-size:18px}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr}}
+
+/* ---------- masthead ---------- */
+.mast{background:var(--carbon);color:#fff;padding-block:28px 72px}
+.mast .bar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font:500 13px/1 var(--data);color:#C9CDF0}
+.mast h1{font-size:clamp(44px,7.4vw,92px);font-weight:800;font-stretch:122%;letter-spacing:-0.035em;margin-top:72px;max-width:14ch}
+.mast .lede{color:#D6D9F4;margin-top:28px}
+.verdict{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#3A46A8;border:1px solid #3A46A8;border-radius:14px;overflow:hidden}
+.verdict div{background:var(--carbon);padding:22px 22px 24px}
+.verdict b{display:block;font:700 34px/1 var(--display);font-stretch:115%;color:#fff;margin-bottom:10px}
+.verdict span{color:#C9CDF0;font-size:15px;line-height:1.5}
+@media (max-width:720px){.verdict{grid-template-columns:1fr}}
+
+/* ---------- score table ---------- */
+.tbl{width:100%;border-collapse:collapse;font-size:16px}
+.tbl th{text-align:left;font:500 12px/1.3 var(--data);color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding:0 12px 12px 0;border-bottom:1.5px solid var(--ink)}
+.tbl td{padding:16px 12px 16px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl td:first-child{font-weight:600;white-space:nowrap}
+.score{font:500 15px/1 var(--data);white-space:nowrap}
+.pips{display:inline-flex;gap:3px;margin-right:8px;vertical-align:-1px}
+.pips i{width:10px;height:10px;border-radius:2px;background:var(--rule)}
+.pips i.on{background:var(--carbon-2)}
+.tbl tfoot td{border-bottom:none;font-weight:700;padding-top:18px}
+.scroll-x{overflow-x:auto}
+
+/* ---------- findings ---------- */
+.findings{display:grid;gap:0}
+.f{display:grid;grid-template-columns:72px minmax(0,1fr);gap:20px;padding:26px 0;border-bottom:1px solid var(--rule)}
+.f:first-child{border-top:1.5px solid var(--ink)}
+.sev{font:500 13px/1 var(--data);padding:7px 0;width:56px;text-align:center;border-radius:6px;border:1.5px solid currentColor;height:fit-content}
+.sev.p0{color:#fff;background:var(--stamp);border-color:var(--stamp)}
+.sev.p1{color:var(--stamp)}
+.sev.p2{color:var(--carbon-2)}
+.sev.p3{color:var(--muted)}
+.f h3{margin-bottom:8px}
+.f p{color:var(--muted);max-width:72ch}
+.f p + p{margin-top:8px}
+.f .fix{color:var(--ink)}
+.f .fix b{font-weight:600}
+.evidence{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:40px}
+figure{margin:0}
+figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--rule);box-shadow:0 8px 24px -12px rgba(20,22,40,.25)}
+figcaption{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.45}
+@media (max-width:720px){.evidence{grid-template-columns:1fr}.f{grid-template-columns:1fr;gap:12px}}
+
+.keep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 48px;margin:0;padding:0;list-style:none}
+.keep li{padding:14px 0 14px 28px;border-bottom:1px solid var(--rule);position:relative}
+.keep li::before{content:"";position:absolute;left:0;top:22px;width:14px;height:8px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+@media (max-width:720px){.keep{grid-template-columns:1fr}}
+
+/* ---------- directions ---------- */
+.dirs{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:20px}
+@media (max-width:980px){.dirs{grid-template-columns:1fr}}
+.dir{background:var(--sheet);border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.dir.pick{border:2px solid var(--carbon)}
+.dir .swatch{display:flex;height:116px}
+.dir .swatch span{flex:1}
+.dir .body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:12px;flex:1}
+.dir .name{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.dir .rec{font:500 12px/1 var(--data);color:#fff;background:var(--carbon);padding:6px 8px;border-radius:5px;white-space:nowrap}
+.dir p{color:var(--muted);font-size:15.5px}
+.dir dl{margin:4px 0 0;display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px 12px;font-size:14.5px}
+.dir dt{font:500 12px/1.6 var(--data);color:var(--muted)}
+.dir dd{margin:0}
+.spec-b{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:28px;letter-spacing:-.03em;line-height:1}
+.spec-c{font-family:"Bodoni Moda",Georgia,serif;font-weight:500;font-size:30px;line-height:1}
+.spec-a{font-family:var(--display);font-stretch:122%;font-weight:780;font-size:30px;letter-spacing:-.03em;line-height:1}
+
+/* ---------- hero mock (Direction A) ---------- */
+.mock-band{background:var(--carbon);color:#fff;padding-block:28px 0;overflow:hidden}
+.mock-label{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:#C9CDF0;font-size:15px;margin-bottom:20px}
+.browser{background:var(--carbon);border:1px solid #3A46A8;border-bottom:none;border-radius:16px 16px 0 0;overflow:hidden}
+.chrome{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid #3A46A8;font:400 12px/1 var(--data);color:#9AA0D8}
+.chrome i{width:10px;height:10px;border-radius:50%;background:#3A46A8}
+.chrome span{margin-left:12px}
+.v-nav{display:flex;align-items:center;gap:28px;padding:20px clamp(18px,3vw,40px)}
+.v-word{font:800 24px/1 var(--display);font-stretch:125%;letter-spacing:-.04em;color:#fff}
+.v-links{display:flex;gap:24px;font-size:15px;color:#D6D9F4;margin-right:auto}
+.v-links span{padding:10px 0}
+.mkt{display:inline-flex;border:1px solid #4A56B8;border-radius:999px;padding:3px}
+.mkt button{all:unset;cursor:pointer;font:500 13px/1 var(--data);color:#C9CDF0;padding:9px 13px;border-radius:999px;min-height:18px}
+.mkt button[aria-pressed="true"]{background:#fff;color:var(--carbon)}
+.mkt button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.v-btn{font:600 15px/1 var(--body);padding:14px 20px;border-radius:10px;background:var(--yellow);color:var(--ink);white-space:nowrap;border:0}
+.v-btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px #5A66C4}
+@media (max-width:900px){.v-links{display:none}.v-nav{gap:12px}.v-nav .v-btn{display:none}.v-word{margin-right:auto}}
+
+.v-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);padding:clamp(32px,6vw,80px) clamp(18px,3vw,40px) clamp(40px,6vw,88px);align-items:center}
+@media (max-width:900px){.v-hero{grid-template-columns:1fr}}
+.v-hero h1{font-size:clamp(38px,4.6vw,62px);font-weight:800;font-stretch:120%;letter-spacing:-.035em;line-height:.98;color:#fff}
+.v-hero h1 .cur{color:var(--yellow)}
+.v-sub{margin-top:24px;font-size:clamp(17px,1.5vw,19px);line-height:1.55;color:#D6D9F4;max-width:44ch}
+.v-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.v-icp{margin-top:28px;font:400 13px/1.5 var(--data);color:#AEB4E6}
+
+.copies{position:relative;height:540px}
+.copy{position:absolute;width:min(78%,380px);background:#fff;color:var(--ink);border-radius:6px;padding:18px 20px 20px;box-shadow:0 18px 40px -18px rgba(5,8,40,.55),0 2px 4px rgba(5,8,40,.25);font-size:13px;line-height:1.35}
+.copy::before{content:"";position:absolute;left:0;right:0;top:-6px;height:12px;background:radial-gradient(circle at 6px 6px,var(--carbon) 3px,transparent 3.5px) 0 0/12px 12px repeat-x}
+.copy.c1{left:0;top:8px;transform:rotate(-2.5deg)}
+.copy.c2{left:9%;top:152px;transform:rotate(1.5deg);background:var(--pink)}
+.copy.c3{left:18%;top:296px;transform:rotate(-1deg);background:var(--yellow)}
+.copy header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid rgba(20,22,40,.25);padding-bottom:10px;margin-bottom:10px}
+.copy .t{font:700 15px/1.15 var(--display);font-stretch:112%}
+.copy .ser{font:500 12px/1 var(--data);color:var(--stamp);white-space:nowrap}
+.copy .which{font:500 10.5px/1 var(--data);letter-spacing:.06em;color:#4A4F66;margin-top:4px;text-transform:uppercase}
+.copy .row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dashed rgba(20,22,40,.18)}
+.copy .row:last-child{border-bottom:0}
+.copy .hand{font:500 13px/1.35 var(--data);color:var(--carbon-2)}
+.copy .big{font:500 20px/1 var(--data);color:var(--carbon-2)}
+.stamp{position:absolute;right:0;bottom:18px;transform:rotate(-9deg);border:3px solid var(--stamp);color:var(--stamp);border-radius:8px;padding:10px 14px 9px;font:800 19px/1.05 var(--display);font-stretch:118%;letter-spacing:-.01em;background:rgba(255,255,255,.9);text-align:center;box-shadow:0 0 0 2px rgba(255,255,255,.9)}
+.stamp small{display:block;font:500 11px/1.3 var(--data);letter-spacing:.04em;margin-top:5px}
+.stamp.go{animation:land .55s cubic-bezier(.16,1,.3,1) both}
+@keyframes land{from{opacity:0;transform:rotate(-14deg) scale(1.5);filter:blur(3px)}to{opacity:1;transform:rotate(-9deg) scale(1);filter:blur(0)}}
+@media (prefers-reduced-motion:reduce){.stamp.go{animation:none}}
+@media (max-width:520px){.copies{height:600px}.copy{width:86%}.copy.c2{left:7%;top:176px}.copy.c3{left:14%;top:352px}.stamp{right:0;bottom:0;font-size:16px}}
+.mock-note{font-size:13.5px;color:#9AA0D8;padding:14px clamp(18px,3vw,40px) 20px;border-top:1px solid #3A46A8}
+
+/* ---------- tokens ---------- */
+.tokens{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.tokens{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:480px){.tokens{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tok{border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:var(--sheet)}
+.tok .chip{height:92px}
+.tok div:last-child{padding:12px 12px 14px;font-size:14px;line-height:1.4}
+.tok b{display:block;font-weight:600}
+.tok code{font:400 12px/1.6 var(--data);color:var(--muted)}
+.ratio{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-top:24px;border:1px solid var(--rule)}
+.ratio span{display:block;height:100%}
+.ratio-key{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:10px;font-size:14px;color:var(--muted)}
+
+.type-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;margin-top:56px}
+@media (max-width:820px){.type-grid{grid-template-columns:1fr}}
+.specimen{background:var(--sheet);border:1px solid var(--rule);border-radius:16px;padding:28px}
+.specimen .role{font:500 12px/1 var(--data);color:var(--muted);margin-bottom:14px}
+.specimen + .specimen{margin-top:0}
+.sp-display{font:800 clamp(40px,5vw,64px)/.98 var(--display);font-stretch:122%;letter-spacing:-.035em}
+.sp-data{font:400 15px/1.7 var(--data);color:var(--carbon-2)}
+.sp-scripts{display:grid;gap:10px;font-size:18px}
+.sp-scripts .dv{font-family:"Noto Sans Devanagari",var(--body)}
+.sp-scripts .ml{font-family:"Noto Sans Malayalam",var(--body)}
+
+/* ---------- blueprint ---------- */
+.bp{counter-reset:none;display:grid;gap:0}
+.bp-row{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) minmax(0,1fr);gap:24px 40px;padding:28px 0;border-bottom:1px solid var(--rule)}
+.bp-row:first-child{border-top:1.5px solid var(--ink)}
+.bp-row h3{font-size:19px}
+.bp-row .tag{display:inline-block;margin-top:10px;font:500 12px/1 var(--data);padding:6px 8px;border-radius:5px}
+.tag.new{background:var(--carbon-soft);color:var(--carbon)}
+.tag.cut{background:#F9E0E5;color:var(--stamp)}
+.tag.keep{background:#E1F0E8;color:var(--ok)}
+.tag.rework{background:#FBF2C8;color:#6B5600}
+.bp-row p{font-size:15.5px;color:var(--muted)}
+.bp-row .say{color:var(--ink);font-family:var(--display);font-stretch:110%;font-weight:650;font-size:18px;line-height:1.3;letter-spacing:-.01em}
+.bp-row .say small{display:block;font:400 13px/1.4 var(--body);color:var(--muted);margin-top:6px;letter-spacing:0}
+@media (max-width:900px){.bp-row{grid-template-columns:1fr;gap:10px}}
+
+/* ---------- UAE ---------- */
+.icp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:820px){.icp{grid-template-columns:1fr}}
+.icp article{background:var(--sheet);border:1px solid var(--rule);border-radius:16px;padding:26px}
+.icp article.ae{background:var(--yellow);border-color:#E3C94F}
+.icp h3{font-size:24px;margin-bottom:14px}
+.icp ul{margin:0;padding-left:18px;display:grid;gap:8px;font-size:15.5px}
+.vocab td:nth-child(2),.vocab td:nth-child(3){font-size:15.5px}
+.vocab td:nth-child(3){color:var(--carbon)}
+.callout{margin-top:28px;padding:18px 20px;background:var(--carbon-soft);border-radius:12px;font-size:15.5px;color:var(--carbon)}
+
+/* ---------- steps ---------- */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid var(--rule)}
+.steps li::before{content:counter(s);font:500 15px/1 var(--data);color:#fff;background:var(--carbon);width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
+.steps code{font:400 14px/1.4 var(--data);background:var(--carbon-soft);color:var(--carbon);padding:2px 6px;border-radius:4px}
+.steps p{color:var(--muted);font-size:15.5px;margin-top:4px}
+.need{columns:2;column-gap:48px;margin:0;padding-left:18px}
+.need li{margin-bottom:10px;break-inside:avoid}
+@media (max-width:720px){.need{columns:1}}
+
+footer.end{background:var(--carbon);color:#C9CDF0;padding-block:40px;font-size:14px}
+footer.end .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="bar"><span>getveraai.com · audit and redesign brief</span><span>18 Nov 2026 · Impeccable audit + critique</span></div>
+    <h1>The copy is strong. The design hides it.</h1>
+    <p class="lede">Vera's homepage has specific, credible writing and a sharp mechanism: matching purchase orders, challans, store issues and the BOQ until the missing bags show up. The visual layer doesn't do it justice. A 4-second newspaper intro sits in front of the hero, the styling is a common AI-generated template, and too much of the small text is hard to read. This brief audits the current site and then lays out a full redesign, with a second market added: contractors in Dubai and the UAE.</p>
+    <div class="verdict" role="list">
+      <div role="listitem"><b>11 / 20</b><span>Audit health score. "Acceptable" band: it works, but needs significant design work.</span></div>
+      <div role="listitem"><b>4.0 s</b><span>Time before the headline is visible, measured on desktop Chromium. The intro animation blocks it on every visit.</span></div>
+      <div role="listitem"><b>52</b><span>Text elements that fail WCAG AA contrast. Most are 10–12px uppercase labels at 35–55% opacity.</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Audit scorecard</h2>
+      <p class="lede">I scored five dimensions from 0 to 4 using Impeccable's audit rubric. The page was measured live in Chromium at 1440px and 390px, including a contrast scan of every text node and the page's network weight.</p>
+    </div>
+    <div class="scroll-x">
+    <table class="tbl">
+      <thead><tr><th>Dimension</th><th>Score</th><th>Key finding</th></tr></thead>
+      <tbody>
+        <tr><td>Accessibility</td><td class="score"><span class="pips"><i class="on"></i><i class="on"></i><i></i><i></i></span>2</td><td>52 text nodes below 4.5:1 contrast. Nav and footer links are 24–33px tall. Reduced motion is handled, and so are alt text and <code>lang</code>.</td></tr>
+        <tr><td>Performance</td><td class="score"><span class="pips"><i class="on"></i><i class="on"></i><i></i><i></i></span>2</td><td>The page is lean (21 requests, 1.07 MB), but the intro holds the headline back for 4 s, and a 471 KB autoplay CGI video carries the hero.</td></tr>
+        <tr><td>Theming</td><td class="score"><span class="pips"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>3</td><td>Colors come from tokens and a light/dark toggle exists. The text greys are opacity steps of one cream (35–80%), which causes the contrast failures.</td></tr>
+        <tr><td>Responsive</td><td class="score"><span class="pips"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>3</td><td>Nothing scrolls sideways. The mobile page is 13,800px tall, mostly from the stacked desk cards.</td></tr>
+        <tr><td>Implementation integrity</td><td class="score"><span class="pips"><i class="on"></i><i></i><i></i><i></i></span>1</td><td>The look is a stock template: near-black, one vermilion accent, a colored second line on every headline, a pill eyebrow on every section and a cream band. Swap the copy and it could be any SaaS site.</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total</td><td class="score">11 / 20</td><td>Acceptable. The bones are good, but the page needs a new visual world, not a polish pass.</td></tr></tfoot>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What to fix, in order</h2>
+      <p class="lede">Ranked by impact on the visit. P0 blocks the visitor, P1 hurts trust or breaks WCAG AA, P2 adds friction, P3 is polish.</p>
+    </div>
+    <div class="findings">
+      <div class="f"><span class="sev p0">P0</span><div>
+        <h3>Remove the newspaper intro</h3>
+        <p>Every visit opens on a blurred fake broadsheet that pans around one highlighted fragment: "firms now using <b>Vera AI</b> save", "a new report on <b>Vera AI</b> said". The fragments stop mid-sentence, so it reads like a glitch. The made-up headlines ("Infra Spending Set to Double by 2030", "RERA Tightens Rules on Project Delays") look like news coverage Vera doesn't have, and a skeptical contractor will notice. It also frames Vera as a media brand. It holds the headline back for 4.0 s on desktop and mobile.</p>
+        <p class="fix"><b>Fix:</b> Delete it. Don't replace it with another intro. The new hero carries the one motion moment, and only after the content is already readable (see the rubber stamp in the hero mock below).</p>
+      </div></div>
+      <div class="f"><span class="sev p1">P1</span><div>
+        <h3>The styling looks like an AI template</h3>
+        <p>Near-black ground with one vermilion accent (<code>#FF5B1F</code>), a cream band (<code>#F4F1EC</code>), Geist for everything, and an orange second line on five headlines in a row ("accounted for.", "walks off site.", "run on it.", "build India.", "from day one."). Each section is a sheet with 40px rounded top corners sliding over the last. Impeccable's detector flags this exact combination as one of the most common generated looks. Visitors who have seen many AI-built sites will notice it, and it hides how specific the product is.</p>
+        <p class="fix"><b>Fix:</b> Build a new visual world from the contractor's own paperwork (Direction A below). Use one accent per screen, not one per headline.</p>
+      </div></div>
+      <div class="f"><span class="sev p1">P1</span><div>
+        <h3>Small labels fail contrast</h3>
+        <p>52 text nodes fall below WCAG AA. Examples: "MATERIAL · MONEY · PROOF" at 2.62:1, the ledger sub-labels "PO-2291" and "3 trucks" at 2.67:1, "FOR CONTRACTORS DOING ₹50–500 CR A YEAR" at 3.46:1, and all 10px mono captions in the desk mock-ups at about 3.5:1. Your buyer is often a 50-year-old owner reading on a phone in sunlight.</p>
+        <p class="fix"><b>Fix:</b> No text under 12px. Secondary text should be a solid color at 4.5:1 or better, not an opacity step.</p>
+      </div></div>
+      <div class="f"><span class="sev p1">P1</span><div>
+        <h3>Stacked desk cards look broken while scrolling</h3>
+        <p>The four desks stack as sticky cards. Earlier cards stay visible as dimmed slivers behind the current one. Mid-scroll, the Site Record Desk shows an empty grey panel where its document preview should be (screenshot below). On mobile this section accounts for most of the page's 13,800px.</p>
+        <p class="fix"><b>Fix:</b> Replace it with one desk switcher: four tabs and one large live document.</p>
+      </div></div>
+      <div class="f"><span class="sev p1">P1</span><div>
+        <h3>A label above every section</h3>
+        <p>"NEW", "THE LEAK", "WHAT VERA DOES", "HOW WE WORK", "ABOUT US", "START HERE", plus a second tracked label on the right ("MATERIAL · MONEY · PROOF"). Impeccable bans this outright: when every heading gets a label, the labels stop meaning anything, and they're the lowest-contrast text on the page.</p>
+        <p class="fix"><b>Fix:</b> Delete them all. The headings are good enough to stand alone.</p>
+      </div></div>
+      <div class="f"><span class="sev p2">P2</span><div>
+        <h3>The hero video is generic CGI</h3>
+        <p>A dark 3D tower with a crane could advertise any real-estate or construction product. Vera's proof is paperwork that doesn't add up, and the hero doesn't show any.</p>
+        <p class="fix"><b>Fix:</b> Show the mechanism in the first viewport: three copies of one delivery, with the gap stamped on them.</p>
+      </div></div>
+      <div class="f"><span class="sev p2">P2</span><div>
+        <h3>Two primary actions, and the wrong one leads</h3>
+        <p>The hero's filled button is "Watch the demo", while the nav's filled button is "Free leak check". The leak check is the offer the whole page builds toward.</p>
+        <p class="fix"><b>Fix:</b> "Book a free leak check" is the only filled button. Second action: "Send a challan on WhatsApp".</p>
+      </div></div>
+      <div class="f"><span class="sev p2">P2</span><div>
+        <h3>Nothing for a careful buyer to check</h3>
+        <p>There's no customer proof, pilot result, pricing signal, data-security answer, FAQ, privacy or terms page, or company address. The team section shows only headshots and business-school names. For a buyer handing over purchase orders and bills, this is where trust is won or lost.</p>
+        <p class="fix"><b>Fix:</b> Add Proof, Security, FAQ and a founders' note (see the blueprint below).</p>
+      </div></div>
+      <div class="f"><span class="sev p3">P3</span><div>
+        <h3>Small things</h3>
+        <p>The theme toggle on a marketing page adds a choice nobody needs. The desks are numbered 01–04 even though they aren't a sequence (the rollout is, and should keep its numbers). The material marquee repeats the same list twice. Selection color, scrollbars and focus rings are browser defaults.</p>
+      </div></div>
+    </div>
+
+    <div class="evidence">
+      <figure><img alt="Current intro: a blurred fake newspaper with 'firms now using Vera AI save' highlighted in yellow" src="data:image/jpeg;base64,{{intro}}"><figcaption>The intro at 1.2 s. The sentence fragments stop mid-thought, and the newspaper headlines are invented.</figcaption></figure>
+      <figure><img alt="Current hero: dark CGI tower with a crane, headline 'Every rupee on site, accounted for.'" src="data:image/jpeg;base64,{{hero}}"><figcaption>The current hero after 4 s. The headline is strong, but the picture shows generic CGI and the pill label is hard to read.</figcaption></figure>
+      <figure><img alt="Current desks section with stacked cards and an empty grey panel" src="data:image/jpeg;base64,{{desks}}"><figcaption>The desks section mid-scroll: stacked card slivers and an empty grey preview panel.</figcaption></figure>
+      <figure><img alt="Current leak section on a cream background with the 'How a leak hides' ledger" src="data:image/jpeg;base64,{{leak}}"><figcaption>"How a leak hides" is the best thing on the site. In the redesign it moves up and gets more room.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Keep these</h2>
+      <p class="lede">A redesign replaces the look. It doesn't throw away what's working. These carry over unchanged.</p>
+    </div>
+    <ul class="keep">
+      <li>The trade vocabulary: OPC 53, Fe500 TMT, RMC M25, hindrance register, RA bills, BOQ. Competitors can't fake it.</li>
+      <li>"18 bags never reached the store. 41 bags issued, not used." It's the best line on the site, and it should be the hero.</li>
+      <li>The offer: free first, no new app, one site, one rupee figure, and each desk has to pay for itself before the next.</li>
+      <li>WhatsApp and voice notes in the supervisor's own language. That's the real moat. Show it, don't just say it.</li>
+      <li>"Vera is Latin for 'true'." It's a quiet brand line. Keep it in the footer and the founders' note.</li>
+      <li>The technical basics: lazy images, alt text, reduced motion, no sideways scroll, and a page under 1.1 MB.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Three directions for the new look</h2>
+      <p class="lede">Each one comes from things a contractor in Indore or Al Quoz handles every day, not from the usual construction-tech palette of safety orange and black. I recommend A, because it shows how the product works, not just a mood.</p>
+    </div>
+    <div class="dirs">
+      <article class="dir pick">
+        <div class="swatch" aria-hidden="true"><span style="background:#1D2775"></span><span style="background:#FFFFFF"></span><span style="background:#F4C5D0"></span><span style="background:#F4DC66"></span><span style="background:#C2102D;flex:.35"></span></div>
+        <div class="body">
+          <div class="name"><span class="spec-a">Triplicate</span><span class="rec">Recommended</span></div>
+          <p>Built on the carbon-copy challan book: a white original, a pink duplicate and a yellow triplicate, written in carbon-blue ink, with a red rubber stamp when something doesn't match. It's the exact paperwork Vera reconciles, and the same books are used on sites in India and the UAE.</p>
+          <dl><dt>Ground</dt><dd>Carbon blue for the hero and close. White, pink and yellow each own a whole section.</dd><dt>Type</dt><dd>Archivo Expanded for headings, Hanken Grotesk for body, Martian Mono for serials and quantities</dd><dt>Moment</dt><dd>The stamp lands on the gap: "18 bags short"</dd></dl>
+        </div>
+      </article>
+      <article class="dir">
+        <div class="swatch" aria-hidden="true"><span style="background:#8E9196"></span><span style="background:#C9CBCB"></span><span style="background:#2F64C8;flex:.5"></span><span style="background:#8C3F22;flex:.5"></span></div>
+        <div class="body">
+          <div class="name"><span class="spec-b">Chalk line</span></div>
+          <p>Concrete grey covers the page. Snapped chalk-line blue is the only graphic mark, and rebar rust is reserved for losses. The hero is a real photo of a slab at dawn, with chalk lines snapping across it to measure out the record.</p>
+          <dl><dt>Needs</dt><dd>A commissioned photo shoot on two real sites, one in India and one in Dubai</dd><dt>Risk</dt><dd>It only works with real photography. Stock photos would turn it generic.</dd></dl>
+        </div>
+      </article>
+      <article class="dir">
+        <div class="swatch" aria-hidden="true"><span style="background:#0E3B30"></span><span style="background:#F1F4F1"></span><span style="background:#B08A3E;flex:.5"></span></div>
+        <div class="body">
+          <div class="name"><span class="spec-c">The 8 AM Brief</span></div>
+          <p>Styled like a private-bank statement for the owner: ledger green, a Bodoni display face and brass figures. The hero is the 8 AM site summary, typeset like a statement. It's aimed at the CFO more than the site.</p>
+          <dl><dt>Strength</dt><dd>Reads as the most expensive of the three</dd><dt>Risk</dt><dd>It moves away from the site and the paperwork, which is where Vera's proof is</dd></dl>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="mock-band" aria-labelledby="mock-h">
+  <div class="wrap">
+    <div class="mock-label"><h2 id="mock-h" style="font-size:22px;color:#fff;font-stretch:112%">Direction A: the new hero, working</h2><span>Switch the market to see the same hero for India and for the UAE.</span></div>
+    <div class="browser">
+      <div class="chrome"><i></i><i></i><i></i><span>getveraai.com</span></div>
+      <nav class="v-nav" aria-label="Mock site navigation">
+        <span class="v-word">vera</span>
+        <span class="v-links"><span>The leak</span><span>How it works</span><span>Desks</span><span>Security</span><span>Team</span></span>
+        <span class="mkt" role="group" aria-label="Market"><button type="button" id="mk-in" aria-pressed="true" data-m="in">IN&nbsp;₹</button><button type="button" id="mk-ae" aria-pressed="false" data-m="ae">UAE&nbsp;AED</button></span>
+        <span class="v-btn">Book a leak check</span>
+      </nav>
+      <div class="v-hero">
+        <div>
+          <h1>Every <span class="cur" data-k="cur">rupee</span> on site, accounted for.</h1>
+          <p class="v-sub" data-k="sub">Supervisors send WhatsApp voice notes, photos and challans. Vera matches them against your purchase orders and BOQ and shows you exactly where material went missing.</p>
+          <div class="v-ctas"><span class="v-btn">Book a free leak check</span><span class="v-btn ghost" data-k="wa">Send a challan on WhatsApp</span></div>
+          <p class="v-icp" data-k="icp">For contractors doing ₹50–500 Cr a year · works with Tally</p>
+        </div>
+        <div class="copies" aria-label="Three copies of the same cement delivery that don't match">
+          <div class="copy c1">
+            <header><div><div class="t" data-k="d1">Purchase order</div><div class="which">Original · head office</div></div><span class="ser" data-k="s1">PO-2291</span></header>
+            <div class="row"><span>Cement OPC 53</span><span class="big">500</span></div>
+            <div class="row"><span data-k="site">Site 03 · Indore</span><span class="hand">bags</span></div>
+          </div>
+          <div class="copy c2">
+            <header><div><div class="t" data-k="d2">Delivery challan</div><div class="which">Duplicate · transporter</div></div><span class="ser" data-k="s2">DC-7718</span></header>
+            <div class="row"><span>3 trucks received</span><span class="big">500</span></div>
+            <div class="row"><span>Signed at gate</span><span class="hand" data-k="sig">R. Patil</span></div>
+          </div>
+          <div class="copy c3">
+            <header><div><div class="t" data-k="d3">Store issue register</div><div class="which">Triplicate · site office</div></div><span class="ser">SR-0412</span></header>
+            <div class="row"><span>Taken into store</span><span class="big">482</span></div>
+            <div class="row"><span>Voice note, 0:42</span><span class="hand" data-k="vn" lang="hi" style="font-family:'Noto Sans Devanagari',var(--data)">स्टोर में 482 बोरी आई</span></div>
+          </div>
+          <div class="stamp go" id="stamp" role="img" aria-label="Stamp: 18 bags short"><span>18 BAGS SHORT</span><small data-k="loss">₹7,020 · flagged day 1</small></div>
+        </div>
+      </div>
+      <p class="mock-note">The quantities are sample data from the current site's own example (Cement, Site 03). The UAE prices and document names are illustrative; have a UAE operator check them before launch. On the real page, everything here is HTML, the stamp is the only animation, and the content is readable before it lands.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Direction A: colors and type</h2>
+      <p class="lede">Color is committed, not sprinkled: each copy color fills whole sections. White carries the record, pink carries the leak, and yellow carries the desks, just as the three copies of a challan go to three different desks. Stamp red appears only on a discrepancy, never on a button.</p>
+    </div>
+    <div class="tokens">
+      <div class="tok"><div class="chip" style="background:#1D2775"></div><div><b>Carbon</b><code>#1D2775</code><br>Hero, close, ink on paper</div></div>
+      <div class="tok"><div class="chip" style="background:#FFFFFF;border-bottom:1px solid var(--rule)"></div><div><b>Original</b><code>#FFFFFF</code><br>The record sections</div></div>
+      <div class="tok"><div class="chip" style="background:#F4C5D0"></div><div><b>Duplicate</b><code>#F4C5D0</code><br>The leak section</div></div>
+      <div class="tok"><div class="chip" style="background:#F4DC66"></div><div><b>Triplicate</b><code>#F4DC66</code><br>Desks, primary button</div></div>
+      <div class="tok"><div class="chip" style="background:#C2102D"></div><div><b>Stamp</b><code>#C2102D</code><br>Discrepancies only</div></div>
+      <div class="tok"><div class="chip" style="background:#14161C"></div><div><b>Graphite</b><code>#14161C</code><br>Body text on paper</div></div>
+    </div>
+    <div class="ratio" aria-hidden="true"><span style="flex:30;background:#1D2775"></span><span style="flex:34;background:#FFFFFF"></span><span style="flex:14;background:#F4C5D0"></span><span style="flex:18;background:#F4DC66"></span><span style="flex:1.5;background:#C2102D"></span><span style="flex:2.5;background:#14161C"></span></div>
+    <div class="ratio-key"><span>Approximate share of the scroll: carbon 30%</span><span>white 34%</span><span>pink 14%</span><span>yellow 18%</span><span>stamp under 2%</span></div>
+
+    <div class="type-grid">
+      <div class="specimen">
+        <div class="role">Display: Archivo, expanded width 120, weight 800</div>
+        <div class="sp-display">18 bags never reached the store.</div>
+        <p style="margin-top:20px;color:var(--muted);max-width:52ch">Body: Hanken Grotesk at 17–19px. It's plain and readable, with enough character that it doesn't feel like Inter. Archivo's expanded width echoes the headings printed on Indian and Gulf forms and stencils, without wearing that as a costume.</p>
+      </div>
+      <div style="display:grid;gap:20px">
+        <div class="specimen"><div class="role">Data: Martian Mono, for serials, quantities and money only</div><div class="sp-data">PO-2291 · DC-7718 · SR-0412<br>500 → 500 → 482 → 441 bags<br>₹23,010 · AED 1,003</div></div>
+        <div class="specimen"><div class="role">Supervisor voice notes, in their own scripts</div><div class="sp-scripts"><span class="dv" lang="hi">चौथी मंज़िल का स्लैब आज पूरा हुआ</span><span class="ml" lang="ml">നാലാം നിലയിലെ സ്ലാബ് ഇന്ന് പൂർത്തിയായി</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The new page, section by section</h2>
+      <p class="lede">The story runs in this order: see the leak, believe how Vera catches it, trust the people and the data handling, then act. Every section is either kept, reworked, new or cut, with suggested copy.</p>
+    </div>
+    <div class="bp">
+      <div class="bp-row"><div><h3>Intro animation</h3><span class="tag cut">Cut</span></div><p>The newspaper animation goes entirely. The page opens straight on the hero.</p><p class="say">Nothing. The hero is the first thing anyone sees.</p></div>
+      <div class="bp-row"><div><h3>Navigation</h3><span class="tag rework">Rework</span></div><p>A flat bar on carbon, not a floating pill. Add the market switch (IN ₹ / UAE AED), set from the visitor's country and remembered after that. One filled button. Drop the theme toggle. Links stay at least 44px tall.</p><p class="say">The leak · How it works · Desks · Security · Team<small>Button: Book a leak check</small></p></div>
+      <div class="bp-row"><div><h3>Hero</h3><span class="tag rework">Rework</span></div><p>Headline on the left. On the right, three copies of one delivery that don't match, with the stamp landing on the gap. No video. The currency word, the documents and the turnover band all change with the market.</p><p class="say">Every rupee on site, accounted for.<small>UAE: Every dirham on site, accounted for.</small></p></div>
+      <div class="bp-row"><div><h3>Proof strip</h3><span class="tag new">New</span></div><p>This replaces the material marquee. Show real numbers only: sites live, bags reconciled, rupees flagged in pilots, plus customer names if they agree. If there aren't numbers yet, show redacted photos of real challans and registers Vera has read. Never placeholder logos.</p><p class="say">₹1.18 Cr flagged across 4 sites in the first pilot quarter<small>Use only if it's a real result. This figure comes from the current site's sample.</small></p></div>
+      <div class="bp-row"><div><h3>The leak</h3><span class="tag keep">Keep, enlarge</span></div><p>A full-width pink section. The PO → challan → store → BOQ ledger becomes the main interactive piece, with tabs for cement, steel and RMC so a visitor can watch each one fall short. Drop the "2–5%" stat card. Add a turnover slider that shows the likely annual leak, based on Vera's own 2–5% estimate.</p><p class="say">On ₹50 Cr of work, ₹1–2.5 Cr walks off site.<small>Then: "Every register looks fine on its own."</small></p></div>
+      <div class="bp-row"><div><h3>How it works</h3><span class="tag new">New</span></div><p>Two halves on white. Left: what comes in, meaning a Hindi or Malayalam voice note with a waveform, a photo of a challan, and an Excel file. Right: what comes out, the structured daily record row by row, with arrows pairing each input to its output. This proves the "no new app" claim.</p><p class="say">Your supervisors keep using WhatsApp. You get the record.</p></div>
+      <div class="bp-row"><div><h3>Desks</h3><span class="tag rework">Rework</span></div><p>A yellow section. Four tabs on the left, one large live document on the right: the one-page leak summary, the mobilisation report, the 8 AM brief, and the RA bill pack (IPA in the UAE). Each tab shows its price (Free, Core or Add-on). This replaces the stacked sticky cards.</p><p class="say">One WhatsApp number. Four desks that run on it.</p></div>
+      <div class="bp-row"><div><h3>Rollout</h3><span class="tag keep">Keep</span></div><p>Day 1, Week 1, Month 1, Month 2 onwards. This is a real sequence, so it keeps its numbers. Show it as a ruled timeline like a register page, not four equal cards.</p><p class="say">Free first. No new app. Live from day one.</p></div>
+      <div class="bp-row"><div><h3>Two markets</h3><span class="tag new">New</span></div><p>Show the India and UAE versions of the same mechanism side by side: challan next to delivery note, RA bill next to IPA, Tally next to Zoho or Sage, with offices and WhatsApp numbers for both. The next section covers the details.</p><p class="say">Built in India. On site in the Gulf.</p></div>
+      <div class="bp-row"><div><h3>Security and your data</h3><span class="tag new">New</span></div><p>Where the data is stored, who can see it, how to export or delete it, and compliance with India's DPDP Act and the UAE's PDPL. Keep it short and specific, with links to the privacy and terms pages.</p><p class="say">Your records stay yours. Export everything, any day.</p></div>
+      <div class="bp-row"><div><h3>Founders' note</h3><span class="tag rework">Rework</span></div><p>Replace the headshot grid and the "tap a photo" prompt with a short signed letter on why Vera exists, small portraits and LinkedIn links. Lead with time spent on sites, not school names.</p><p class="say">Vera is Latin for "true".</p></div>
+      <div class="bp-row"><div><h3>FAQ</h3><span class="tag new">New</span></div><p>Six questions the owner will ask anyway. Do supervisors need smartphones? Which languages? Does it work with Tally or Zoho? What does the free check need? Who sees our numbers? What does it cost after the free check?</p><p class="say">Questions owners ask us</p></div>
+      <div class="bp-row"><div><h3>Close</h3><span class="tag rework">Rework</span></div><p>A carbon band with a working form: name, company, market, number of sites and WhatsApp number, then "Book the leak check". Show the WhatsApp number for each market as copyable text.</p><p class="say">Send one site's challans. See the gap in a day.</p></div>
+      <div class="bp-row"><div><h3>Footer</h3><span class="tag rework">Rework</span></div><p>Addresses for both offices, privacy, terms, LinkedIn and the "true" line. Also add the basics a premium site needs: a 1200×630 OG image per market, a designed 404 page, and themed selection, focus and scrollbars.</p><p class="say">The true record of every site.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Adding Dubai and the UAE</h2>
+      <p class="lede">The mechanism is the same. The paperwork, currency, languages and contracts are different. The homepage should feel local in both markets, not like an Indian page with a dirham sign added.</p>
+    </div>
+    <div class="icp">
+      <article>
+        <h3>India: who it's for</h3>
+        <ul>
+          <li>Mid-size building and EPC contractors doing ₹50–500 Cr a year, with 4–20 live sites</li>
+          <li>Owner-led firms in Tier 1 and Tier 2 cities, with accounts in Tally and registers on paper</li>
+          <li>Supervisors on WhatsApp in Hindi, Marathi and other regional languages</li>
+          <li>Buyers: the owner or MD, plus the head of projects or QS</li>
+        </ul>
+      </article>
+      <article class="ae">
+        <h3>UAE: who it's for</h3>
+        <ul>
+          <li>Mid-size main contractors and subcontractors (civil, MEP, fit-out) doing about AED 25–250M a year, roughly the same band as India. Check this figure.</li>
+          <li>5–30 live sites across Dubai, Sharjah and Abu Dhabi, with many owners of Indian or Pakistani origin</li>
+          <li>Supervisors and crews sending voice notes in Hindi, Urdu, Malayalam, Tamil, Bengali or Tagalog, with client documents in English and Arabic</li>
+          <li>FIDIC-style contracts, monthly interim payment applications certified by the consultant, and 10% retention</li>
+          <li>Buyers: the MD or GM, plus the commercial manager or QS</li>
+        </ul>
+      </article>
+    </div>
+    <div class="scroll-x" style="margin-top:40px">
+    <table class="tbl vocab">
+      <thead><tr><th>What changes</th><th>India</th><th>UAE</th></tr></thead>
+      <tbody>
+        <tr><td>Currency and scale</td><td>₹ lakh, ₹ Cr</td><td>AED thousands, AED M</td></tr>
+        <tr><td>Purchase document</td><td>Purchase order (PO)</td><td>Local purchase order (LPO)</td></tr>
+        <tr><td>Delivery document</td><td>Delivery challan</td><td>Delivery note (DN)</td></tr>
+        <tr><td>Getting paid</td><td>RA bill, client-engineer measurement</td><td>Interim payment application, consultant's IPC</td></tr>
+        <tr><td>Tax</td><td>GST invoice</td><td>5% VAT tax invoice</td></tr>
+        <tr><td>Accounting export</td><td>Tally</td><td>Zoho Books, Sage, QuickBooks, SAP Business One</td></tr>
+        <tr><td>Delay records</td><td>Hindrance register</td><td>Delay log, extension-of-time notices</td></tr>
+        <tr><td>Mobilisation checks</td><td>BOCW, labour licence, CAR insurance</td><td>Municipality or Trakhees permits, CAR insurance, WPS payroll</td></tr>
+        <tr><td>Data law</td><td>DPDP Act 2023</td><td>UAE PDPL (DIFC and ADGM have their own rules)</td></tr>
+        <tr><td>Contact</td><td>+91 WhatsApp, India office</td><td>+971 WhatsApp, Dubai office</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="callout">How to build it: create two routes, <code>/in</code> and <code>/ae</code>, from one set of components, with <code>hreflang</code> tags for en-IN and en-AE. Set the market from the visitor's country (Vercel provides this) and let the IN/UAE switch override it. Each market gets its own proof, prices, document names, phone number and OG image. Have a UAE QS check every row of this table before it goes live. Only claim compliance or integrations that are actually built.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>How to get there</h2>
+      <p class="lede">The order of work with the Impeccable skill, plus the materials only your team can provide. Real photos and documents are most of what makes a site feel expensive.</p>
+    </div>
+    <ol class="steps">
+      <li><div><b>Write down the product truth for both markets</b><p><code>/impeccable init</code> creates PRODUCT.md with both ICPs, the offer, and the claims you can actually back up.</p></div></li>
+      <li><div><b>Lock in Direction A and plan the page</b><p><code>/impeccable shape homepage</code>, using the blueprint above. Then build the hero and the leak section first, since they carry the story.</p></div></li>
+      <li><div><b>Build the rest from the blueprint</b><p>Desks switcher, how it works, two markets, security, FAQ, close. Each one is built from real documents, never from placeholder icons.</p></div></li>
+      <li><div><b>Check, then finish</b><p><code>/impeccable audit</code> to get contrast, touch targets and performance to 18/20 or better, then <code>/impeccable polish</code>. The target is a hero visible in under 1.5 s on a mid-range Android phone over 4G.</p></div></li>
+    </ol>
+    <h3 style="margin:48px 0 18px">What your team needs to supply</h3>
+    <ul class="need">
+      <li>5–10 real challans, delivery notes and register pages, with names and prices redacted</li>
+      <li>Real pilot results and permission to name customers, or an honest "first pilots running"</li>
+      <li>Site photos in India and Dubai, if you choose Direction B now or later</li>
+      <li>The UAE WhatsApp Business number, the Dubai address and the trade-licence entity name</li>
+      <li>Data-hosting facts for the security section, and privacy and terms reviewed by counsel</li>
+      <li>A refined wordmark. The current "vera ai" mark is Geist with a custom V, and should be drawn properly</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="end"><div class="wrap"><span>Audit of getveraai.com measured live on 18 Nov 2026 with Chromium at 1440px and 390px.</span><span>Method: Impeccable audit and critique rubrics. The bundled detector CLI wasn't run in this session, so its checks were done by hand.</span></div></footer>
+
+<script>
+(function(){
+  var M={
+    in:{cur:"rupee",sub:"Supervisors send WhatsApp voice notes, photos and challans. Vera matches them against your purchase orders and BOQ and shows you exactly where material went missing.",wa:"Send a challan on WhatsApp",icp:"For contractors doing ₹50–500 Cr a year · works with Tally",d1:"Purchase order",s1:"PO-2291",d2:"Delivery challan",s2:"DC-7718",d3:"Store issue register",site:"Site 03 · Indore",sig:"R. Patil",vn:["स्टोर में 482 बोरी आई","hi","'Noto Sans Devanagari'"],loss:"₹7,020 · flagged day 1"},
+    ae:{cur:"dirham",sub:"Supervisors send WhatsApp voice notes, photos and delivery notes. Vera matches them against your LPOs and BOQ and shows you exactly where material went missing.",wa:"Send a delivery note on WhatsApp",icp:"For contractors doing AED 25–250M a year · works with Zoho, Sage and SAP B1",d1:"Local purchase order",s1:"LPO-2291",d2:"Delivery note",s2:"DN-7718",d3:"Store issue log",site:"Site 03 · Al Quoz, Dubai",sig:"S. Nair",vn:["സ്റ്റോറിൽ 482 ചാക്ക് എത്തി","ml","'Noto Sans Malayalam'"],loss:"AED 306 · flagged day 1"}
+  };
+  var btns=document.querySelectorAll('.mkt button'), stamp=document.getElementById('stamp');
+  function set(m){
+    var d=M[m]; if(!d) return;
+    btns.forEach(function(b){b.setAttribute('aria-pressed', String(b.dataset.m===m));});
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var v=d[el.dataset.k]; if(v==null) return;
+      if(Array.isArray(v)){el.textContent=v[0];el.lang=v[1];el.style.fontFamily=v[2]+",var(--data)";} else el.textContent=v;
+    });
+    stamp.classList.remove('go'); void stamp.offsetWidth; stamp.classList.add('go');
+    try{localStorage.setItem('vera-mkt',m);}catch(e){}
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.m);});});
+  try{var s=localStorage.getItem('vera-mkt'); if(s&&s!=='in') set(s);}catch(e){}
+})();
+</script>
