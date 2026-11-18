@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · Line Diagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@600;800&family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Noto+Sans+Devanagari:wght@500&family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --enamel:#F3F4F1; --enamel-2:#E7E9E4; --plate:#0E1B2C; --plate-2:#1A2B40;
+  --ink:#0E1B2C; --ink-2:#3C4A5B; --rule:#C9CEC8;
+  --l1:#1E5AA8; --l2:#0B8457; --l3:#D9A21B; --l4:#6A3D9A; --signal:#D52B1E;
+  --on-plate:#F3F4F1; --on-plate-2:#A9B6C6;
+  --display:"Overpass",system-ui,sans-serif; --text:"Atkinson Hyperlegible Next",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{background:var(--enamel)}
+body{background:var(--enamel);color:var(--ink);font:400 17px/1.5 var(--text);min-height:100vh;overflow-x:hidden}
+::selection{background:var(--plate);color:var(--on-plate)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--l3);outline-offset:3px;border-radius:2px}
+.hi{font-family:"Noto Sans Devanagari",var(--text)} .ar{font-family:"Noto Kufi Arabic",var(--text)}
+
+/* sign-plate band */
+.band{background:var(--plate);color:var(--on-plate);height:64px;display:flex;align-items:center;padding:0 40px;gap:40px}
+.mark{display:flex;align-items:center;gap:12px;text-decoration:none;font:800 24px/1 var(--display);letter-spacing:-.01em}
+.mark svg{display:block}
+.band nav{display:flex;gap:28px;margin-left:8px}
+.band nav a{font:600 15px/1 var(--text);color:var(--on-plate-2);text-decoration:none;padding:24px 0}
+.band nav a:hover{color:var(--on-plate)}
+.sp{flex:1}
+.mkt{display:flex;border:1.5px solid #3A4C63;border-radius:4px;overflow:hidden}
+.mkt button{font:700 13px/1 var(--text);letter-spacing:.04em;background:none;color:var(--on-plate-2);border:0;padding:9px 12px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--on-plate);color:var(--plate)}
+.band .go{background:var(--on-plate);color:var(--plate);font:700 15px/1 var(--text);padding:12px 16px;border-radius:4px;text-decoration:none;display:flex;gap:10px;align-items:center}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:64px;padding:64px 40px 0;max-width:1440px;margin:0 auto}
+h1{font:800 clamp(44px,5.4vw,78px)/1.0 var(--display);letter-spacing:-.025em;max-width:13ch;text-wrap:balance}
+.lede{font-size:19px;line-height:1.5;color:var(--ink-2);max-width:56ch;margin-top:24px}
+.acts{display:flex;gap:12px;margin-top:32px;align-items:center}
+.primary{background:var(--plate);color:var(--on-plate);font:700 17px/1 var(--text);padding:18px 22px;border-radius:4px;text-decoration:none;display:inline-flex;gap:14px;align-items:center;transition:background .2s}
+.primary:hover{background:var(--plate-2)}
+.secondary{font:700 17px/1 var(--text);padding:16px 20px;border:2px solid var(--plate);border-radius:4px;text-decoration:none}
+.for{font-size:14px;color:var(--ink-2);margin-left:8px}
+
+/* status board */
+.board{background:var(--plate);color:var(--on-plate);border-radius:6px;padding:20px 22px 10px;align-self:start}
+.board h2{font:800 15px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;color:var(--on-plate);padding-bottom:14px;border-bottom:1px solid #2C3D53}
+.board h2 span{font:600 15px/1 var(--text);letter-spacing:0;color:var(--on-plate-2);text-transform:none}
+.row{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid #22344A;align-items:center}
+.row:last-child{border-bottom:0}
+.bul{width:34px;height:24px;border-radius:12px;display:grid;place-items:center;font:800 13px/1 var(--display);color:#fff}
+.row b{display:block;font:700 15px/1.25 var(--text)}
+.row small{display:block;font-size:14px;color:var(--on-plate-2);margin-top:2px}
+.row small.leak{color:#FF8A80}
+.row small.wait{color:#F2C45A}
+
+/* diagram */
+.dia{position:relative;max-width:1440px;margin:40px auto 0;padding:0 0 0}
+.dia svg{display:block;width:100%;height:auto}
+.dia text{font-family:var(--text)}
+.dia .st-q,.dia .fig{font-family:var(--display)}
+.row b,.board h2 span{font-family:var(--display);word-spacing:.08em}
+.st-name{font-weight:700;font-size:15px;letter-spacing:.05em;text-transform:uppercase;fill:var(--ink)}
+.st-sub{font-size:14px;fill:var(--ink-2)}
+.st-q{font-family:var(--display);font-weight:800;font-size:34px;fill:var(--ink)}
+.st-q tspan{font-size:16px;font-weight:600;fill:var(--ink-2)}
+.spur-l{font-size:15px;font-weight:600;fill:#A31F15}
+.fig{font-family:var(--display);font-weight:800;font-size:76px;fill:var(--signal);letter-spacing:-.02em}
+.fig-l{font-size:15px;font-weight:700;fill:#A31F15;letter-spacing:.02em}
+.ln-l{font-size:14px;fill:var(--ink-2)}
+.term{font-weight:700;font-size:15px;fill:var(--ink)}
+.station{cursor:pointer}
+.station circle{transition:r .25s cubic-bezier(.16,1,.3,1)}
+.station:hover circle,.station:focus-visible circle{r:17}
+.draw{stroke-dasharray:var(--len);stroke-dashoffset:0}
+@media (prefers-reduced-motion:no-preference){
+  .js .draw{animation:draw 1.1s cubic-bezier(.16,1,.3,1) both}
+  .js .draw.s1{animation-delay:.7s}.js .draw.s2{animation-delay:.95s}
+}
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.tag{position:absolute;left:40px;bottom:-30px;font-size:13px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<header class="band">
+  <a class="mark" href="#" aria-label="Vera AI home">
+    <svg width="44" height="20" viewBox="0 0 44 20" aria-hidden="true"><path d="M2 10H30" stroke="#F3F4F1" stroke-width="5" stroke-linecap="round"/><path d="M22 10l8 8" stroke="#D52B1E" stroke-width="5" stroke-linecap="round"/><circle cx="34" cy="10" r="6.5" fill="#0E1B2C" stroke="#F3F4F1" stroke-width="3.5"/></svg>
+    Vera
+  </a>
+  <nav aria-label="Primary"><a href="#">The leak</a><a href="#">Desks</a><a href="#">How we work</a><a href="#">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">IN</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+  <a class="go" href="#">Free leak check <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <h1 data-k="h1">Every rupee on site, accounted for.</h1>
+    <p class="lede" data-k="lede">Supervisors send WhatsApp voice notes, photos and challans. Vera writes the site record, matches every register against the next, and shows you where material walks off.</p>
+    <div class="acts">
+      <a class="primary" href="#">Start the free leak check <svg width="18" height="14" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a>
+      <a class="secondary" href="#">WhatsApp Vera</a>
+      <span class="for" data-k="for">For contractors doing ₹50–500 Cr a year</span>
+    </div>
+  </div>
+  <aside class="board" aria-label="Sample 8 AM line status">
+    <h2>Line status <span>08:00 · sample</span></h2>
+    <div class="row"><span class="bul" style="background:var(--l1)">01</span><div><b data-k="s1">Site 01 · Nagpur</b><small>Good service · all registers matched</small></div></div>
+    <div class="row"><span class="bul" style="background:var(--l2)">03</span><div><b data-k="s3">Site 03 · Indore</b><small class="leak">Leak · 59 bags cement unaccounted</small></div></div>
+    <div class="row"><span class="bul" style="background:var(--l3);color:var(--plate)">02</span><div><b data-k="s2">Site 02 · Wakad</b><small class="wait">Drawing C7 pending · day 3</small></div></div>
+    <div class="row"><span class="bul" style="background:var(--l4)">04</span><div><b data-k="s4">Site 04 · Surat</b><small>Good service · RA bill 07 ready</small></div></div>
+  </aside>
+</section>
+
+<section class="dia" aria-label="How a leak hides: cement on Site 03, sample data">
+<svg viewBox="0 0 1440 360" role="img" aria-labelledby="dt">
+  <title id="dt">Cement, Site 03: 500 bags ordered, 500 delivered, 482 issued from store, 441 used in measured work. 59 bags unaccounted.</title>
+  <!-- line label -->
+  <rect x="40" y="206" width="40" height="26" rx="13" fill="#0B8457"/>
+  <text x="60" y="224" text-anchor="middle" style="font:800 14px Overpass;fill:#fff">03</text>
+  <text class="ln-l" x="92" y="224" data-k="line">Cement OPC 53 · Site 03, Indore · September</text>
+
+  <!-- main line -->
+  <path class="draw" style="--len:1150" d="M40 160H1190" stroke="#0B8457" stroke-width="10" stroke-linecap="round"/>
+  <!-- spurs -->
+  <path class="draw s1" style="--len:560" d="M560 160L660 260H1000" fill="none" stroke="#D52B1E" stroke-width="8" stroke-linejoin="round"/>
+  <path class="draw s2" style="--len:150" d="M830 160L930 260" fill="none" stroke="#D52B1E" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="930" cy="260" r="6" fill="#F3F4F1" stroke="#D52B1E" stroke-width="3"/>
+  <path d="M1000 242v36" stroke="#D52B1E" stroke-width="8" stroke-linecap="round"/>
+  <text class="spur-l" x="676" y="296" data-k="sp1">18 bags never reached the store</text>
+  <text class="spur-l" x="906" y="208" data-k="sp2">41 bags issued, not in the work</text>
+  <!-- unaccounted figure -->
+  <text class="fig" x="1028" y="286" data-k="fig">₹23,010</text>
+  <text class="fig-l" x="1032" y="318" data-k="figl">UNACCOUNTED · 59 BAGS</text>
+
+  <!-- terminus -->
+  <path d="M1190 140v40" stroke="#0E1B2C" stroke-width="8" stroke-linecap="round"/>
+  <a href="#"><text class="term" x="1212" y="150">Your sites, matched</text><text x="1212" y="174" style="font:700 15px 'Atkinson Hyperlegible Next';fill:#1E5AA8;text-decoration:underline">Free leak check →</text></a>
+
+  <!-- stations -->
+  <g class="station" tabindex="0"><circle cx="150" cy="160" r="14" fill="#F3F4F1" stroke="#0E1B2C" stroke-width="5"/>
+    <text class="st-name" x="150" y="52" text-anchor="middle" data-k="n1">Purchase order</text>
+    <text class="st-sub hi" x="150" y="76" text-anchor="middle" data-k="b1">खरीद आदेश · PO-2291</text>
+    <text class="st-q" x="150" y="122" text-anchor="middle">500 <tspan>bags</tspan></text></g>
+  <g class="station" tabindex="0"><circle cx="420" cy="160" r="14" fill="#F3F4F1" stroke="#0E1B2C" stroke-width="5"/>
+    <text class="st-name" x="420" y="52" text-anchor="middle" data-k="n2">Delivery challan</text>
+    <text class="st-sub hi" x="420" y="76" text-anchor="middle" data-k="b2">डिलीवरी चालान · 3 trucks</text>
+    <text class="st-q" x="420" y="122" text-anchor="middle">500 <tspan>bags</tspan></text></g>
+  <g class="station" tabindex="0"><circle cx="690" cy="160" r="14" fill="#F3F4F1" stroke="#0E1B2C" stroke-width="5"/>
+    <text class="st-name" x="690" y="52" text-anchor="middle" data-k="n3">Issued from store</text>
+    <text class="st-sub hi" x="690" y="76" text-anchor="middle" data-k="b3">स्टोर से जारी · stock register</text>
+    <text class="st-q" x="690" y="122" text-anchor="middle">482 <tspan>bags</tspan></text></g>
+  <g class="station" tabindex="0"><circle cx="960" cy="160" r="14" fill="#F3F4F1" stroke="#0E1B2C" stroke-width="5"/>
+    <text class="st-name" x="960" y="52" text-anchor="middle" data-k="n4">Used per BOQ</text>
+    <text class="st-sub hi" x="960" y="76" text-anchor="middle" data-k="b4">काम में लगा · measured work</text>
+    <text class="st-q" x="960" y="122" text-anchor="middle">441 <tspan>bags</tspan></text></g>
+</svg>
+<p class="tag">Sample data. One item, one site, one month. Every register looks fine on its own; the leak only shows when you match them.</p>
+</section>
+</main>
+<script>
+document.documentElement.classList.add('js');
+const M={in:{h1:"Every rupee on site, accounted for.",lede:"Supervisors send WhatsApp voice notes, photos and challans. Vera writes the site record, matches every register against the next, and shows you where material walks off.",for:"For contractors doing ₹50–500 Cr a year",s1:"Site 01 · Nagpur",s2:"Site 02 · Wakad",s3:"Site 03 · Indore",s4:"Site 04 · Surat",line:"Cement OPC 53 · Site 03, Indore · September",n1:"Purchase order",n2:"Delivery challan",n3:"Issued from store",n4:"Used per BOQ",b1:"खरीद आदेश · PO-2291",b2:"डिलीवरी चालान · 3 trucks",b3:"स्टोर से जारी · stock register",b4:"काम में लगा · measured work",fig:"₹23,010",figl:"UNACCOUNTED · 59 BAGS",sp1:"18 bags never reached the store",sp2:"41 bags issued, not in the work",cls:"hi"},
+ae:{h1:"Every dirham on site, accounted for.",lede:"Foremen send WhatsApp voice notes, photos and delivery notes in their own language. Vera writes the site record, matches every register against the next, and shows you where material walks off.",for:"For UAE contractors with multiple live sites",s1:"Site 01 · JVC",s2:"Site 02 · Business Bay",s3:"Site 03 · Al Quoz",s4:"Site 04 · Dubai South",line:"Cement OPC · Site 03, Al Quoz · September",n1:"Purchase order",n2:"Delivery note",n3:"Issued from store",n4:"Used per BOQ",b1:"أمر الشراء\u200E · LPO-2291",b2:"إشعار التسليم\u200E · 3 trucks",b3:"صرف من المخزن\u200E · store voucher",b4:"المستخدم في الأعمال\u200E · measured",fig:"AED 1,062",figl:"UNACCOUNTED · 59 BAGS",sp1:"18 bags never reached the store",sp2:"41 bags issued, not in the work",cls:"ar"}};
+function set(m){const d=M[m];document.querySelectorAll('[data-k]').forEach(e=>{const k=e.dataset.k;if(d[k]!=null)e.textContent=d[k];if(/^b\d/.test(k)){e.classList.remove('hi','ar');e.classList.add(d.cls)}});
+document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+document.querySelector('.fig').style.fontSize=m==='ae'?'64px':'';}
+document.querySelectorAll('.mkt button').forEach(b=>b.addEventListener('click',()=>set(b.dataset.m)));
+</script>
+</body>
+</html>

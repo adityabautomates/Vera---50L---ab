@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · General Arrangement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--sheet:#F6F7F5;--ink:#14181D;--ink-2:#5B6672;--grid:#D5DAD8;--rev:#C8102E;--sans:"Schibsted Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{background:#E4E7E5}
+body{color:var(--ink);font:400 17px/1.5 var(--sans);padding:14px;min-height:100vh}
+::selection{background:var(--ink);color:var(--sheet)}
+:focus-visible{outline:2px solid var(--rev);outline-offset:3px}
+.sheet{position:relative;background:var(--sheet);border:2px solid var(--ink);min-height:calc(100vh - 28px);padding:44px 56px 0;overflow:hidden}
+.sheet::before{content:"";position:absolute;inset:28px;border:1px solid var(--ink);pointer-events:none}
+.gridlines{position:absolute;inset:28px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:calc(100%/8) calc(100%/5);opacity:.7;pointer-events:none}
+.bub{position:absolute;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font:600 11px/20px var(--mono);text-align:center;background:var(--sheet)}
+header{position:relative;display:flex;align-items:center;gap:32px;padding:4px 6px 0;height:56px}
+.logo{font:800 24px/1 var(--sans);letter-spacing:-.02em;text-decoration:none;color:inherit}
+.logo span{font:400 12px/1 var(--mono);color:var(--ink-2);margin-left:8px;letter-spacing:.02em}
+nav{display:flex;gap:26px}nav a{font:500 15px/1 var(--sans);color:var(--ink);text-decoration:none}
+.sp{flex:1}
+header .go{font:700 15px/1 var(--sans);background:var(--ink);color:var(--sheet);padding:12px 16px;text-decoration:none}
+.body{position:relative;display:grid;grid-template-columns:1fr;padding:40px 6px 0}
+h1{font:800 clamp(46px,5.6vw,84px)/.98 var(--sans);letter-spacing:-.035em;max-width:15ch;text-wrap:balance}
+.lede{max-width:52ch;margin-top:22px;font-size:19px;color:#2F3740}
+.draw{position:relative;margin-top:44px;max-width:1000px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--mono)}
+.dim{font-size:14px;fill:var(--ink)}
+.lab{font:700 13px var(--sans);letter-spacing:.06em;fill:var(--ink)}
+.labs{font-size:12px;fill:var(--ink-2)}
+.revt{font:700 15px var(--sans);fill:var(--rev)}
+.big{font:800 64px 'Schibsted Grotesk';fill:var(--rev);letter-spacing:-.02em}
+.tb{position:absolute;right:28px;bottom:28px;width:400px;border-top:1.5px solid var(--ink);border-left:1.5px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;background:var(--sheet)}
+.tb div{border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px}
+.tb small{display:block;font:400 11px/1.3 var(--mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em}
+.tb b{font:700 15px/1.3 var(--sans)}
+.tb .wide{grid-column:1/3}
+.tb a{grid-column:1/3;background:var(--ink);color:var(--sheet);text-decoration:none;padding:16px 14px;display:flex;justify-content:space-between;font:700 18px/1 var(--sans)}
+.note{position:absolute;left:56px;bottom:40px;font:400 12px/1.5 var(--mono);color:var(--ink-2);max-width:60ch}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="gridlines"></div>
+  <span class="bub" style="left:17px;top:calc(28px + 10%)">1</span><span class="bub" style="left:17px;top:calc(28px + 30%)">2</span><span class="bub" style="left:17px;top:calc(28px + 50%)">3</span><span class="bub" style="left:17px;top:calc(28px + 70%)">4</span>
+  <span class="bub" style="top:17px;left:calc(28px + 6.25%)">A</span><span class="bub" style="top:17px;left:calc(28px + 18.75%)">B</span><span class="bub" style="top:17px;left:calc(28px + 31.25%)">C</span><span class="bub" style="top:17px;left:calc(28px + 43.75%)">D</span><span class="bub" style="top:17px;left:calc(28px + 56.25%)">E</span><span class="bub" style="top:17px;left:calc(28px + 68.75%)">F</span><span class="bub" style="top:17px;left:calc(28px + 81.25%)">G</span><span class="bub" style="top:17px;left:calc(28px + 93.75%)">H</span>
+  <header>
+    <a class="logo" href="#">Vera<span>GA-001</span></a>
+    <nav><a href="#">The leak</a><a href="#">Desks</a><a href="#">How we work</a><a href="#">Team</a></nav>
+    <span class="sp"></span>
+    <a class="go" href="#">Free leak check →</a>
+  </header>
+  <div class="body">
+    <h1>Every rupee on site, accounted for.</h1>
+    <p class="lede">Supervisors send WhatsApp voice notes. Vera writes the site record, dimensions every register against the next, and marks the gap that does not close.</p>
+    <div class="draw">
+      <svg viewBox="0 0 1000 250" role="img" aria-label="Cement, Site 03: ordered 500, delivered 500, issued 482, used 441; 59 bags unaccounted (sample).">
+        <!-- bars as elevations -->
+        <g fill="none" stroke="#14181D" stroke-width="1.5">
+          <rect x="0" y="20" width="700" height="22"/>
+          <rect x="0" y="62" width="700" height="22"/>
+          <rect x="0" y="104" width="675" height="22"/>
+          <rect x="0" y="146" width="617" height="22"/>
+        </g>
+        <g fill="#14181D" opacity=".08"><rect x="0" y="20" width="700" height="22"/><rect x="0" y="62" width="700" height="22"/><rect x="0" y="104" width="675" height="22"/><rect x="0" y="146" width="617" height="22"/></g>
+        <text class="lab" x="8" y="36">PURCHASE ORDER · PO-2291</text>
+        <text class="lab" x="8" y="78">DELIVERY CHALLAN · 3 TRUCKS</text>
+        <text class="lab" x="8" y="120">ISSUED FROM STORE</text>
+        <text class="lab" x="8" y="162">USED PER BOQ</text>
+        <text class="dim" x="690" y="36" text-anchor="end">500</text><text class="dim" x="690" y="78" text-anchor="end">500</text><text class="dim" x="665" y="120" text-anchor="end">482</text><text class="dim" x="607" y="162" text-anchor="end">441</text>
+        <!-- extension + dimension line -->
+        <g stroke="#14181D" stroke-width="1"><path d="M617 168v52M700 42v178"/><path d="M617 206H700"/><path d="M611 212l12-12M694 212l12-12"/></g>
+        <text class="dim" x="658" y="200" text-anchor="middle">59</text>
+        <!-- revision cloud -->
+        <path d="M612 98 q8-10 16 0 q8-10 16 0 q8-10 16 0 q8-10 16 0 q8-10 16 0 q10 6 0 16 q10 8 0 16 q10 8 0 16 q10 8 0 16 q-8 10-16 0 q-8 10-16 0 q-8 10-16 0 q-8 10-16 0 q-8 10-16 0 q-10-8 0-16 q-10-8 0-16 q-10-8 0-16 q-10-8 0-16z" fill="none" stroke="#C8102E" stroke-width="2"/>
+        <path d="M724 82l12 -20 12 20z" fill="none" stroke="#C8102E" stroke-width="2"/><text x="736" y="78" text-anchor="middle" style="font:700 11px 'JetBrains Mono';fill:#C8102E">1</text>
+        <text class="big" x="740" y="146">₹23,010</text>
+        <text class="revt" x="742" y="174">59 bags do not close</text>
+        <text class="labs" x="742" y="194">18 not in store · 41 not in work</text>
+      </svg>
+    </div>
+  </div>
+  <p class="note">Sample data. Cement OPC 53, Site 03, Indore, September. All dimensions in bags.</p>
+  <div class="tb" role="group" aria-label="Title block">
+    <div><small>Client</small><b>₹50–500 Cr contractors</b></div>
+    <div><small>Sheet</small><b>GA-001 · Rev 1</b></div>
+    <div class="wide"><small>Drawn from</small><b>POs · challans · stock register · BOQ</b></div>
+    <a href="#">Issued for: free leak check <span>→</span></a>
+  </div>
+</div>
+</body>
+</html>

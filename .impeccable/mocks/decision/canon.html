@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · Category standard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--ink:#0F172A;--ink-2:#475569;--line:#E2E8F0;--acc:#2459E0;--acc-2:#1B46B8;--soft:#F4F7FD;--red:#C62828;--f:"Host Grotesk",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--f);font-variant-numeric:tabular-nums;min-height:100vh}
+::selection{background:var(--acc);color:#fff}
+:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:6px}
+header{display:flex;align-items:center;gap:36px;height:72px;padding:0 56px;border-bottom:1px solid var(--line)}
+.logo{font:800 22px/1 var(--f);letter-spacing:-.02em;color:inherit;text-decoration:none}
+nav{display:flex;gap:28px}nav a{color:var(--ink-2);text-decoration:none;font-weight:500;font-size:15px}
+.sp{flex:1}
+.btn{background:var(--acc);color:#fff;font:700 15px/1 var(--f);padding:13px 18px;border-radius:8px;text-decoration:none;box-shadow:0 1px 2px rgba(15,23,42,.12)}
+.btn:hover{background:var(--acc-2)}
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;padding:80px 56px 48px;align-items:center;max-width:1440px;margin:0 auto}
+h1{font:800 clamp(44px,4.8vw,68px)/1.04 var(--f);letter-spacing:-.03em;text-wrap:balance}
+.lede{color:var(--ink-2);font-size:19px;margin-top:22px;max-width:50ch}
+.acts{display:flex;gap:12px;margin-top:32px}
+.btn.lg{font-size:17px;padding:17px 22px}
+.ghost{font:700 17px/1 var(--f);padding:16px 20px;border:1.5px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none}
+.shot{background:var(--soft);border-radius:16px;padding:28px}
+.card{background:#fff;border-radius:12px;box-shadow:0 12px 32px -8px rgba(15,23,42,.18),0 2px 6px rgba(15,23,42,.06);padding:24px 26px}
+.card h3{font:700 15px/1.3 var(--f);color:var(--ink-2)}
+.card .tot{font:800 48px/1.1 var(--f);letter-spacing:-.02em;margin:6px 0 2px}
+.card .tot+p{font-size:14px;color:var(--ink-2)}
+.rows{margin-top:18px;border-top:1px solid var(--line)}
+.rows div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+.rows b{font-weight:700}
+.trust{display:flex;gap:40px;padding:8px 56px 0;color:var(--ink-2);font-size:15px;font-weight:500;max-width:1440px;margin:0 auto}
+.trust span{display:flex;gap:10px;align-items:center}
+.trust svg{flex:none}
+.tag{font-size:12px;color:var(--ink-2);margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">Vera AI</a>
+  <nav><a href="#">Product</a><a href="#">How it works</a><a href="#">Team</a></nav>
+  <span class="sp"></span>
+  <a class="btn" href="#">Get a free leak check</a>
+</header>
+<section class="hero">
+  <div>
+    <h1>Find the material leaking from your sites.</h1>
+    <p class="lede">Vera reads the WhatsApp voice notes, photos and challans your supervisors already send, matches them to POs and the BOQ, and shows the loss in rupees.</p>
+    <div class="acts"><a class="btn lg" href="#">Get a free leak check</a><a class="ghost" href="#">Watch the demo</a></div>
+  </div>
+  <div class="shot">
+    <div class="card">
+      <h3>Money leaking · Jul–Sep (sample)</h3>
+      <p class="tot">₹1.18 Cr</p><p>across 4 sites · cement, steel, RMC, shuttering</p>
+      <div class="rows"><div><span>Site 01 · Nagpur</span><b>₹41.2 L</b></div><div><span>Site 03 · Indore</span><b>₹38.9 L</b></div><div><span>Site 04 · Surat</span><b>₹19.3 L</b></div><div><span>Site 02 · Wakad</span><b>₹18.6 L</b></div></div>
+    </div>
+    <p class="tag">Sample report. Figures illustrative.</p>
+  </div>
+</section>
+<div class="trust">
+  <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2459E0" stroke-width="2.2"><path d="M5 12l5 5 9-10"/></svg>No new app</span>
+  <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2459E0" stroke-width="2.2"><path d="M5 12l5 5 9-10"/></svg>Works with Tally</span>
+  <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2459E0" stroke-width="2.2"><path d="M5 12l5 5 9-10"/></svg>Wastage flagged from day one</span>
+</div>
+</body>
+</html>
