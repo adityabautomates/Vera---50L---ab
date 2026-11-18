@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · Exploded Axonometric</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--sheet:#F6F7F5;--ink:#14181D;--ink-2:#55606B;--grid:#D9DDDB;--rev:#C8102E;--rev-ink:#A10D25;--sans:"Schibsted Grotesk",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{background:#E3E6E4}
+body{color:var(--ink);font:400 17px/1.5 var(--sans);padding:14px}
+::selection{background:var(--ink);color:var(--sheet)}
+:focus-visible{outline:2px solid var(--rev);outline-offset:3px}
+.sheet{position:relative;background:var(--sheet);border:2px solid var(--ink);height:calc(100vh - 28px);min-height:760px;overflow:hidden}
+.frame{position:absolute;inset:28px;border:1px solid var(--ink);pointer-events:none;z-index:1}
+.bub{position:absolute;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font:600 11px/20px var(--mono);text-align:center;background:var(--sheet);z-index:1}
+header{position:absolute;left:56px;right:56px;top:40px;display:flex;align-items:center;gap:30px;z-index:3}
+.logo{font:800 24px/1 var(--sans);letter-spacing:-.02em;text-decoration:none;color:inherit}
+.logo span{font:400 12px/1 var(--mono);color:var(--ink-2);margin-left:8px}
+nav{display:flex;gap:24px}nav a{font:500 15px/1 var(--sans);color:var(--ink);text-decoration:none}
+.sp{flex:1}
+.go{font:700 15px/1 var(--sans);background:var(--ink);color:var(--sheet);padding:12px 16px;text-decoration:none}
+.copy{position:absolute;left:56px;top:118px;width:470px;z-index:3}
+h1{font:800 clamp(42px,4.4vw,66px)/.98 var(--sans);letter-spacing:-.035em;text-wrap:balance}
+.lede{margin-top:20px;font-size:18px;color:#2F3740;max-width:42ch}
+.tabs{display:flex;margin-top:26px;border:1px solid var(--ink);width:max-content}
+.tabs button{font:600 12px/1 var(--mono);background:none;border:0;border-right:1px solid var(--ink);padding:10px 12px;cursor:pointer;color:var(--ink)}
+.tabs button:last-child{border-right:0}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--sheet)}
+.scale{margin-top:22px;width:300px}
+.scale label{display:flex;justify-content:space-between;font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}
+.scale input{width:100%;margin-top:10px;accent-color:var(--ink)}
+.stage{position:absolute;inset:28px;cursor:grab;outline:none;touch-action:pan-y}
+.stage.drag{cursor:grabbing}
+.stage canvas{width:100%;height:100%;display:block}
+.ov{position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap;will-change:transform;transition:opacity .3s}
+.sl{font:700 12px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:rgba(246,247,245,.92);padding:2px 4px}
+.sl em{font:600 12px var(--mono);font-style:normal;letter-spacing:0;color:var(--ink-2);margin-left:8px}
+.gl{font:600 12px/1.3 var(--mono);color:var(--rev-ink);background:rgba(246,247,245,.92);padding:2px 4px}
+.gl::before{content:"";display:inline-block;width:9px;height:9px;border:1.5px dashed var(--rev);margin-right:6px;vertical-align:-1px}
+.fig{position:absolute;right:500px;bottom:56px;z-index:3;pointer-events:none;text-align:right}
+.fig b{display:block;font:800 clamp(52px,5.4vw,84px)/.95 var(--sans);color:var(--rev);letter-spacing:-.03em}
+.fig span{display:block;font:600 12px/1.4 var(--mono);color:var(--rev-ink);margin-top:6px}
+.tb{position:absolute;right:28px;bottom:28px;width:440px;border-top:1.5px solid var(--ink);border-left:1.5px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;background:var(--sheet);z-index:3}
+.tb div{border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px}
+.tb small{display:block;font:400 11px/1.3 var(--mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em}
+.tb b{font:700 15px/1.3 var(--sans);font-variant-numeric:tabular-nums}
+.tb .wide{grid-column:1/3}
+.tb a{grid-column:1/3;background:var(--ink);color:var(--sheet);text-decoration:none;padding:16px 14px;display:flex;justify-content:space-between;font:700 18px/1 var(--sans)}
+.tb a:hover{background:#2A3038}
+.note{position:absolute;left:56px;bottom:44px;font:400 12px/1.5 var(--mono);color:var(--ink-2);z-index:3;max-width:46ch}
+.hint{position:absolute;left:56px;bottom:84px;font:600 12px/1 var(--mono);color:var(--ink-2);z-index:3}
+@media (max-width:980px){
+  body{padding:8px}.sheet{height:auto;min-height:0;padding-bottom:20px;display:flex;flex-direction:column}
+  .copy{order:1}.stage{order:2}.hint{order:3}.fig{order:4}.note{order:5}.tb{order:6}
+  .logo span{display:none}.tabs{width:auto;flex-wrap:wrap}.tabs button{flex:1 1 auto}.ov{display:none}.bub[style*="left:17px"]{display:none}
+  header{position:relative;left:auto;right:auto;top:auto;padding:36px 36px 0}nav{display:none}
+  .copy{position:relative;left:auto;top:auto;width:auto;padding:20px 36px 0}
+  .stage{position:relative;inset:auto;height:48vh;min-height:340px;margin:0 28px}
+  .fig{position:relative;right:auto;bottom:auto;text-align:left;padding:0 36px}
+  .tb{position:relative;right:auto;bottom:auto;width:auto;margin:16px 36px 0}
+  .note,.hint{position:relative;left:auto;bottom:auto;padding:12px 36px 0}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="frame"></div>
+  <span class="bub" style="left:17px;top:22%">1</span><span class="bub" style="left:17px;top:44%">2</span><span class="bub" style="left:17px;top:66%">3</span>
+  <span class="bub" style="top:17px;left:12%">A</span><span class="bub" style="top:17px;left:30%">B</span><span class="bub" style="top:17px;left:48%">C</span><span class="bub" style="top:17px;left:66%">D</span><span class="bub" style="top:17px;left:84%">E</span>
+  <header>
+    <a class="logo" href="#">Vera<span id="sheetno">GA-001</span></a>
+    <nav><a href="#">The leak</a><a href="#">Desks</a><a href="#">How we work</a><a href="#">Team</a></nav>
+    <span class="sp"></span>
+    <a class="go" href="#">Free leak check →</a>
+  </header>
+
+  <section class="stage" id="stage" tabindex="0" aria-label="Interactive sample: one material drawn as four register slabs of ten-bag blocks; missing blocks outlined in red. Drag or arrow keys to turn.">
+    <canvas id="c"></canvas><div id="ovs"></div>
+  </section>
+
+  <div class="copy">
+    <h1>Every rupee on site, accounted for.</h1>
+    <p class="lede">Vera draws each material the way your engineers draw a building: every register a floor, every ten bags a block. Pull the floors apart and the blocks that never arrived are drawn in red.</p>
+    <div class="tabs" role="group" aria-label="Material sheet" id="tabs"></div>
+    <div class="scale"><label for="ex"><span>Explode</span><span id="exv">1 : 2.4</span></label><input id="ex" type="range" min="0" max="100" value="70"></div>
+  </div>
+
+  <p class="hint">Drag to turn · 1 block = <span id="unit">10 bags</span></p>
+  <div class="fig"><b id="fig">₹23,010</b><span id="figl">59 bags do not close · Rev 1</span></div>
+  <p class="note">Sample data. Site 03, Indore, September.</p>
+  <div class="tb" role="group" aria-label="Title block">
+    <div><small>Client</small><b>₹50–500 Cr contractors</b></div>
+    <div><small>Sheet</small><b id="tbs">GA-001 · Rev 1</b></div>
+    <div class="wide"><small>Drawn from</small><b>POs · challans · stock register · BOQ</b></div>
+    <a href="#">Issued for: free leak check <span>→</span></a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MATS=[
+ {id:"GA-001",name:"Cement",unit:"bags",per:10,q:[500,500,482,441],price:390},
+ {id:"GA-002",name:"Fe500 steel",unit:"MT",per:1,q:[42,42,40,37],price:61000},
+ {id:"GA-003",name:"RMC M25",unit:"m³",per:10,q:[300,300,300,280],price:5600}
+];
+const NAMES=["Purchase order","Delivery challan","Issued from store","Used per BOQ"];
+const WHY=["never reached the site","never reached the store","issued, not in the work"];
+let mi=0, ex=.7;
+const $=id=>document.getElementById(id);
+$('tabs').innerHTML=MATS.map((m,i)=>`<button aria-pressed="${i===0}">${m.id} ${m.name}</button>`).join('');
+[...$('tabs').children].forEach((b,i)=>b.onclick=()=>{mi=i;[...$('tabs').children].forEach((x,j)=>x.setAttribute('aria-pressed',i===j));build();});
+const stage=$('stage'),cv=$('c'),ovs=$('ovs');
+let R=null; try{ if(window.THREE) R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){}
+function copy(){ const m=MATS[mi], d=m.q[0]-m.q[3];
+  $('fig').textContent='₹'+(d*m.price).toLocaleString('en-IN');
+  $('figl').textContent=`${d} ${m.unit} do not close · Rev 1`; $('sheetno').textContent=m.id; $('tbs').textContent=m.id+' · Rev 1';
+  $('unit').textContent=`${m.per} ${m.unit}`; }
+if(!R){ copy(); return; }
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene(), cam=new THREE.OrthographicCamera(-1,1,1,-1,-100,100), world=new THREE.Group(); scene.add(world);
+const INK=new THREE.Color('#14181D'), SHEET=new THREE.Color('#F6F7F5'), REV=new THREE.Color('#C8102E');
+const BOX=new THREE.BoxGeometry(.86,.42,.86), EDGE=new THREE.EdgesGeometry(BOX);
+const fillM=new THREE.MeshBasicMaterial({color:SHEET,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
+const shadeM=new THREE.MeshBasicMaterial({color:new THREE.Color('#E4E7E5'),polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
+const edgeM=new THREE.LineBasicMaterial({color:INK});
+const ghostM=new THREE.LineDashedMaterial({color:REV,dashSize:.07,gapSize:.05});
+const COLS=10, ROWS=5;
+let slabs=[], ovEls=[];
+function ov(cls){const d=document.createElement('div');d.className='ov '+cls;d.setAttribute('aria-hidden','true');ovs.appendChild(d);return d}
+function build(){
+  while(world.children.length) world.remove(world.children[0]);
+  ovs.innerHTML=''; slabs=[]; ovEls=[];
+  const m=MATS[mi], full=Math.round(m.q[0]/m.per), scale=50/full;
+  m.q.forEach((q,li)=>{
+    const g=new THREE.Group(); world.add(g);
+    const present=Math.round(q/m.per*scale), prev=li?Math.round(m.q[li-1]/m.per*scale):present;
+    for(let k=0;k<50;k++){
+      const c=k%COLS, r=Math.floor(k/COLS), x=(c-(COLS-1)/2)*1, z=(r-(ROWS-1)/2)*1;
+      if(k<present){
+        const b=new THREE.Mesh(BOX,(r+c)%2?fillM:shadeM); b.position.set(x,0,z); g.add(b);
+        const e=new THREE.LineSegments(EDGE,edgeM); e.position.set(x,0,z); g.add(e);
+      }else{
+        const e=new THREE.LineSegments(EDGE,ghostM); e.computeLineDistances(); e.position.set(x,0,z); g.add(e);
+      }
+    }
+    // slab outline
+    const o=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(COLS+.3,.02,ROWS+.3)),new THREE.LineBasicMaterial({color:INK,transparent:true,opacity:.35}));
+    o.position.y=-.24; g.add(o);
+    const lab=ov('sl'); lab.innerHTML=`${NAMES[li]}<em>${q.toLocaleString('en-IN')} ${m.unit}</em>`;
+    const drop=li?m.q[li-1]-q:0, gl=drop?ov('gl'):null; if(gl) gl.textContent=`${drop} ${m.unit} ${WHY[li-1]}`;
+    slabs.push({g,present,lab,gl});
+  });
+  copy();
+}
+build();
+
+let yaw=-.5,pitch=.38,tYaw=yaw,tPitch=pitch,W=1,H=1,zoom=1;
+function size(){ const r=stage.getBoundingClientRect(); W=r.width;H=r.height; R.setSize(W,H,false);
+  const fr=W<700?19:16, a=W/H; cam.left=-fr*a/2; cam.right=fr*a/2; cam.top=fr/2; cam.bottom=-fr/2; cam.updateProjectionMatrix(); }
+addEventListener('resize',size); size();
+let drag=null;
+stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};stage.classList.add('drag');stage.setPointerCapture(e.pointerId)});
+stage.addEventListener('pointermove',e=>{if(!drag)return;tYaw-=(e.clientX-drag.x)*.006;tPitch=Math.min(1.1,Math.max(.12,tPitch+(e.clientY-drag.y)*.004));drag.x=e.clientX;drag.y=e.clientY});
+stage.addEventListener('pointerup',()=>{drag=null;stage.classList.remove('drag')});
+stage.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')tYaw+=.15;if(e.key==='ArrowRight')tYaw-=.15;if(e.key==='ArrowUp')tPitch=Math.min(1.2,tPitch+.06);if(e.key==='ArrowDown')tPitch=Math.max(.15,tPitch-.06)});
+$('ex').addEventListener('input',e=>{ex=e.target.value/100;$('exv').textContent=`1 : ${(1+ex*2).toFixed(1)}`});
+const t0=performance.now(), ease=t=>1-Math.pow(1-Math.min(Math.max(t,0),1),4), v=new THREE.Vector3();
+function place(el,p,dx,dy,hide){ if(!el)return; v.copy(p).project(cam); el.style.transform=`translate(${(v.x+1)/2*W+dx}px,${(1-v.y)/2*H+dy}px)`; el.style.opacity=hide?0:1; }
+function frame(now){
+  const t=(now-t0)/1000, intro=RM?1:ease((t-.2)/1.6);
+  yaw+=(tYaw-yaw)*.12; pitch+=(tPitch-pitch)*.12;
+  cam.position.set(Math.sin(yaw)*Math.cos(pitch)*40,Math.sin(pitch)*40,Math.cos(yaw)*Math.cos(pitch)*40); cam.lookAt(0,0,0);
+  const gap=(.7+ex*2.1)*intro+.5*(1-intro);
+  world.position.set(W<700?0:2.4,W<700?0:.5,0);
+  slabs.forEach((s,i)=>{ s.g.position.y=(1.5-i)*gap+ .2; });
+  world.updateMatrixWorld(); R.render(scene,cam);
+  slabs.forEach((s,i)=>{
+    place(s.lab,v.set(5.15,0,2.65).applyMatrix4(s.g.matrixWorld).clone(),14,-14,!RM&&t<1);
+    place(s.gl,v.set(5.15,0,2.65).applyMatrix4(s.g.matrixWorld).clone(),14,8,!RM&&t<1.6);
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

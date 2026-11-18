@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · Safelight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Noto+Sans+Devanagari:wght@500;700&family=Noto+Kufi+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--room:#1E0804;--room-2:#3B1007;--amber:#FF8A1E;--amber-hi:#FFB347;--lit:#FFE6C7;--lit-2:#FFD6B0;--paper:#F7C78E;--ink:#2A1209;--f:"Archivo",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{background:var(--room)}
+body{min-height:100vh;color:var(--lit);font:400 17px/1.55 var(--f);font-variation-settings:"wdth" 100;
+  background:radial-gradient(70% 85% at 72% -8%,rgba(255,138,30,.40),rgba(255,138,30,.12) 45%,transparent 70%),radial-gradient(60% 60% at 10% 110%,rgba(200,60,10,.35),transparent 70%),linear-gradient(var(--room-2),var(--room));overflow-x:hidden}
+::selection{background:var(--amber);color:var(--room)}
+:focus-visible{outline:2px solid var(--amber-hi);outline-offset:3px}
+header{display:flex;align-items:center;gap:34px;padding:22px 48px}
+.logo{display:flex;align-items:center;gap:10px;font:800 24px/1 var(--f);font-variation-settings:"wdth" 112;color:var(--lit);text-decoration:none}
+.logo i{width:14px;height:14px;border-radius:50%;background:var(--amber)}
+nav{display:flex;gap:26px}
+nav a{color:var(--lit-2);text-decoration:none;font:600 14px/1 var(--f);font-variation-settings:"wdth" 88;letter-spacing:.06em;text-transform:uppercase}
+nav a b{color:var(--amber-hi);margin-right:6px;font-weight:800}
+nav a:hover{color:var(--lit)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid rgba(255,179,71,.45);border-radius:999px;padding:3px}
+.mkt button{font:700 13px/1 var(--f);background:none;border:0;color:var(--lit-2);padding:8px 13px;border-radius:999px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--amber);color:var(--room)}
+main{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:56px;padding:34px 48px 40px;align-items:start;max-width:1500px;margin:0 auto}
+h1{font:900 clamp(52px,6.2vw,104px)/.9 var(--f);font-variation-settings:"wdth" 72;letter-spacing:-.01em;text-transform:uppercase;color:var(--lit);text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber-hi)}
+.lede{margin-top:24px;font-size:19px;color:var(--lit-2);max-width:44ch}
+form{margin-top:30px;display:grid;grid-template-columns:1fr auto;gap:0;max-width:520px;border:1.5px solid var(--amber);border-radius:10px;overflow:hidden;background:rgba(30,8,4,.55)}
+form label{grid-column:1;font:600 13px/1 var(--f);letter-spacing:.04em;color:var(--lit-2);padding:12px 16px 0}
+form input{border:0;background:none;color:var(--lit);font:600 20px/1 var(--f);padding:10px 16px 14px;min-width:0}
+form input::placeholder{color:rgba(255,214,176,.78)}
+form input:focus{outline:none}
+form:focus-within{box-shadow:0 0 0 3px rgba(255,179,71,.35)}
+form button{grid-row:1/3;grid-column:2;background:var(--amber);color:var(--room);border:0;font:800 17px/1.1 var(--f);font-variation-settings:"wdth" 90;padding:0 22px;cursor:pointer;text-align:left}
+form button:hover{background:var(--amber-hi)}
+.fine{margin-top:12px;font-size:14px;color:var(--lit-2)}
+.fine a{color:var(--lit)}
+/* darkroom bench */
+.bench{position:relative}
+.timer{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.timer b{font:800 46px/1 var(--f);font-variation-settings:"wdth" 70;font-variant-numeric:tabular-nums;color:var(--amber-hi)}
+.timer span{font:600 14px/1.3 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--lit-2)}
+.tray{position:relative;border-radius:18px;padding:22px;background:linear-gradient(#F2E6D6,#E5D5C0);box-shadow:inset 0 0 0 2px rgba(255,255,255,.4),0 30px 80px -20px rgba(0,0,0,.7)}
+.tray::after{content:"";position:absolute;inset:0;border-radius:18px;background:rgba(255,128,30,.42);mix-blend-mode:multiply;pointer-events:none}
+.bath{position:relative;border-radius:8px;background:#C9873F;padding:16px;overflow:hidden}
+canvas{display:block;width:100%;aspect-ratio:16/10;border-radius:2px;background:var(--paper);box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);margin-top:18px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,179,71,.4)}
+.strip button{border:0;cursor:pointer;padding:14px 8px 12px;font:700 14px/1.15 var(--f);text-align:left;color:var(--lit);position:relative}
+.strip button small{display:block;font:500 12px/1.3 var(--f);color:var(--lit-2);margin-top:3px}
+.strip button[aria-pressed=true]{box-shadow:inset 0 -4px 0 var(--amber-hi)}
+.strip button:nth-child(1){background:#6B2A12}.strip button:nth-child(2){background:#55200D}.strip button:nth-child(3){background:#431809}.strip button:nth-child(4){background:#311106}.strip button:nth-child(5){background:#1F0A03}
+.read{margin-top:14px;min-height:52px;font:600 17px/1.45 var(--f);color:var(--lit)}
+.read b{color:var(--amber-hi)}
+.hn{font-family:"Noto Sans Devanagari",var(--f)}.ar{font-family:"Noto Kufi Arabic",var(--f)}
+@media (max-width:980px){
+  header{padding:16px 18px;gap:14px}nav{display:none}
+  main{grid-template-columns:1fr;padding:18px 18px 40px;gap:40px}
+  form{grid-template-columns:1fr}form button{grid-row:auto;grid-column:auto;padding:16px}
+  .strip button{padding:12px 6px;font-size:13px}.strip button small{display:none}
+  .timer b{font-size:36px}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#"><i></i>Vera</a>
+  <nav aria-label="Main"><a href="#"><b>01</b>The leak</a><a href="#"><b>02</b>Desks</a><a href="#"><b>03</b>How we work</a><a href="#"><b>04</b>Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section>
+    <h1 id="h1">Your numbers look fine. <em>Let them develop.</em></h1>
+    <p class="lede" id="lede">Every register looks clean on its own. Vera matches your purchase orders, challans, store issues and BOQ, built from the WhatsApp notes your supervisors already send, until the leak comes up on the page in rupees.</p>
+    <form onsubmit="event.preventDefault()">
+      <label for="wa">WhatsApp number for your free leak check</label>
+      <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+      <button type="submit">Start free<br>leak check →</button>
+    </form>
+    <p class="fine" id="fine">One site, three months of records, free. No new app for your supervisors.</p>
+  </section>
+  <section class="bench" aria-label="Sample: a leak report developing as more records are matched">
+    <div class="timer"><span id="tl">In the developer · Site 03, Indore</span><b id="clock" aria-hidden="true">0:00</b></div>
+    <div class="tray"><div class="bath"><canvas id="print" role="img" aria-label="Sample leak report for Site 03, Indore"></canvas></div></div>
+    <div class="strip" role="group" aria-label="How many records to match" id="strip"></div>
+    <p class="read" id="read" aria-live="polite"></p>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const T={
+ in:{cur:"₹",price:390,ph:"+91 98xxx xxxxx",site:"Site 03, Indore",mat:"Cement OPC 53 · September · sample",
+   rows:[["Purchase order","PO-2291","क्रय आदेश",500],["Delivery challan","3 trucks","डिलीवरी चालान",500],["Issued from store","stock register","स्टोर से जारी",482],["Used per BOQ","measured","काम में लगा",441]],
+   sc:"hn",lede:"Every register looks clean on its own. Vera matches your purchase orders, challans, store issues and BOQ, built from the WhatsApp notes your supervisors already send, until the leak comes up on the page in rupees.",
+   fine:"One site, three months of records, free. No new app for your supervisors."},
+ ae:{cur:"AED ",price:18,ph:"+971 5x xxx xxxx",site:"Site 03, Al Quoz",mat:"Cement OPC · September · sample",
+   rows:[["LPO","LPO-2291","أمر الشراء",500],["Delivery note","3 trucks","إشعار التسليم",500],["Store issue","issue voucher","صرف من المخزن",482],["Used per BOQ","measured","المستخدم في الأعمال",441]],
+   sc:"ar",lede:"Every register looks clean on its own. Vera matches your LPOs, delivery notes, store issues and BOQ, built from the WhatsApp notes your foremen already send in their own language, until the leak comes up on the page in dirhams.",
+   fine:"One site, three months of records, free. No new app for your foremen."}
+};
+const STEPS=[["1 week","4 records",.30,"One week matched: every register agrees. This is what your team sees today."],
+ ["2 weeks","11 records",.48,"Two weeks: the store and the BOQ start to drift apart."],
+ ["1 month","26 records",.66,"One month: the store-to-work gap is showing."],
+ ["2 months","52 records",.82,"Two months: both gaps show, line by line."],
+ ["3 months","81 records",1,"Three months matched: <b>59 bags</b> don't close. That is the free leak check."]];
+let mkt="in", step=4, d=0, target=1, raf=0;
+const $=id=>document.getElementById(id), cv=$('print'), ctx=cv.getContext('2d');
+$('strip').innerHTML=STEPS.map((s,i)=>`<button aria-pressed="${i===step}">${s[0]}<small>${s[1]}</small></button>`).join('');
+[...$('strip').children].forEach((b,i)=>b.onclick=()=>{step=i;[...$('strip').children].forEach((x,j)=>x.setAttribute('aria-pressed',i===j));develop(STEPS[i][2]);$('read').innerHTML=STEPS[i][3]});
+$('read').innerHTML=STEPS[step][3];
+// latent image: R channel = exposure the mark needs (0 = comes up first), A = coverage
+let W=0,H=0,latent=null,noise=null,img=null;
+function latentDraw(){
+  const r=cv.getBoundingClientRect(), dpr=Math.min(devicePixelRatio,2); W=Math.round(r.width*dpr); H=Math.round(r.height*dpr); cv.width=W; cv.height=H;
+  const o=document.createElement('canvas'); o.width=W;o.height=H; const c=o.getContext('2d'), s=W/760, t=T[mkt];
+  const need=n=>`rgb(${Math.round(n*255)},0,0)`;
+  c.scale(s,s); c.textBaseline='alphabetic';
+  c.fillStyle=need(0); c.font='800 15px Archivo'; c.fillText('VERA · LEAK CHECK',34,46);
+  c.font='500 15px Archivo'; c.fillText(t.site+' · '+t.mat,34,70);
+  c.fillRect(34,86,692,2.5);
+  const rows=t.rows, y0=126, gap=50;
+  rows.forEach((r,i)=>{ const y=y0+i*gap;
+    c.fillStyle=need(.05); c.font='700 20px Archivo'; c.fillText(r[0],34,y);
+    c.font='500 14px Archivo'; c.fillText(r[1],34,y+20);
+    c.font=`600 15px ${t.sc==='hn'?'"Noto Sans Devanagari"':'"Noto Kufi Arabic"'}`; c.fillText(r[2],250,y+2);
+    c.font='800 28px Archivo'; c.textAlign='right'; c.fillText(r[3]+' bags',726,y+4); c.textAlign='left';
+    c.fillStyle=need(.1); c.fillRect(34,y+30,692,1);
+    if(i>0&&rows[i-1][3]>r[3]){ const gap2=rows[i-1][3]-r[3], need2=i===2?.55:.4;
+      c.fillStyle=need(need2); c.font='800 16px Archivo'; c.textAlign='right'; c.fillText('− '+gap2+' bags',590,y+4); c.textAlign='left'; }
+  });
+  c.fillStyle=need(.78); c.font='900 76px Archivo'; c.fillText(t.cur+(59*t.price).toLocaleString('en-IN'),34,y0+4*gap+66);
+  c.font='700 17px Archivo'; c.fillText('59 bags ordered, paid for, never in the work',34,y0+4*gap+96);
+  latent=c.getImageData(0,0,W,H).data;
+  noise=new Float32Array(W*H); let seed=7; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  for(let y=0;y<H;y+=2)for(let x=0;x<W;x+=2){const n=rnd();noise[y*W+x]=n;noise[y*W+x+1]=n;if(y+1<H){noise[(y+1)*W+x]=n;noise[(y+1)*W+x+1]=n}}
+  img=ctx.createImageData(W,H);
+}
+const PAPER=[247,199,142], INK=[42,18,9];
+function paint(){
+  const p=img.data;
+  for(let i=0,j=0;i<W*H;i++,j+=4){
+    const cov=latent[j+3]/255; let a=0;
+    if(cov>0){ const need=latent[j]/255; a=Math.min(1,Math.max(0,(d*1.3-need-.06-noise[i]*.22)/.14))*cov; }
+    const fog=.04*d*noise[i];
+    const k=Math.min(1,a+fog);
+    p[j]=PAPER[0]+(INK[0]-PAPER[0])*k; p[j+1]=PAPER[1]+(INK[1]-PAPER[1])*k; p[j+2]=PAPER[2]+(INK[2]-PAPER[2])*k; p[j+3]=255;
+  }
+  ctx.putImageData(img,0,0);
+  const secs=Math.round(d*90); $('clock').textContent=`${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}`;
+}
+function develop(to){ target=to; if(RM){d=to;paint();return;} cancelAnimationFrame(raf); const from=d, t0=performance.now(), dur=900+Math.abs(to-from)*2200;
+  const tick=now=>{const k=Math.min(1,(now-t0)/dur); d=from+(to-from)*(1-Math.pow(1-k,2)); paint(); if(k<1)raf=requestAnimationFrame(tick)}; raf=requestAnimationFrame(tick); }
+function setM(m){ mkt=m; const t=T[m]; document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('lede').textContent=t.lede; $('fine').textContent=t.fine; $('wa').placeholder=t.ph; $('tl').textContent='In the developer · '+t.site;
+  $('h1').innerHTML=m==='in'?'Your numbers look fine. <em>Let them develop.</em>':'Your numbers look fine. <em>Let them develop.</em>';
+  $('print').setAttribute('aria-label','Sample leak report for '+t.site); latentDraw(); d=0; develop(STEPS[step][2]); }
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+addEventListener('resize',()=>{latentDraw();paint()});
+document.fonts.ready.then(()=>{ latentDraw(); d=0; paint(); setTimeout(()=>develop(STEPS[step][2]),RM?0:350); });
+})();
+</script>
+</body>
+</html>

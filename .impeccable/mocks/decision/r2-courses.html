@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · Courses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Mukta:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--clay:#8C3A1F;--clay-2:#953F1E;--umber:#4A2112;--damp:#2E140B;--slip:#F7ECDD;--slip-2:#F5DEC9;--ochre:#F2B04A;--s:"Zilla Slab",Georgia,serif;--t:"Mukta",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{background:var(--clay)}
+body{min-height:100vh;color:var(--slip);font:400 18px/1.5 var(--t);background:linear-gradient(180deg,var(--clay-2) 0%,var(--clay) 46%,var(--umber) 100%);overflow-x:hidden}
+::selection{background:var(--slip);color:var(--clay)}
+:focus-visible{outline:2px solid var(--slip);outline-offset:3px}
+header{display:flex;align-items:center;gap:32px;padding:20px 48px;border-bottom:2px solid rgba(247,236,221,.35)}
+.logo{font:700 28px/1 var(--s);letter-spacing:.06em;text-transform:uppercase;color:var(--slip);text-decoration:none}
+nav{display:flex;gap:26px}nav a{color:var(--slip-2);text-decoration:none;font:600 16px/1 var(--t)}nav a:hover{color:var(--slip)}
+.sp{flex:1}
+.mkt{display:flex;border:2px solid var(--slip);border-radius:3px}
+.mkt button{font:700 14px/1 var(--t);background:none;border:0;color:var(--slip);padding:8px 13px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--slip);color:var(--clay)}
+main{position:relative;display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);height:calc(100vh - 74px);min-height:720px}
+.copy{padding:56px 0 40px 48px;display:flex;flex-direction:column;z-index:2}
+h1{font:700 clamp(46px,5vw,84px)/.98 var(--s);text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.lede{margin-top:22px;color:var(--slip-2);max-width:42ch;font-size:19px}
+form{margin-top:30px;max-width:500px}
+form label{display:block;font:600 15px/1.2 var(--t);color:var(--slip);margin-bottom:8px}
+.row{display:flex;background:var(--slip);border-radius:4px;overflow:hidden}
+.row input{flex:1;min-width:0;border:0;background:none;font:600 19px/1 var(--t);padding:15px 16px;color:var(--damp)}
+.row input::placeholder{color:#6E4E3C}
+.row input:focus{outline:none}.row:focus-within{box-shadow:0 0 0 3px var(--ochre)}
+.row button{border:0;background:var(--damp);color:var(--slip);font:700 17px/1 var(--s);letter-spacing:.04em;text-transform:uppercase;padding:0 20px;cursor:pointer}
+.row button:hover{background:#000}
+.fine{font-size:15px;color:var(--slip-2);margin-top:10px}
+.tally{margin-top:auto;padding-top:28px;display:flex;gap:28px;align-items:flex-end}
+.tally b{display:block;font:700 clamp(54px,5.4vw,88px)/.9 var(--s);color:var(--slip);font-variant-numeric:lining-nums}
+.tally span{display:block;font:600 16px/1.35 var(--t);color:var(--slip-2);max-width:24ch;padding-bottom:6px}
+.stage{position:relative;cursor:grab;touch-action:pan-y;outline:none}
+.stage.drag{cursor:grabbing}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%}
+.ov{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;white-space:nowrap}
+.gap{font:700 14px/1 var(--t);color:var(--damp);background:var(--slip);padding:5px 8px 4px;border-radius:2px;transition:opacity .25s}
+.card{position:absolute;right:40px;top:40px;width:270px;background:var(--damp);color:var(--slip);padding:18px 20px;border-radius:4px;z-index:2}
+.card h2{font:700 20px/1.1 var(--s);text-transform:uppercase;letter-spacing:.03em}
+.card dl{margin-top:12px}
+.card dl div{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid rgba(247,236,221,.18);font-size:16px}
+.card dd{font-weight:700;font-variant-numeric:tabular-nums}
+.card dd.g{color:var(--ochre)}
+.scrub{position:absolute;right:40px;bottom:36px;left:40px;display:flex;align-items:center;gap:18px;z-index:2}
+.scrub label{font:700 16px/1 var(--s);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.scrub input{flex:1;accent-color:var(--slip)}
+.scrub output{font:700 16px/1 var(--t);min-width:7ch;text-align:right;font-variant-numeric:tabular-nums}
+.note{position:absolute;left:40px;bottom:76px;font-size:14px;color:var(--slip-2);z-index:2}
+@media (max-width:980px){
+  header{padding:14px 18px;gap:14px}nav{display:none}
+  main{grid-template-columns:minmax(0,1fr);height:auto}
+  h1{font-size:38px}.tally{flex-wrap:wrap;gap:8px 20px}
+  .copy{padding:32px 18px 8px}.tally{margin-top:28px}
+  .stage{height:78vh;min-height:560px}
+  .card{left:18px;right:18px;width:auto;top:12px;padding:14px 16px}.card dl{display:none}
+  .scrub{left:18px;right:18px;bottom:20px}.note{left:18px;bottom:58px}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#">The leak</a><a href="#">Desks</a><a href="#">How we work</a><a href="#">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="copy">
+    <h1>Every day on site, laid course by course.</h1>
+    <p class="lede" id="lede">Supervisors send WhatsApp voice notes, photos and challans. Vera lays each day down as one course of the site's true record, matched against the PO, the store and the BOQ. Where the numbers don't close, the course doesn't either.</p>
+    <form onsubmit="event.preventDefault()">
+      <label for="wa">WhatsApp number for your free leak check</label>
+      <div class="row"><input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx"><button type="submit">Start →</button></div>
+      <p class="fine" id="fine">One site, three months of records, free. No new app.</p>
+    </form>
+    <div class="tally" aria-live="polite"><b id="fig">₹23,010</b><span id="figl">in gaps across 30 days of cement on one site</span></div>
+  </section>
+  <section class="stage" id="stage" tabindex="0" aria-label="Sample: a tower of 30 clay courses, one per day of September at Site 03. Courses with a gap are days where delivered cement never reached the work. Drag or use arrow keys to turn.">
+    <canvas id="c"></canvas><div id="ovs"></div>
+    <div class="card" id="card"><h2 id="ct">Day 30 · Site 03</h2><dl id="cd"></dl></div>
+    <p class="note" id="note">Sample data · cement OPC 53 · Site 03, Indore · September</p>
+    <div class="scrub"><label for="day">Lay courses</label><input id="day" type="range" min="1" max="30" value="30"><output id="dayv" for="day">30 days</output></div>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const T={in:{cur:"₹",price:390,ph:"+91 98xxx xxxxx",note:"Sample data · cement OPC 53 · Site 03, Indore · September",site:"Site 03",
+  lede:"Supervisors send WhatsApp voice notes, photos and challans. Vera lays each day down as one course of the site's true record, matched against the PO, the store and the BOQ. Where the numbers don't close, the course doesn't either."},
+ ae:{cur:"AED ",price:18,ph:"+971 5x xxx xxxx",note:"Sample data · cement OPC · Site 03, Al Quoz · September",site:"Site 03",
+  lede:"Foremen send WhatsApp voice notes, photos and delivery notes in their own language. Vera lays each day down as one course of the site's true record, matched against the LPO, the store and the BOQ. Where the numbers don't close, the course doesn't either."}};
+// 30 days; delivered bags per day, gap (bags never in the work) on six days = 59
+const GAPS={6:8,11:10,17:6,19:12,24:9,28:14};
+const DAYS=[...Array(30)].map((_,i)=>{const d=i+1, del=[20,15,18,12,22,16][i%6], g=GAPS[d]||0; return {d,del:del+(g?6:0),gap:g};});
+let mkt="in", shown=30, hover=null;
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString('en-IN');
+function tally(){ const t=T[mkt], g=DAYS.slice(0,shown).reduce((a,x)=>a+x.gap,0);
+  $('fig').textContent=t.cur+fmt(g*t.price); $('figl').textContent=`in gaps across ${shown} day${shown>1?'s':''} of cement on one site (${g} bags)`;
+  $('dayv').textContent=`${shown} days`; }
+function card(i){ const x=DAYS[i], t=T[mkt];
+  $('ct').textContent=`Day ${x.d} · ${t.site}`;
+  $('cd').innerHTML=`<div><dt>Delivered</dt><dd>${x.del} bags</dd></div><div><dt>In the work</dt><dd>${x.del-x.gap} bags</dd></div><div><dt>Gap</dt><dd class="${x.gap?'g':''}">${x.gap?x.gap+' bags · '+t.cur+fmt(x.gap*t.price):'closes'}</dd></div>`; }
+card(29); tally();
+const stage=$('stage'), cv=$('c'), ovs=$('ovs');
+let R=null; try{ if(window.THREE) R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){}
+function setM(m){ mkt=m; const t=T[m]; document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('lede').textContent=t.lede; $('wa').placeholder=t.ph; $('note').textContent=t.note; tally(); card(hover??shown-1); }
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('day').addEventListener('input',e=>{ shown=+e.target.value; tally(); card(shown-1); });
+if(!R) return;
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(30,1,.1,200), tower=new THREE.Group(); scene.add(tower);
+scene.add(new THREE.HemisphereLight(0xFFE3C6,0x3A160A,.6));
+const sun=new THREE.DirectionalLight(0xFFC08A,1.05); sun.position.set(-6,4,7); scene.add(sun);
+const rim=new THREE.DirectionalLight(0xFF8C55,.5); rim.position.set(7,2,-5); scene.add(rim);
+const CLAYS=['#A04A26','#8F3E1E','#AE5530','#86381A','#9A4628'].map(c=>new THREE.Color(c));
+const H=.3, R0=2.5, courses=[], tags=[];
+let seed=11; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+DAYS.forEach((x,i)=>{
+  const gapA=x.gap?x.gap*.06+.32:0, r=R0+Math.sin(i*.7)*.06+(rnd()-.5)*.05;
+  const geo=new THREE.TorusGeometry(r,.175,12,120,Math.PI*2-gapA);
+  const mat=new THREE.MeshStandardMaterial({color:CLAYS[i%5].clone(),roughness:.92,metalness:0});
+  const m=new THREE.Mesh(geo,mat); m.rotation.x=Math.PI/2;
+  // aim the gap toward the default viewing side, spread a little
+  const face=Math.PI/2+(rnd()-.5)*1.4; m.rotation.z=face+gapA/2; m.position.y=i*H; m.userData.i=i;
+  tower.add(m); courses.push(m);
+  if(x.gap){ const ang=-face; const el=document.createElement('div'); el.className='ov gap'; el.setAttribute('aria-hidden','true'); el.textContent=`Day ${x.d} · ${x.gap} bags`; ovs.appendChild(el);
+    tags.push({el,i,p:new THREE.Vector3(Math.cos(face)*(r+.25),i*H,Math.sin(face)*(r+.25)).applyAxisAngle(new THREE.Vector3(0,1,0),0)}); }
+});
+// base slab
+const base=new THREE.Mesh(new THREE.CylinderGeometry(R0+.7,R0+.9,.3,64),new THREE.MeshStandardMaterial({color:new THREE.Color('#3E1C0F'),roughness:1}));
+base.position.y=-.32; tower.add(base);
+tower.position.set(-.6,-30*H/2+.4,0);
+let yaw=.35,tYaw=yaw,pitch=.1,tPitch=pitch,W=1,Hh=1,dist=19,auto=!RM;
+function size(){ const r=stage.getBoundingClientRect(); W=r.width;Hh=r.height; R.setSize(W,Hh,false); cam.aspect=W/Hh; dist=W<700?30:24; cam.updateProjectionMatrix(); }
+addEventListener('resize',size); size();
+let drag=null;
+stage.addEventListener('pointerdown',e=>{ if(e.target.closest('.card,.scrub'))return; drag={x:e.clientX,y:e.clientY,m:0}; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); });
+stage.addEventListener('pointermove',e=>{ if(drag){ const dx=e.clientX-drag.x,dy=e.clientY-drag.y; drag.m+=Math.abs(dx)+Math.abs(dy); drag.x=e.clientX;drag.y=e.clientY; if(drag.m>5)auto=false; tYaw-=dx*.007; tPitch=Math.min(.6,Math.max(-.15,tPitch+dy*.003)); return; } pick(e); });
+stage.addEventListener('pointerup',e=>{ stage.classList.remove('drag'); if(drag&&drag.m<5)pick(e,true); drag=null; });
+stage.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft'){tYaw+=.2;auto=false} if(e.key==='ArrowRight'){tYaw-=.2;auto=false} if(e.key==='ArrowUp')tPitch=Math.min(.6,tPitch+.06); if(e.key==='ArrowDown')tPitch=Math.max(-.15,tPitch-.06); });
+const ray=new THREE.Raycaster(), mv=new THREE.Vector2();
+function pick(e,click){ const r=cv.getBoundingClientRect(); mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1); ray.setFromCamera(mv,cam);
+  const h=ray.intersectObjects(courses.filter(c=>c.visible))[0]; const i=h?h.object.userData.i:null; if(i!==hover){ hover=i; card(i??shown-1); } }
+const t0=performance.now(), v=new THREE.Vector3(), DAMP=new THREE.Color('#3A1A0E'), HI=new THREE.Color('#F2B04A');
+function frame(now){
+  const t=(now-t0)/1000;
+  if(auto) tYaw+=.0016;
+  yaw+=(tYaw-yaw)*.1; pitch+=(tPitch-pitch)*.1;
+  cam.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,1.2+Math.sin(pitch)*dist,Math.cos(yaw)*Math.cos(pitch)*dist); cam.lookAt(0,.6,0);
+  const grown=RM?shown:Math.min(shown,Math.floor(t*14)+1);
+  courses.forEach((c,i)=>{ c.visible=i<grown; const top=i===grown-1, sel=i===hover;
+    c.material.color.copy(top?DAMP:sel?HI:CLAYS[i%5]); });
+  R.render(scene,cam);
+  tags.forEach(o=>{ const vis=o.i<grown; v.copy(o.p).applyMatrix4(tower.matrixWorld).project(cam);
+    o.el.style.transform=`translate(${(v.x+1)/2*W+12}px,${(1-v.y)/2*Hh-10}px)`;
+    // hide tags on the far side of the tower
+    const wp=o.p.clone().applyMatrix4(tower.matrixWorld), toCam=cam.position.clone().sub(wp).setY(0).normalize(), out=wp.clone().setY(0).normalize();
+    o.el.style.opacity=vis&&out.dot(toCam)>.15?1:0; });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vera · Interchange</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@600;700;800&family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Noto+Sans+Devanagari:wght@500&family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --enamel:#F3F4F1; --plate:#0E1B2C; --plate-2:#1A2B40; --plate-line:#2A3C52;
+  --ink:#0E1B2C; --ink-2:#3C4A5B; --signal:#D52B1E; --signal-ink:#A31F15;
+  --on-plate:#F3F4F1; --on-plate-2:#A9B6C6;
+  --display:"Overpass",system-ui,sans-serif; --text:"Atkinson Hyperlegible Next",system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0}
+html{background:var(--enamel)}
+body{background:var(--enamel);color:var(--ink);font:400 17px/1.5 var(--text);overflow-x:hidden}
+::selection{background:var(--plate);color:var(--on-plate)}
+:focus-visible{outline:3px solid #D9A21B;outline-offset:3px;border-radius:2px}
+a{color:inherit}
+.num{font-family:var(--display);font-variant-numeric:tabular-nums}
+
+.band{position:relative;z-index:3;background:var(--plate);color:var(--on-plate);height:64px;display:flex;align-items:center;padding:0 32px;gap:36px}
+.mark{display:flex;align-items:center;gap:12px;text-decoration:none;font:800 24px/1 var(--display);letter-spacing:-.01em}
+.band nav{display:flex;gap:28px}
+.band nav a{font:600 15px/1 var(--text);color:var(--on-plate-2);text-decoration:none;padding:24px 0}
+.band nav a:hover{color:var(--on-plate)}
+.sp{flex:1}
+.mkt{display:flex;border:1.5px solid #3A4C63;border-radius:4px;overflow:hidden}
+.mkt button{font:700 13px/1 var(--text);letter-spacing:.04em;background:none;color:var(--on-plate-2);border:0;padding:9px 12px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--on-plate);color:var(--plate)}
+.band .go{background:var(--on-plate);color:var(--plate);font:700 15px/1 var(--text);padding:12px 16px;border-radius:4px;text-decoration:none;display:flex;gap:10px;align-items:center}
+
+.hero{display:grid;grid-template-columns:500px minmax(0,1fr);height:calc(100vh - 64px);min-height:720px}
+.copy{padding:52px 0 32px 32px;display:flex;flex-direction:column;position:relative;z-index:2}
+h1{font:800 clamp(42px,4.2vw,60px)/1.02 var(--display);letter-spacing:-.025em;text-wrap:balance}
+.lede{font-size:18px;line-height:1.55;color:var(--ink-2);margin-top:20px;max-width:43ch}
+.acts{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.primary{background:var(--plate);color:var(--on-plate);font:700 17px/1 var(--text);padding:18px 22px;border-radius:4px;text-decoration:none;display:inline-flex;gap:14px;align-items:center;transition:background .2s}
+.primary:hover{background:var(--plate-2)}
+.secondary{font:700 17px/1 var(--text);padding:16px 20px;border:2px solid var(--plate);border-radius:4px;text-decoration:none}
+.calc{margin-top:auto;padding-top:22px;border-top:2px solid var(--plate);max-width:430px}
+.calc label{display:block;font:600 14px/1.3 var(--text);color:var(--ink);margin-top:4px}
+.calc .q{font:800 25px/1.25 var(--display);margin-top:0;letter-spacing:-.01em}
+.calc .q b{color:var(--signal)}
+.calc input{width:100%;margin-top:14px;accent-color:var(--plate);height:24px}
+.calc small{display:block;font-size:13px;color:var(--ink-2);margin-top:6px}
+
+.stage{position:relative;overflow:hidden;cursor:grab;touch-action:pan-y;outline:none}
+.stage.drag{cursor:grabbing}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ov{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;white-space:nowrap;transition:opacity .3s}
+.lvl{font:700 13px/1.25 var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.lvl span{display:block;font:500 13px/1.3 var(--text);letter-spacing:0;text-transform:none;color:var(--ink-2)}
+.lvl i{font-style:normal;display:inline-block;background:var(--plate);color:var(--on-plate);font:800 12px/1 var(--display);padding:4px 6px 3px;border-radius:3px;margin-right:8px;letter-spacing:.04em}
+.qty{font:800 20px/1 var(--display);color:var(--ink);background:rgba(243,244,241,.9);padding:4px 6px 2px;border-radius:3px;font-variant-numeric:tabular-nums}
+.qty small{font:600 12px var(--text);color:var(--ink-2);margin-left:4px}
+.spl{font:700 13px/1.3 var(--text);color:var(--signal-ink);background:rgba(243,244,241,.92);padding:3px 6px;border-radius:3px}
+.hi{font-family:"Noto Sans Devanagari",var(--text)} .ar{font-family:"Noto Kufi Arabic",var(--text)}
+
+.card{position:absolute;right:24px;top:24px;width:292px;background:var(--plate);color:var(--on-plate);border-radius:6px;padding:16px 18px 8px;cursor:default;z-index:2}
+.chips{display:flex;gap:6px}
+.chips button{flex:1;border:0;border-radius:12px;height:26px;font:800 13px/1 var(--display);color:#fff;cursor:pointer;opacity:.45;transition:opacity .2s,transform .2s var(--ease)}
+.chips button:hover{opacity:.8}
+.chips button[aria-pressed=true]{opacity:1;box-shadow:0 0 0 2px var(--plate),0 0 0 4px var(--on-plate)}
+.card h2{font:800 17px/1.2 var(--display);margin-top:16px;word-spacing:.1em}
+.card .st{font:600 14px/1.3 var(--text);margin-top:3px;color:var(--on-plate-2)}
+.card .st.leak{color:#FF8A80}
+.card dl{margin-top:12px;border-top:1px solid var(--plate-line)}
+.card dl div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #22344A;font-size:14px}
+.card dl div:last-child{border-bottom:0}
+.card dt{color:var(--on-plate-2)}
+.card dd{font:700 15px var(--display);font-variant-numeric:tabular-nums}
+.card dd.red{color:#FF8A80}
+
+.fig{position:absolute;left:24px;bottom:24px;pointer-events:none}
+.fig b{display:block;font:800 clamp(56px,6vw,92px)/.95 var(--display);color:var(--signal);letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.fig span{display:block;font:700 13px/1.4 var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--signal-ink);margin-top:8px}
+.fig small{display:block;font:400 13px/1.4 var(--text);color:var(--ink-2);margin-top:2px}
+.hint{position:absolute;right:28px;bottom:28px;font:600 13px/1 var(--text);color:var(--ink-2);display:flex;gap:8px;align-items:center;pointer-events:none}
+.nogl{position:absolute;left:28px;right:28px;top:45%;font-size:15px;color:var(--ink-2);display:none}
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;height:auto}
+  .copy{padding:36px 16px 8px}
+  .band nav{display:none}.band{padding:0 16px;gap:16px}
+  .stage{height:80vh;min-height:580px}
+  .card{left:16px;right:16px;width:auto;top:12px}
+  .card dl{display:none}
+  .calc{margin-top:28px}
+  .hint{display:none}
+  .band .go{display:none}
+  .lvl span,.qty small{display:none}.spl{font-size:12px;white-space:normal;max-width:150px}
+}
+</style>
+</head>
+<body>
+<header class="band">
+  <a class="mark" href="#" aria-label="Vera AI home">
+    <svg width="44" height="20" viewBox="0 0 44 20" aria-hidden="true"><path d="M2 10H30" stroke="#F3F4F1" stroke-width="5" stroke-linecap="round"/><path d="M22 10l8 8" stroke="#D52B1E" stroke-width="5" stroke-linecap="round"/><circle cx="34" cy="10" r="6.5" fill="#0E1B2C" stroke="#F3F4F1" stroke-width="3.5"/></svg>
+    Vera
+  </a>
+  <nav aria-label="Primary"><a href="#">The leak</a><a href="#">Desks</a><a href="#">How we work</a><a href="#">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">IN</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+  <a class="go" href="#">Free leak check <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a>
+</header>
+
+<main class="hero">
+  <section class="copy">
+    <h1 data-k="h1">Every rupee on site, accounted for.</h1>
+    <p class="lede" data-k="lede">Supervisors send WhatsApp voice notes, photos and challans. Vera writes the site record, then runs every site down through its four registers. Where material drops out between floors, you see it.</p>
+    <div class="acts">
+      <a class="primary" href="#">Start the free leak check <svg width="18" height="14" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a>
+      <a class="secondary" href="#">WhatsApp Vera</a>
+    </div>
+    <div class="calc">
+      <p class="q" aria-live="polite"><span data-k="on">On</span> <span class="num" id="tvv">₹120 Cr</span><span data-k="mid">, typically</span> <b class="num" id="lk">₹2.4–6.0 Cr</b> <span data-k="tail">walks off site.</span></p>
+      <input id="tv" type="range" min="50" max="500" step="10" value="120">
+      <label for="tv" data-k="calcl">Slide to your annual work value</label>
+      <small data-k="calcs">Industry range of 2–5% material loss. Your number comes from the free check.</small>
+    </div>
+  </section>
+
+  <section class="stage" id="stage" tabindex="0" aria-label="Interactive sample: four sites, each a line running down through four register levels. Drag or use arrow keys to turn; press 1 to 4 to isolate a line.">
+    <canvas id="c"></canvas>
+    <div id="ovs"></div>
+    <div class="card" role="group" aria-label="Selected line">
+      <div class="chips" id="chips"></div>
+      <h2 id="ct">Site 03, Indore</h2>
+      <p class="st leak" id="cs">Leak · 59 bags unaccounted</p>
+      <dl id="cd"></dl>
+    </div>
+    <div class="fig"><b id="fig">₹23,010</b><span id="figl">Unaccounted on line 03</span><small data-k="figs">Sample data · cement OPC 53 · September</small></div>
+    <p class="hint"><svg width="28" height="12" viewBox="0 0 28 12" aria-hidden="true"><path d="M1 6h26M5 2L1 6l4 4M23 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span data-k="hint">Drag to turn · choose a line</span></p>
+    <p class="nogl" id="nogl">This view needs WebGL. The free leak check works the same without it.</p>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const T={
+ in:{h1:"Every rupee on site, accounted for.",lede:"Supervisors send WhatsApp voice notes, photos and challans. Vera writes the site record, then runs every site down through its four registers. Where material drops out between floors, you see it.",cur:"₹",price:390,unit:"Cr",min:50,max:500,step:10,val:120,figs:"Sample data · cement OPC 53 · September",
+  lv:[["Ordered","Purchase order","खरीद आदेश"],["Delivered","Delivery challan","डिलीवरी चालान"],["Issued","From store","स्टोर से जारी"],["Used","Per BOQ, measured","काम में लगा"]],sc:"hi",
+  names:["Nagpur","Wakad","Indore","Surat"]},
+ ae:{h1:"Every dirham on site, accounted for.",lede:"Foremen send WhatsApp voice notes, photos and delivery notes in their own language. Vera writes the site record, then runs every site down through its four registers. Where material drops out between floors, you see it.",cur:"AED ",price:18,unit:"M",min:20,max:200,step:5,val:60,figs:"Sample data · cement OPC · September",
+  lv:[["Ordered","LPO","أمر الشراء"],["Delivered","Delivery note","إشعار التسليم"],["Issued","From store","صرف من المخزن"],["Used","Per BOQ, measured","المستخدم في الأعمال"]],sc:"ar",
+  names:["JVC","Business Bay","Al Quoz","Dubai South"]}
+};
+const SP=["never reached the site","never reached the store","issued, not in the work"];
+const SITES=[
+ {id:"01",col:"#1E5AA8",x:-4.8,z:-1.4,q:[620,620,611,596]},
+ {id:"02",col:"#D9A21B",x:-1.4,z:2.5,q:[380,380,376,371]},
+ {id:"03",col:"#0B8457",x:1.7,z:-2.0,q:[500,500,482,441]},
+ {id:"04",col:"#6A3D9A",x:4.9,z:1.6,q:[450,450,431,424]}
+];
+const ALLOW=.025, YS=[4.2,1.4,-1.4,-4.2];
+let mkt="in", sel=2;
+const fmt=n=>n.toLocaleString(mkt==="in"?"en-IN":"en-US");
+const leaks=s=>{const o=[];for(let i=0;i<3;i++){const d=s.q[i]-s.q[i+1];if(d/s.q[i]>ALLOW)o.push({i,d});}return o};
+const lost=s=>leaks(s).reduce((a,b)=>a+b.d,0);
+const $=id=>document.getElementById(id);
+
+function chips(){ $('chips').innerHTML=SITES.map((s,i)=>`<button style="background:${s.col}${s.id==='02'?';color:#0E1B2C':''}" aria-pressed="${i===sel}" aria-label="Line ${s.id}">${s.id}</button>`).join('');
+  [...$('chips').children].forEach((b,i)=>b.onclick=()=>select(i)); }
+function card(){ const t=T[mkt],s=SITES[sel],L=lost(s);
+  $('ct').textContent=`Site ${s.id}, ${t.names[sel]}`;
+  $('cs').textContent=L?`Leak · ${L} bags unaccounted`:'Good service · within allowance'; $('cs').className='st'+(L?' leak':'');
+  $('cd').innerHTML=t.lv.map((l,i)=>`<div><dt>${l[0]}</dt><dd>${fmt(s.q[i])}</dd></div>`).join('')+`<div><dt>Unaccounted</dt><dd class="${L?'red':''}">${L} bags</dd></div>`;
+  $('fig').textContent=t.cur+fmt(L*t.price);
+  const tot=SITES.reduce((a,x)=>a+lost(x),0);
+  $('figl').textContent=L?`Unaccounted on line ${s.id} · network ${tot} bags`:`Line ${s.id} clean · network ${tot} bags`;
+}
+function calc(){ const t=T[mkt],v=+$('tv').value; $('tvv').textContent=`${t.cur}${v}\u00A0${t.unit}`;
+  $('lk').textContent=`${t.cur}${(v*.02).toFixed(1)}–${(v*.05).toFixed(1)}\u00A0${t.unit}`; }
+$('tv').addEventListener('input',calc);
+let labels=()=>{};
+function setM(m){ mkt=m; const t=T[m];
+  document.querySelectorAll('[data-k]').forEach(e=>{if(t[e.dataset.k]!=null)e.textContent=t[e.dataset.k]});
+  document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  const r=$('tv'); r.min=t.min;r.max=t.max;r.step=t.step;r.value=t.val; calc(); card(); labels(); }
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+function select(i){ sel=i; chips(); card(); labels(); }
+chips(); card(); calc();
+
+const stage=$('stage'),cv=$('c'),ovs=$('ovs');
+let R=null; try{ if(window.THREE) R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){}
+if(!R){ $('nogl').style.display='block'; return; }
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(26,1,.1,200), world=new THREE.Group(); scene.add(world);
+const C=c=>new THREE.Color(c), ENAMEL=C('#F3F4F1'), PLATE=C('#0E1B2C'), RED=C('#D52B1E');
+
+YS.forEach((y,i)=>{
+  const g=new THREE.Group(); g.position.y=y; world.add(g);
+  const pl=new THREE.Mesh(new THREE.PlaneGeometry(13,8),new THREE.MeshBasicMaterial({color:PLATE,transparent:true,opacity:i===3?.075:.045,side:THREE.DoubleSide,depthWrite:false}));
+  pl.rotation.x=-Math.PI/2; g.add(pl);
+  const pts=[[-6.5,-4],[6.5,-4],[6.5,4],[-6.5,4],[-6.5,-4]].map(p=>new THREE.Vector3(p[0],0,p[1]));
+  g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:PLATE,transparent:true,opacity:.42})));
+  const e=new THREE.Mesh(new THREE.BoxGeometry(13,.1,.1),new THREE.MeshBasicMaterial({color:PLATE})); e.position.z=4; g.add(e);
+  const gp=[]; for(let x=-5.2;x<=5.2;x+=1.3){gp.push(new THREE.Vector3(x,0,-4),new THREE.Vector3(x,0,4));}
+  g.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(gp),new THREE.LineBasicMaterial({color:PLATE,transparent:true,opacity:.08})));
+});
+
+const lines=[], hit=[];
+SITES.forEach((s,si)=>{
+  const g=new THREE.Group(); world.add(g); const mats=[];
+  const tm=new THREE.MeshBasicMaterial({color:C(s.col),transparent:true}); mats.push(tm);
+  const tube=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,11.2,24).translate(0,-5.6,0),tm);
+  tube.position.set(s.x,5.6,s.z); tube.userData.si=si; g.add(tube); hit.push(tube);
+  const nodes=[];
+  YS.forEach(y=>{
+    const dm=new THREE.MeshBasicMaterial({color:ENAMEL,transparent:true}), rm=new THREE.MeshBasicMaterial({color:PLATE,transparent:true}); mats.push(dm,rm);
+    const d=new THREE.Mesh(new THREE.CylinderGeometry(.44,.44,.14,40),dm); d.position.set(s.x,y,s.z);
+    const r=new THREE.Mesh(new THREE.TorusGeometry(.44,.075,10,48),rm); r.rotation.x=Math.PI/2; r.position.set(s.x,y,s.z);
+    d.userData.si=si; hit.push(d); g.add(d,r); nodes.push(new THREE.Vector3(s.x,y,s.z));
+  });
+  const spurs=[], out=new THREE.Vector2(s.x,s.z).normalize();
+  leaks(s).forEach((lk,k)=>{
+    const ang=Math.atan2(out.y,out.x)+(k?-.6:.45), dir=new THREE.Vector3(Math.cos(ang),0,Math.sin(ang));
+    const y0=(YS[lk.i]+YS[lk.i+1])/2+.55;
+    const P0=new THREE.Vector3(), P1=dir.clone().multiplyScalar(.9).add(new THREE.Vector3(0,-.9,0)), P2=P1.clone().add(dir.clone().multiplyScalar(1.1+lk.d*.05));
+    const path=new THREE.CurvePath(); path.add(new THREE.LineCurve3(P0,P1)); path.add(new THREE.LineCurve3(P1,P2));
+    const sm=new THREE.MeshBasicMaterial({color:RED,transparent:true}); mats.push(sm);
+    const sg=new THREE.Group(); sg.position.set(s.x,y0,s.z);
+    sg.add(new THREE.Mesh(new THREE.TubeGeometry(path,48,.13,14,false),sm));
+    const term=new THREE.Mesh(new THREE.BoxGeometry(.16,.7,.16),sm); term.position.copy(P2); sg.add(term);
+    g.add(sg); spurs.push({g:sg,end:P2.clone().add(new THREE.Vector3(s.x,y0,s.z)),lk});
+  });
+  lines.push({s,g,tube,mats,nodes,spurs});
+});
+
+function ov(cls){const d=document.createElement('div');d.className='ov '+cls;d.setAttribute('aria-hidden','true');ovs.appendChild(d);return d}
+const lvEls=YS.map(()=>ov('lvl')), qEls=YS.map(()=>ov('qty')), spEls=[];
+lines.forEach(L=>L.spurs.forEach(sp=>spEls.push({el:ov('spl'),sp,L})));
+labels=()=>{ const t=T[mkt];
+  lvEls.forEach((e,i)=>e.innerHTML=`<i>L${i+1}</i>${t.lv[i][0]}<span>${t.lv[i][1]} · <bdi class="${t.sc}">${t.lv[i][2]}</bdi></span>`);
+  qEls.forEach((e,i)=>e.innerHTML=`${fmt(SITES[sel].q[i])}<small>bags</small>`);
+  spEls.forEach(o=>o.el.textContent=`${o.sp.lk.d} bags ${SP[o.sp.lk.i]}`); };
+labels();
+
+let yaw=-.58,pitch=.30,tYaw=yaw,tPitch=pitch,dist=34,auto=!RM,W=1,H=1;
+function size(){ W=stage.clientWidth;H=stage.clientHeight;R.setSize(W,H,false);cam.aspect=W/H;dist=W<700?62:44;cam.updateProjectionMatrix(); }
+addEventListener('resize',size); size();
+let drag=null;
+stage.addEventListener('pointerdown',e=>{ if(e.target.closest('.card'))return; drag={x:e.clientX,y:e.clientY,m:0}; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); });
+stage.addEventListener('pointermove',e=>{ if(!drag)return; const dx=e.clientX-drag.x,dy=e.clientY-drag.y; drag.m+=Math.abs(dx)+Math.abs(dy); drag.x=e.clientX;drag.y=e.clientY; if(drag.m>6)auto=false; tYaw-=dx*.006; tPitch=Math.min(.75,Math.max(.06,tPitch+dy*.004)); });
+stage.addEventListener('pointerup',e=>{ stage.classList.remove('drag'); if(drag&&drag.m<6)pick(e); drag=null; });
+stage.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft'){tYaw+=.15;auto=false} if(e.key==='ArrowRight'){tYaw-=.15;auto=false} if(e.key==='ArrowUp')tPitch=Math.min(.75,tPitch+.06); if(e.key==='ArrowDown')tPitch=Math.max(.06,tPitch-.06); if(/^[1-4]$/.test(e.key))select(+e.key-1); });
+const ray=new THREE.Raycaster(), mv=new THREE.Vector2();
+function pick(e){ const r=cv.getBoundingClientRect(); mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1); ray.setFromCamera(mv,cam);
+  const h=ray.intersectObjects(hit)[0]; if(h)select(h.object.userData.si); }
+
+const t0=performance.now(), ease=t=>1-Math.pow(1-Math.min(Math.max(t,0),1),4);
+lines.forEach(L=>{ L.tube.scale.y=RM?1:.001; L.spurs.forEach(s=>s.g.scale.setScalar(RM?1:.001)); });
+const v=new THREE.Vector3();
+function place(el,p,dx,dy,hide){ v.copy(p).project(cam); el.style.transform=`translate(${(v.x+1)/2*W+dx}px,${(1-v.y)/2*H+dy}px)`; el.style.opacity=(hide||v.z>1)?0:1; }
+function frame(now){
+  const t=(now-t0)/1000;
+  if(auto) tYaw-=.0009;
+  yaw+=(tYaw-yaw)*.12; pitch+=(tPitch-pitch)*.12;
+  cam.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, Math.sin(pitch)*dist-.4, Math.cos(yaw)*Math.cos(pitch)*dist);
+  cam.lookAt(0,-.4,0);
+  lines.forEach((L,i)=>{
+    if(!RM){ L.tube.scale.y=Math.max(.001,ease((t-.15-i*.12)/1.1)); L.spurs.forEach((s,k)=>s.g.scale.setScalar(Math.max(.001,ease((t-1.1-i*.1-k*.15)/.8)))); }
+    const target=i===sel?1:.16; L.mats.forEach(m=>{ m.opacity+=(target-m.opacity)*.15; });
+  });
+  R.render(scene,cam);
+  const S=lines[sel], late=!RM&&t<1.4;
+  YS.forEach((y,i)=>{ place(lvEls[i],v.set(-6.5,y,-4).clone(),10,-40,false); place(qEls[i],S.nodes[i],16,-14,late); });
+  spEls.forEach(o=>place(o.el,o.sp.end,10,-10,o.L!==S||(!RM&&t<2)));
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
