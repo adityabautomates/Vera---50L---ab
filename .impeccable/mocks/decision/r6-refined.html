@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Refined</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&display=swap">
+<style>
+/* Refined: the live site's idea kept and done properly. The tower under construction is now an architectural model on an ink-navy night; scrolling builds it, floor by floor, and the leaks are pinned where they happened. Cobalt is the brand, coral is only ever a leak. */
+:root{
+  --bg:#0A1020; --bg-2:#111A2E; --bg-3:#1A2540; --fg:#EEF2F8; --fg-2:#B3BDD0; --fg-3:#8E99B0; --line:#24304A;
+  --brand:#5B8CFF; --brand-2:#7FA5FF; --leak:#FF6B5A; --leak-ink:#FF8C7E;
+  --sans:"Wix Madefor Display",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brand-2);outline-offset:3px}
+.wrap{padding-left:5vw;padding-right:5vw}
+header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;gap:36px;padding-top:18px;padding-bottom:18px;background:linear-gradient(var(--bg) 30%,rgba(10,16,32,0))}
+.logo{font-weight:700;font-size:22px;letter-spacing:-.03em;text-decoration:none}
+nav{display:flex;gap:28px;font-size:14px}nav a{text-decoration:none;color:var(--fg-2)}nav a:hover{color:var(--fg)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--line);border-radius:99px;padding:3px;background:var(--bg)}
+.mkt button{font:500 13px var(--sans);border:0;background:none;color:var(--fg-2);padding:7px 13px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--bg-3);color:var(--fg)}
+.pill{font:600 14px var(--sans);background:var(--fg);color:var(--bg);text-decoration:none;padding:10px 18px;border-radius:99px;white-space:nowrap}
+/* the scroll stage */
+.scrolly{position:relative}
+.stick{position:sticky;top:0;height:100vh;overflow:hidden}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stick::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(120% 90% at 62% 46%,rgba(5,8,18,0) 45%,rgba(5,8,18,.72) 100%)}
+.stick::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27180%27 height=%27180%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.9%27 numOctaves=%272%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")}
+.steps{position:relative;z-index:2;margin-top:-100vh}
+.step{min-height:100vh;display:flex;align-items:center;pointer-events:none}
+.step>div{pointer-events:auto;width:min(520px,40vw)}
+.step.first>div{width:min(580px,44vw)}
+h1{font-weight:600;font-size:clamp(42px,5vw,80px);line-height:1;letter-spacing:-.04em;margin:0 0 24px;text-wrap:balance}
+h1 span{color:var(--brand-2)}
+.lede{font-size:18px;line-height:1.55;color:var(--fg-2);margin:0 0 30px;max-width:42ch}
+.acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:30px}
+.demo{display:inline-flex;align-items:center;gap:12px;font:600 15px var(--sans);color:var(--fg);background:var(--bg-2);border:1px solid var(--line);border-radius:99px;padding:8px 18px 8px 8px;cursor:pointer;text-decoration:none}
+.demo i{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--brand);color:var(--bg)}
+.demo i svg{display:block}
+.demo:hover{border-color:var(--brand)}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+form label{grid-column:1/-1;font-size:14px;color:var(--fg-2)}
+input{font:400 17px var(--sans);padding:15px 18px;border:1px solid #33405E;border-radius:10px;background:var(--bg-2);color:var(--fg);min-width:0}
+input::placeholder{color:#7E89A0}
+form button{font:600 16px var(--sans);padding:15px 22px;border-radius:10px;border:0;background:var(--brand);color:#06102A;cursor:pointer;white-space:nowrap}
+form button:hover{background:var(--brand-2)}
+.fine{font-size:14px;color:var(--fg-3);margin:12px 0 0}
+.who{font-size:14px;color:var(--fg-3);margin-top:28px}
+.sc{background:rgba(14,22,42,.62);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);border:1px solid var(--line);border-radius:14px;padding-top:26px;padding-bottom:26px;padding-left:28px;padding-right:28px}
+.sc .n{font-size:13px;color:var(--brand-2);font-weight:600}
+.sc h2{font-size:clamp(26px,2.4vw,36px);font-weight:600;letter-spacing:-.03em;line-height:1.08;margin:8px 0 12px}
+.sc p{color:var(--fg-2);line-height:1.6;margin:0;font-size:16px}
+.sc .fig{display:flex;align-items:baseline;gap:12px;margin-top:18px;font-variant-numeric:tabular-nums}
+.sc .fig b{font-size:40px;font-weight:600;letter-spacing:-.03em}
+.sc .fig span{color:var(--fg-3);font-size:14px}
+.sc .fig.leak b{color:var(--leak-ink)}
+.sc small{display:block;margin-top:14px;color:var(--fg-3);font-size:13px}
+.prog{position:absolute;z-index:3;right:5vw;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px}
+.prog i{width:6px;height:6px;border-radius:50%;background:#3A4766;transition:background .3s,transform .3s}
+.prog i.on{background:var(--brand-2);transform:scale(1.4)}
+.pin{position:absolute;z-index:2;transform:translate(-50%,-100%);font:500 12px var(--sans);color:var(--fg);background:rgba(10,16,32,.88);border:1px solid #3A4766;border-radius:6px;padding:5px 9px;white-space:nowrap;font-variant-numeric:tabular-nums;opacity:0;transition:opacity .35s;pointer-events:none}
+.pin b{color:var(--leak-ink);font-weight:600}
+.pin.on{opacity:1}
+/* below the stage */
+section.band{padding-top:120px;padding-bottom:120px;border-top:1px solid var(--line);position:relative;z-index:2;background:var(--bg)}
+h2.big{font-weight:600;font-size:clamp(32px,3.6vw,56px);line-height:1.02;letter-spacing:-.035em;margin:0;text-wrap:balance}
+h2.big span{color:var(--fg-3)}
+.desks{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:56px;margin-top:56px}
+.dl{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.dl button{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:14px;align-items:baseline;text-align:left;font:inherit;color:var(--fg-2);background:none;border:0;border-bottom:1px solid var(--line);padding-top:22px;padding-bottom:22px;cursor:pointer}
+.dl button .i{font-size:13px;color:var(--fg-3)}
+.dl button b{font-size:20px;font-weight:600;color:var(--fg-2);letter-spacing:-.02em}
+.dl button span:last-child{font-size:13px;color:var(--fg-3)}
+.dl button[aria-selected=true] b{color:var(--fg)}
+.dl button[aria-selected=true] .i{color:var(--brand-2)}
+.dp{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding-top:32px;padding-bottom:32px;padding-left:34px;padding-right:34px;min-height:400px}
+.dp h3{font-size:26px;font-weight:600;letter-spacing:-.025em;margin:0}
+.dp .tag{font-size:13px;color:var(--brand-2);margin-top:6px}
+.dp p{color:var(--fg-2);line-height:1.6;margin:16px 0 0;max-width:52ch}
+.dp ul{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px}
+.dp li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;color:var(--fg);font-size:15px;line-height:1.5}
+.dp li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand);margin-top:8px}
+.out{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:14px;color:var(--fg-3)}
+.out b{color:var(--fg);font-weight:600}
+ol{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;counter-reset:s}
+ol li{counter-increment:s;background:var(--bg-2);padding-top:30px;padding-bottom:30px;padding-left:28px;padding-right:28px;color:var(--fg-2);line-height:1.55;font-size:15px}
+ol li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid #4A5878;color:var(--fg);font-size:14px;font-weight:600;margin-bottom:22px}
+ol li b{display:block;color:var(--fg);font-weight:600;font-size:17px;margin-bottom:6px}
+.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;margin-top:56px}
+.team div{background:var(--bg-2);padding-top:28px;padding-bottom:28px;padding-left:28px;padding-right:28px;font-size:14px;color:var(--fg-3)}
+.team b{display:block;color:var(--fg);font-weight:600;font-size:19px;letter-spacing:-.01em;margin-bottom:4px}
+.end{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
+.end a{font:600 16px var(--sans);background:var(--brand);color:#06102A;text-decoration:none;padding:16px 26px;border-radius:10px}
+footer{position:relative;z-index:2;background:var(--bg);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-top:36px;padding-bottom:44px;border-top:1px solid var(--line);font-size:14px;color:var(--fg-3)}
+footer b{color:var(--fg);font-weight:600}
+@media (max-width:960px){
+  nav,.pill,.prog{display:none}header{gap:16px}
+  .step{align-items:flex-end;padding-bottom:28px}
+  .step>div,.step.first>div{width:100%}
+  .step.first>div{background:rgba(10,16,32,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;padding-top:22px;padding-bottom:22px;padding-left:20px;padding-right:20px}
+  h1{font-size:38px}
+  .lede{font-size:16px;margin-bottom:20px}
+  form{grid-template-columns:1fr}
+  .desks{grid-template-columns:1fr;gap:36px}
+  ol,.team{grid-template-columns:1fr}
+  section.band{padding-top:80px;padding-bottom:80px}
+  .dp{padding-left:22px;padding-right:22px}
+}
+@media (max-width:600px){.wrap{padding-left:20px;padding-right:20px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pin,.prog i{transition:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#s1">The leak</a><a href="#desks">Desks</a><a href="#how">How we work</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+  <a class="pill" href="#wa">Free leak check</a>
+</header>
+<main>
+  <div class="scrolly" id="scrolly">
+    <div class="stick" id="stick"><canvas id="gl" aria-hidden="true"></canvas><div id="pins"></div><div class="prog" id="prog" aria-hidden="true"></div></div>
+    <div class="steps">
+      <section class="step first wrap"><div>
+        <h1 id="h1">Every rupee on site, <span>accounted for.</span></h1>
+        <p class="lede" id="lede">Supervisors send WhatsApp voice notes, photos and challans. Vera turns them into the true record of each site and shows you, floor by floor, where material walked off.</p>
+        <div class="acts"><a class="demo" href="#s1" id="demo"><i><svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M1 1l10 6-10 6z" fill="currentColor"/></svg></i>Watch the demo</a></div>
+        <form id="f" novalidate>
+          <label for="wa">WhatsApp number for your free leak check</label>
+          <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+          <button type="submit">Start free leak check</button>
+        </form>
+        <p class="fine" id="fine">One site, three months of records, free. No new app.</p>
+        <p class="who" id="who">For contractors doing ₹50–500 Cr of work a year.</p>
+      </div></section>
+      <section class="step wrap" id="s1"><div class="sc" id="c1"></div></section>
+      <section class="step wrap" id="s2"><div class="sc" id="c2"></div></section>
+      <section class="step wrap" id="s3"><div class="sc" id="c3"></div></section>
+      <section class="step wrap" id="s4"><div class="sc" id="c4"></div></section>
+      <section class="step wrap" id="s5"><div class="sc" id="c5"></div></section>
+    </div>
+  </div>
+
+  <section class="band wrap" id="desks">
+    <h2 class="big">One WhatsApp number. <span>Four desks that run on it.</span></h2>
+    <div class="desks">
+      <div class="dl" role="tablist" aria-label="Desks" id="dl"></div>
+      <div class="dp" role="tabpanel" id="dp" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="band wrap" id="how">
+    <h2 class="big">How the free check works</h2>
+    <ol>
+      <li><b>Send three months</b><span id="hs1">POs, challans and store registers for one site. Photos and WhatsApp forwards are fine.</span></li>
+      <li><b>We match every line</b>Orders against deliveries, store issues and the BOQ, bag by bag.</li>
+      <li><b>You get one page</b>Where money leaked, by stage, place and supervisor, in about ten working days.</li>
+    </ol>
+  </section>
+
+  <section class="band wrap" id="team">
+    <h2 class="big">Built by people who <span>sat with the registers.</span></h2>
+    <div class="team"><div><b>Rishiraj Nath</b>IIM Calcutta</div><div><b>Shivam Vatkar</b>IIM Calcutta</div><div><b>Aditya Bhagat</b>IIM Indore</div></div>
+  </section>
+
+  <section class="band wrap">
+    <div class="end"><h2 class="big">Catch wastage <span>from day one.</span></h2><a href="#wa">Start free leak check</a></div>
+  </section>
+</main>
+<footer class="wrap"><span><b>Vera</b> · The true record of every site.</span><span id="made">Made in India, for India's builders.</span></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',loc:'en-IN',price:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',po:'purchase order',ch:'challans',chs:'Challans',
+   h1:['Every rupee on site, ','accounted for.'],who:'For contractors doing ₹50–500 Cr of work a year.',made:"Made in India, for India's builders.",
+   lede:'Supervisors send WhatsApp voice notes, photos and challans. Vera turns them into the true record of each site and shows you, floor by floor, where material walked off.',
+   hs1:'POs, challans and store registers for one site. Photos and WhatsApp forwards are fine.',crew:'supervisors',bill:'running bills',erp:'Tally'},
+ ae:{cur:'AED ',loc:'en-US',price:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',po:'LPO',ch:'delivery notes',chs:'Delivery notes',
+   h1:['Every dirham on site, ','accounted for.'],who:'For contractors doing AED 20–200 M of work a year.',made:'Made in India, for builders in India and the UAE.',
+   lede:'Foremen send WhatsApp voice notes, photos and delivery notes, in whatever language the crew speaks. Vera turns them into the true record of each site and shows you, floor by floor, where material walked off.',
+   hs1:'LPOs, delivery notes and store registers for one site. Photos and WhatsApp forwards are fine.',crew:'foremen',bill:'IPCs',erp:'your ERP'}
+};
+const LEAKS=[ // name, kind, bags, anchor, step it appears in
+ ['Store gate','never entered the store',8,[-8.6,.75,7.4],3],
+ ['Rear bay','never entered the store',10,[-9.6,.75,-7.6],3],
+ ['Floor 1 slab','not in the measured work',6,[-6.4,1.4,4.8],4],
+ ['Floor 2 columns','not in the measured work',12,[6.4,2.55,4.8],4],
+ ['Floor 3 slab','not in the measured work',9,[-6.4,3.7,-4.8],4],
+ ['Floor 4 blockwork','not in the measured work',14,[6.4,4.85,-1.5],4]];
+let mkt='in', desk=0, stepNow=0, P=0;
+const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(M[mkt].loc);
+function cards(){const t=M[mkt],m=n=>fmt(n*t.price);
+ $('c1').innerHTML=`<div class="n">01 · Ordered</div><h2>The ${t.po} goes out for 500 bags.</h2><p>Cement OPC 53 for the frame and blockwork of ${t.site}. The site starts to rise.</p><div class="fig"><b>500</b><span>bags ordered · ${m(500)}</span></div><small>Sample data</small>`;
+ $('c2').innerHTML=`<div class="n">02 · Delivered</div><h2>${t.chs} are signed for all 500.</h2><p>Every truck is checked in at the gate. On paper, nothing is missing.</p><div class="fig"><b>500</b><span>bags signed for</span></div><small>Sample data</small>`;
+ $('c3').innerHTML=`<div class="n">03 · Into the store</div><h2>Only 482 reach the store register.</h2><p>Eight bags stop at the store gate and ten at the rear bay. Each register still balances on its own.</p><div class="fig leak"><b>18</b><span>bags · ${m(18)}</span></div><small>Sample data</small>`;
+ $('c4').innerHTML=`<div class="n">04 · Into the work</div><h2>441 bags are in the measured work.</h2><p>Issued to floors 1 to 4, but the slabs, columns and blockwork only account for 441.</p><div class="fig leak"><b>41</b><span>bags · ${m(41)}</span></div><small>Sample data</small>`;
+ $('c5').innerHTML=`<div class="n">05 · Found</div><h2>${m(59)} found on one site, in one quarter.</h2><p>Vera matched the ${t.po}, the ${t.ch}, the store and the measured work from what the ${t.crew} already send on WhatsApp.</p><div class="fig leak"><b>59</b><span>bags, six places</span></div><small>Sample data. Your free check runs the same match on your own site.</small>`}
+function D(){const t=M[mkt];return [
+ ['Material Leak Check','Free · day one',`Three months of ${mkt==='in'?'POs, challans':'LPOs, delivery notes'}, store issues and BOQ, matched line by line.`,['A one-page summary of where money leaked','Stock balanced across every site','Wastage by '+t.crew.slice(0,-1)],`<b>${fmt(59*t.price)}</b> found on one sample site`],
+ ['One-Day Mobilisation','For developers opening sites','Certificates and checklists are cleared on WhatsApp before anyone travels, so the contractor set-up inspection takes one day instead of two or three.',['Certificates checked on WhatsApp beforehand','One visit, one report','Open items tracked to closure'],'<b>1 day</b> instead of 2–3'],
+ ['Site Record Desk','Core · monthly',`Daily progress against plan, labour by contractor, materials in and the hindrance register, written from what ${t.crew} already send.`,['The 8 AM one-page summary across every site','A weekly claim-ready PDF',`A monthly ${t.erp} import file`],'<b>90%</b> of '+t.crew+' reporting daily is the target'],
+ ['Bill-to-Cash Desk','Add-on · from month two or three',`Builds the ${t.bill} pack from the site record and follows up until it is paid.`,['Measurements backed by the daily record','Follow-ups on every pending bill','A clear view of what is stuck, and where'],'It cannot speed up a government treasury. It can make sure nothing is missing.']]}
+function desks(){const d=D();$('dl').innerHTML=d.map((x,i)=>`<button role="tab" aria-selected="${i===desk}" data-i="${i}"><span class="i">0${i+1}</span><b>${x[0]}</b><span>${x[1]}</span></button>`).join('');
+  const x=d[desk];$('dp').innerHTML=`<h3>${x[0]}</h3><div class="tag">${x[1]}</div><p>${x[2]}</p><ul>${x[3].map(l=>`<li>${l}</li>`).join('')}</ul><div class="out">${x[4]}</div>`;
+  $('dl').querySelectorAll('button').forEach(b=>{b.onclick=()=>{desk=+b.dataset.i;desks()};b.onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();desk=(desk+(e.key==='ArrowDown'?1:3))%4;desks();$('dl').children[desk].focus()}}})}
+function pins(){const t=M[mkt];$('pins').innerHTML=LEAKS.map(l=>`<div class="pin">${l[0]} <b>${l[2]} · ${fmt(l[2]*t.price)}</b></div>`).join('')}
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('h1').innerHTML=`${t.h1[0]}<span>${t.h1[1]}</span>`;$('lede').textContent=t.lede;$('wa').placeholder=t.ph;$('who').textContent=t.who;$('made').textContent=t.made;$('hs1').textContent=t.hs1;
+  cards();desks();pins()}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const d=$('wa').value.replace(/\D/g,'');
+  $('fine').textContent=d.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+$('prog').innerHTML='<i></i>'.repeat(6);
+
+/* the model: a lit architectural model on a night site. Scroll flies the camera through the build; every piece knows when it lands. */
+const stick=$('stick'), cv=$('gl');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=.9;
+R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.setClearColor(0x0A1020,1);
+const S=new THREE.Scene();
+S.fog=new THREE.Fog(new THREE.Color('#16244A').convertSRGBToLinear().multiplyScalar(.5),55,150);
+const C=new THREE.PerspectiveCamera(32,1,.1,400);
+/* sky: deep ink above, a cobalt bloom low on the horizon where the key light sits */
+S.add(new THREE.Mesh(new THREE.SphereGeometry(300,48,24),new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,
+ vertexShader:'varying vec3 vW;void main(){vW=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(vW,1.);}',
+ fragmentShader:'varying vec3 vW;void main(){vec3 d=normalize(vW);float h=d.y;vec3 top=vec3(.027,.043,.094),hz=vec3(.086,.141,.29),low=vec3(.04,.06,.12);'+
+  'vec3 c=mix(hz,top,smoothstep(.0,.55,h));c=mix(low,c,smoothstep(-.12,.0,h));float g=pow(max(dot(d,normalize(vec3(-.55,.12,.6))),0.),6.);c+=vec3(.16,.26,.6)*g*.55;gl_FragColor=vec4(c,1.);}'})));
+/* image-based light from a tiny studio: a long softbox overhead, a cobalt card on one side */
+(()=>{const pm=new THREE.PMREMGenerator(R),es=new THREE.Scene();
+ es.add(new THREE.Mesh(new THREE.BoxGeometry(40,40,40),new THREE.MeshBasicMaterial({color:new THREE.Color(.012,.016,.034),side:THREE.BackSide})));
+ const pan=(w,h,c,x,y,z,rx,ry)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:c,side:THREE.DoubleSide}));m.position.set(x,y,z);m.rotation.set(rx,ry,0);es.add(m)};
+ pan(24,5,new THREE.Color(1.7,1.75,2),0,18,0,Math.PI/2,0);pan(10,16,new THREE.Color(.22,.38,1.3),-19,4,6,0,Math.PI/2);pan(8,6,new THREE.Color(.5,.5,.62),12,6,-18,0,0);
+ S.environment=pm.fromScene(es,.04).texture;pm.dispose()})();
+S.add(new THREE.HemisphereLight(0x8FA6E0,0x05080F,.22));
+const key=new THREE.DirectionalLight(0xFFF1E2,1.7);key.position.set(-20,30,18);key.castShadow=true;
+const mob=()=>innerWidth<=960;
+key.shadow.mapSize.set(mob()?1024:2048,mob()?1024:2048);Object.assign(key.shadow.camera,{left:-22,right:22,top:22,bottom:-22,near:1,far:90});key.shadow.bias=-.0004;key.shadow.normalBias=.02;
+S.add(key);const rim=new THREE.DirectionalLight(0x5B8CFF,1.1);rim.position.set(22,12,-22);S.add(rim);
+/* a fine concrete grain so the slabs read as cast, not as boxes */
+function grainTex(base,spread){const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d'),d=g.createImageData(256,256);
+ for(let i=0;i<d.data.length;i+=4){const v=base+(Math.random()-.5)*spread;d.data[i]=d.data[i+1]=v;d.data[i+2]=v+4;d.data[i+3]=255}g.putImageData(d,0,0);
+ const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.encoding=THREE.sRGBEncoding;return t}
+function halo(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),r=g.createRadialGradient(64,64,0,64,64,64);
+ r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.18,'rgba(255,255,255,.5)');r.addColorStop(.5,'rgba(255,255,255,.12)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)}
+const HALO=halo();
+const conc=new THREE.MeshStandardMaterial({color:0x9AA3B6,map:grainTex(228,30),roughness:.82,metalness:0,envMapIntensity:.55});
+const dark=new THREE.MeshStandardMaterial({color:0x3B4662,map:grainTex(222,40),roughness:.92,envMapIntensity:.4});
+const steel=new THREE.MeshStandardMaterial({color:0xDCE4F4,roughness:.35,metalness:.85,envMapIntensity:1.1});
+const glass=new THREE.MeshPhysicalMaterial({color:0x9DB8FF,roughness:.04,metalness:.1,transparent:true,opacity:.28,clearcoat:1,envMapIntensity:2.2,depthWrite:false});
+const bagM=new THREE.MeshStandardMaterial({color:0xB8B2A6,roughness:.88,envMapIntensity:.4});
+const leakM=new THREE.MeshStandardMaterial({color:0xFF6B5A,emissive:0xFF4A36,emissiveIntensity:.9,roughness:.6});
+const edgeM=new THREE.LineBasicMaterial({color:0xE3ECFF,transparent:true,opacity:.16});
+const G=new THREE.Group();S.add(G);
+const parts=[];
+function add(geo,mat,x,y,z,t,o={}){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=o.cast!==false;m.receiveShadow=true;(o.parent||G).add(m);let e=null;
+  if(o.edges){e=new THREE.LineSegments(new THREE.EdgesGeometry(geo),edgeM);e.position.copy(m.position);(o.parent||G).add(e)}
+  parts.push({m,e,y,t,spin:o.spin||0});return m}
+/* ground: a dark satin site with a lighter pad under the tower */
+const ground=new THREE.Mesh(new THREE.CircleGeometry(160,64),new THREE.MeshStandardMaterial({color:0x0B1226,roughness:.88,metalness:0,envMapIntensity:.25}));
+ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;S.add(ground);
+const pad=new THREE.Mesh(new THREE.BoxGeometry(30,.08,24),new THREE.MeshStandardMaterial({color:0x141D35,roughness:.95,envMapIntensity:.2}));pad.position.set(-1,.04,0);pad.receiveShadow=true;G.add(pad);
+const grid=new THREE.GridHelper(30,30,0x2A3963,0x1B2747);grid.position.set(-1,.085,0);grid.scale.z=.8;grid.material.transparent=true;grid.material.opacity=.55;G.add(grid);
+/* the frame */
+const FH=1.15,BX=[-6,-3,0,3,6],BZ=[-4.5,-1.5,1.5,4.5];
+const slab=new THREE.BoxGeometry(12.6,.16,9.6),col=new THREE.BoxGeometry(.26,FH-.16,.26);
+const tF=f=>f<3?-1:.04+(f-3)*.055;
+for(let f=0;f<9;f++){const y=f*FH;
+  if(f<=6) add(slab,conc,0,y+.08,0,f<3?-1:tF(f)-.012,{edges:true});
+  const n=f<6?20:f===6?12:6;let k=0;
+  if(f<8) for(const x of BX)for(const z of BZ){if(k>=n){k++;continue}add(col,conc,x,y+.16+(FH-.16)/2,z,f<3?-1:tF(f)+k*.0015);k++}
+  if(f>=1&&f<=4){const bays=f===4?3:4;for(let b=0;b<bays;b++)add(new THREE.BoxGeometry(2.74,FH-.3,.14),dark,-4.5+b*3,y+.16+(FH-.3)/2,4.75,.3+f*.05+b*.008);
+    for(let b=0;b<(f===4?1:3);b++)add(new THREE.BoxGeometry(.14,FH-.3,2.74),dark,-6.25,y+.16+(FH-.3)/2,-3+b*3,.32+f*.05+b*.008)}
+  if(f>=5&&f<=6){add(new THREE.BoxGeometry(12.6,FH-.18,.04),glass,0,y+.16+(FH-.18)/2,4.82,.66+(f-5)*.04,{cast:false});
+    add(new THREE.BoxGeometry(.04,FH-.18,9.6),glass,6.32,y+.16+(FH-.18)/2,0,.68+(f-5)*.04,{cast:false})}
+}
+add(new THREE.BoxGeometry(2.2,FH*7.2,2.2),dark,1.5,FH*3.6,-1.5,.18);
+/* store shed and gate */
+add(new THREE.BoxGeometry(3.4,1.7,2.4),dark,-10.6,.85,4.6,-1,{edges:true});
+add(new THREE.BoxGeometry(3.7,.1,2.8),steel,-10.6,1.76,4.6,-1);
+add(new THREE.BoxGeometry(.2,1.9,.2),steel,-9,.95,9,-1);add(new THREE.BoxGeometry(.2,1.9,.2),steel,-5.8,.95,9,-1);add(new THREE.BoxGeometry(3.4,.12,.12),steel,-7.4,1.9,9,-1);
+/* stock: bags stacked at the store, appearing as the challans come in */
+const BAG=new THREE.BoxGeometry(.5,.16,.32);
+for(let i=0;i<48;i++){const lx=i%4,lz=Math.floor(i/4)%3,ly=Math.floor(i/12);add(BAG,bagM,-12.9+lx*.55,.17+ly*.17,2.2+lz*.36,.36+i*.0011)}
+/* the leaked bags: eight at the store gate, ten at the rear bay */
+const leakBags=[];
+function pile(n,cx,cz,t0){for(let i=0;i<n;i++){const a=i*2.39,r=.28+Math.sqrt(i)*.3;const m=add(BAG,bagM,cx+Math.cos(a)*r,.09+(i%3===2?.16:0),cz+Math.sin(a)*r,t0+i*.002);m.rotation.y=a;leakBags.push(m)}}
+pile(8,-8.6,7.4,.5);pile(10,-9.6,-7.6,.52);
+/* the delivery truck */
+const truck=new THREE.Group();G.add(truck);
+const cab=new THREE.Mesh(new THREE.BoxGeometry(1.5,1.4,1.9),new THREE.MeshStandardMaterial({color:0x5B8CFF,roughness:.35,metalness:.4}));cab.position.set(2.1,.95,0);
+const bed=new THREE.Mesh(new THREE.BoxGeometry(3.6,.3,2),steel);bed.position.set(-.5,.55,0);
+const load=new THREE.Mesh(new THREE.BoxGeometry(3.2,.8,1.7),bagM);load.position.set(-.5,1.1,0);
+[cab,bed,load].forEach(m=>{m.castShadow=m.receiveShadow=true;truck.add(m)});
+for(const [x,z] of [[1.9,.95],[1.9,-.95],[-1.3,.95],[-1.3,-.95]]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.26,20),new THREE.MeshStandardMaterial({color:0x10141E,roughness:.7}));w.rotation.x=Math.PI/2;w.position.set(x,.34,z);w.castShadow=true;truck.add(w)}
+/* crane: steel members, not lines */
+const crane=new THREE.Group();G.add(crane);crane.position.set(9.6,0,-6.2);
+const MH=15,mem=(w,h,d,x,y,z,par)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),steel);m.position.set(x,y,z);m.castShadow=true;(par||crane).add(m);return m};
+for(const [x,z] of [[-.35,-.35],[.35,-.35],[-.35,.35],[.35,.35]])mem(.08,MH,.08,x,MH/2,z);
+for(let i=0;i<MH;i+=1){mem(.7,.05,.05,0,i,.35);mem(.7,.05,.05,0,i,-.35);mem(.05,.05,.7,.35,i,0);mem(.05,.05,.7,-.35,i,0);
+  const d=mem(.05,1.2,.05,0,i+.5,.35);d.rotation.z=.6;const d2=mem(.05,1.2,.05,.35,i+.5,0);d2.rotation.x=.6}
+const jib=new THREE.Group();jib.position.y=MH;crane.add(jib);
+mem(19,.07,.07,-5.5,.55,0,jib);mem(19,.07,.07,-5.5,0,.3,jib);mem(19,.07,.07,-5.5,0,-.3,jib);
+for(let i=0;i<19;i++){const x=-14.5+i;const d=mem(.05,.75,.05,x,.28,.15,jib);d.rotation.z=.9;const e=mem(.05,.75,.05,x,.28,-.15,jib);e.rotation.z=-.9}
+mem(.8,1.2,.8,0,1.2,0,jib);mem(1.6,.9,1.2,3.2,-.2,0,jib).material=dark;
+const cable=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,1,6),steel);jib.add(cable);
+const hook=new THREE.Mesh(new THREE.BoxGeometry(.5,.32,.5),new THREE.MeshStandardMaterial({color:0x5B8CFF,roughness:.4,metalness:.5}));jib.add(hook);
+const lift=new THREE.Mesh(new THREE.BoxGeometry(2.4,.12,.9),conc);lift.castShadow=true;jib.add(lift);
+const beacon=new THREE.Sprite(new THREE.SpriteMaterial({map:HALO,color:0xFFFFFF,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));beacon.scale.setScalar(1.1);beacon.position.set(-14.6,.6,0);jib.add(beacon);
+/* drifting dust in the floodlight */
+const DN=mob()?260:700,dp=new Float32Array(DN*3);for(let i=0;i<DN;i++){dp[i*3]=(Math.random()-.5)*50;dp[i*3+1]=Math.random()*18;dp[i*3+2]=(Math.random()-.5)*40}
+const dust=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(dp,3)),new THREE.PointsMaterial({map:HALO,color:0x9FB6F0,size:.14,transparent:true,opacity:.55,depthWrite:false,blending:THREE.AdditiveBlending}));S.add(dust);
+/* leak markers: a coral core, a soft halo and a pulsing ring */
+const pinObjs=[];
+LEAKS.forEach((l,i)=>{const [x,y,z]=l[3];const s=new THREE.Mesh(new THREE.SphereGeometry(.15,20,14),leakM);s.position.set(x,y,z);G.add(s);
+  const h=new THREE.Sprite(new THREE.SpriteMaterial({map:HALO,color:0xFF6B5A,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));h.scale.setScalar(1.6);h.position.copy(s.position);G.add(h);
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.3,.35,40),new THREE.MeshBasicMaterial({color:0xFF6B5A,transparent:true,opacity:.7,side:THREE.DoubleSide,depthWrite:false}));ring.position.copy(s.position);G.add(ring);
+  const pl=new THREE.PointLight(0xFF5A46,0,4,2);pl.position.copy(s.position);G.add(pl);
+  s.visible=ring.visible=h.visible=false;pinObjs.push({s,ring,h,pl,step:l[4],a:0})});
+/* camera keyframes, one per step: [position, target] */
+const KF=[[[-28,18,36],[0,4.4,0]],[[24,15,33],[1,6,-1]],[[-25,6.5,28],[-7.5,1.4,5]],[[-58,21,1],[-6,1.2,-.6]],[[30,11,26],[0,3.1,0]],[[-33,23,42],[0,4.6,0]]];
+const v=new THREE.Vector3(),cp=new THREE.Vector3(),ct=new THREE.Vector3(),ta=new THREE.Vector3(),tb=new THREE.Vector3();
+function size(){const w=stick.clientWidth,h=stick.clientHeight;R.setSize(w,h,false);C.aspect=w/h;
+  if(mob())C.setViewOffset(w,h,0,h*.24,w,h);else C.setViewOffset(w,h,-w*.19,-h*.01,w,h);C.updateProjectionMatrix()}
+addEventListener('resize',size);size();
+let mx=0,my=0;addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+const sc=$('scrolly');
+function progress(){const r=sc.getBoundingClientRect(),tot=r.height-innerHeight;return Math.max(0,Math.min(1,-r.top/tot))}
+const sm=x=>x*x*(3-2*x),cl=x=>Math.max(0,Math.min(1,x));
+let shown=0,pmx=0,pmy=0,lastT=0;
+function render(t){
+  P=progress();const step=Math.min(5,Math.round(P*5));
+  if(step!==stepNow){stepNow=step;document.querySelectorAll('#prog i').forEach((d,i)=>d.classList.toggle('on',i===step))}
+  const dt=Math.min(100,t-(lastT||t));lastT=t;shown+=RM?(P-shown):(P-shown)*(1-Math.exp(-dt/260));
+  for(const q of parts){const k=q.t<0?1:cl((shown-q.t)/.035);const vis=k>0;q.m.visible=vis;if(q.e)q.e.visible=vis;
+    const dy=RM?0:(1-sm(k))*1.6;q.m.position.y=q.y+dy;if(q.e)q.e.position.y=q.y+dy}
+  /* crane works while the frame rises, then rests */
+  const busy=cl(1-(shown-.3)/.2),cyc=(shown*14)%1;
+  jib.rotation.y=-.4+(RM?0:Math.sin(shown*11)*.5*busy+.15*Math.sin(t/7000));
+  const hy=-1.5-(RM?3:(3+Math.sin(cyc*Math.PI*2)*2.6*busy));hook.position.set(-8.6,hy,0);lift.position.set(-8.6,hy-.5,0);lift.visible=busy>.05;
+  cable.position.set(-8.6,hy/2,0);cable.scale.y=-hy;
+  beacon.material.opacity=RM?.9:(Math.sin(t/380)>.2?1:.15);
+  /* truck arrives with the challans, unloads into the store */
+  const tk=sm(cl((shown-.26)/.14));truck.position.set(-36+tk*26.4,0,11.2);load.visible=shown<.4;
+  /* camera along the keyframes, holding on each card */
+  const k5=shown*5,i=Math.min(4,Math.floor(k5)),f=sm(cl((k5-i-.12)/.76));
+  const A=KF[i],B=KF[i+1];cp.fromArray(A[0]).lerp(ta.fromArray(B[0]),f);ct.fromArray(A[1]).lerp(tb.fromArray(B[1]),f);
+  if(mob())cp.sub(ct).multiplyScalar(1.85).add(ct);
+  pmx+=(mx-pmx)*.05;pmy+=(my-pmy)*.05;if(!RM){cp.x+=pmx*2.4;cp.y-=pmy*1.4;cp.x+=Math.sin(t/6000)*.4}
+  C.position.copy(cp);C.lookAt(ct);
+  if(!RM){const a=dust.geometry.attributes.position;for(let j=0;j<DN;j++){let y=a.array[j*3+1]+.004;if(y>18)y=0;a.array[j*3+1]=y}a.needsUpdate=true;dust.rotation.y=t/60000}
+  leakBags.forEach((b,j)=>{b.material=step>=3?leakM:bagM});
+  const w=stick.clientWidth,h=stick.clientHeight,pe=document.querySelectorAll('.pin');
+  pinObjs.forEach((p,j)=>{const on=step>=p.step;p.a+=((on?1:0)-p.a)*(RM?1:.08);const vis=p.a>.02;p.s.visible=p.ring.visible=p.h.visible=vis;
+    p.ring.lookAt(C.position);const k=RM?0:(Math.sin(t/650+j)*.5+.5);p.ring.scale.setScalar((1+k*.8)*p.a);p.ring.material.opacity=(.8-k*.55)*p.a;
+    p.h.material.opacity=p.a*(.75+k*.25);p.h.scale.setScalar(1.3+k*.5);p.pl.intensity=p.a*(1.4+k*.8);
+    const el=pe[j];if(!el)return;el.classList.toggle('on',on&&(p.step===step||(step===5&&!mob())));p.s.getWorldPosition(v);v.y+=.45;v.project(C);el.style.left=Math.max(84,Math.min(w-84,(v.x+1)/2*w))+'px';el.style.top=((1-v.y)/2*h)+'px'});
+  R.render(S,C)}
+$('demo').addEventListener('click',e=>{e.preventDefault();$('s1').scrollIntoView({behavior:RM?'auto':'smooth'})});
+setM('in');
+const loop=t=>{render(t);requestAnimationFrame(loop)};requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

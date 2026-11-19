@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Census</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300..700&display=swap">
+<style>
+/* Census: five hundred bags, one dot each. Follow them from the order to the slab; the ones that leave the grid leave holes. Mist, ink and a single muted amber. */
+:root{
+  --bg:#E3E7E6; --bg-2:#EDF0EF; --ink:#1E2A2F; --ink-2:#44525A; --ink-3:#56636A; --line:#C3CBCA;
+  --amber:#B97A26; --ox:#8A4B12;
+  --sans:"Libre Franklin",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ox);outline-offset:3px}
+.wrap{padding-left:5vw;padding-right:5vw}
+header{display:flex;align-items:center;gap:32px;padding-top:24px;padding-bottom:24px}
+.logo{font-weight:700;font-size:22px;letter-spacing:-.02em;text-decoration:none}
+nav{display:flex;gap:26px;font-size:14px}nav a{text-decoration:none;color:var(--ink-2)}nav a:hover{color:var(--ink)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--line);border-radius:99px;padding:3px}
+.mkt button{font:500 13px var(--sans);border:0;background:none;color:var(--ink-2);padding:7px 13px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--ink);color:var(--bg-2)}
+.hero{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:5vw;padding-top:48px;padding-bottom:96px}
+h1{font-weight:300;font-size:clamp(42px,4.8vw,78px);line-height:1.02;letter-spacing:-.035em;margin:0 0 26px;text-wrap:balance}
+h1 b{font-weight:600}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);margin:0 0 36px;max-width:40ch}
+form{display:grid;grid-template-columns:1fr;gap:8px;max-width:440px}
+form label{font-size:14px;color:var(--ink-2)}
+input{font:400 17px var(--sans);padding:15px 16px;border:1px solid #A9B3B2;border-radius:8px;background:var(--bg-2);color:var(--ink);min-width:0}
+input::placeholder{color:#5A666D}
+form button{font:600 16px var(--sans);padding:15px 20px;border-radius:8px;border:0;background:var(--ink);color:var(--bg-2);cursor:pointer}
+form button:hover{background:#0F181C}
+.fine{font-size:14px;color:var(--ink-3);margin:12px 0 0}
+.who{font-size:14px;color:var(--ink-3);margin:28px 0 0}
+.board{background:var(--bg-2);border-radius:14px;padding-top:24px;padding-bottom:20px;padding-left:28px;padding-right:28px}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-bottom:1px solid var(--line)}
+.tabs button{display:flex;flex-direction:column;justify-content:flex-start;font:inherit;text-align:left;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding-top:4px;padding-bottom:14px;padding-right:10px;cursor:pointer;color:var(--ink-3)}
+.tabs button b{display:block;font-size:30px;font-weight:500;letter-spacing:-.03em;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tabs button span{font-size:13px}
+.tabs button[aria-selected=true]{border-bottom-color:var(--ink);color:var(--ink)}
+.tabs button[aria-selected=true] b{color:var(--ink)}
+.tabs button.lost b{color:var(--ox)}
+#cv{display:block;width:100%;margin-top:18px;touch-action:pan-y}
+.read{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-3)}
+.read b{color:var(--ox);font-weight:600;font-size:18px}
+#tip{position:fixed;z-index:5;pointer-events:none;background:var(--ink);color:var(--bg-2);font-size:13px;line-height:1.4;padding:7px 10px;border-radius:6px;opacity:0;transition:opacity .15s;max-width:240px}
+section.band{padding-top:110px;padding-bottom:110px;border-top:1px solid var(--line)}
+h2{font-weight:300;font-size:clamp(32px,3.4vw,52px);line-height:1.05;letter-spacing:-.03em;margin:0;max-width:22ch;text-wrap:balance}
+h2 b{font-weight:600}
+ol{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.6}
+ol li::before{content:counter(s);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink);color:var(--ink);font-weight:600;margin-bottom:20px}
+ol li b{display:block;color:var(--ink);font-weight:600;font-size:18px;margin-bottom:6px}
+.desks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:56px}
+.desks div{background:var(--bg-2);border-radius:12px;padding-top:26px;padding-bottom:26px;padding-left:28px;padding-right:28px}
+.desks b{display:block;font-size:21px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.desks span{display:block;font-size:13px;color:var(--ox);font-weight:600;margin-bottom:12px}
+.desks p{margin:0;color:var(--ink-2);line-height:1.55;font-size:15px}
+.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;margin-top:48px}
+.team div{border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--ink-3)}
+.team b{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-bottom:4px}
+footer{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-top:32px;padding-bottom:40px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-3)}
+footer b{color:var(--ink)}
+@media (max-width:960px){
+  nav{display:none}
+  .hero{grid-template-columns:1fr;gap:44px;padding-top:24px}
+  .tabs button b{font-size:22px}
+  .board{padding-left:16px;padding-right:16px}
+  ol,.team,.desks{grid-template-columns:1fr;gap:28px}
+  .desks{gap:12px}
+  section.band{padding-top:80px;padding-bottom:80px}
+}
+@media (max-width:600px){.wrap{padding-left:20px;padding-right:20px}}
+@media (prefers-reduced-motion:reduce){#tip{transition:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#how">How the check works</a><a href="#desks">Desks</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <div>
+      <h1>Five hundred bags ordered. <b>Follow every one.</b></h1>
+      <p class="lede" id="lede">Vera reads the purchase order, the challans, the store register and the measured work your supervisors already send on WhatsApp, and tracks each bag to where it ended up.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free. No new app.</p>
+      <p class="who" id="who">For contractors doing ₹50–500 Cr of work a year.</p>
+    </div>
+    <div class="board">
+      <div class="tabs" role="tablist" aria-label="Stage" id="tabs"></div>
+      <canvas id="cv" role="img" aria-label=""></canvas>
+      <div class="read"><span id="rl">Sample data · Site 03, Indore · Cement OPC 53</span><span id="rr"></span></div>
+    </div>
+  </section>
+
+  <section class="band wrap" id="how">
+    <h2>How the free check works</h2>
+    <ol>
+      <li><b>Send three months</b><span id="hs1">POs, challans and store registers for one site. Photos and WhatsApp forwards are fine.</span></li>
+      <li><b>We count every bag</b>Orders against deliveries, store issues and the BOQ, line by line.</li>
+      <li><b>You see the holes</b>One page showing where money leaked, by stage, place and supervisor, in about ten working days.</li>
+    </ol>
+  </section>
+
+  <section class="band wrap" id="desks">
+    <h2>One WhatsApp number. <b>Four desks.</b></h2>
+    <div class="desks" id="dk"></div>
+  </section>
+
+  <section class="band wrap" id="team">
+    <h2>Built by people who <b>sat with the registers.</b></h2>
+    <div class="team"><div><b>Rishiraj Nath</b>IIM Calcutta</div><div><b>Shivam Vatkar</b>IIM Calcutta</div><div><b>Aditya Bhagat</b>IIM Indore</div></div>
+  </section>
+</main>
+<footer class="wrap"><span><b>Vera</b> · The true record of every site.</span><span id="made">Made in India, for India's builders.</span></footer>
+<div id="tip" role="presentation"></div>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches,$=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',loc:'en-IN',price:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',st:['Ordered','On challans','In the store','In the work'],
+  who:'For contractors doing ₹50–500 Cr of work a year.',made:"Made in India, for India's builders.",hs1:'POs, challans and store registers for one site. Photos and WhatsApp forwards are fine.',
+  lede:'Vera reads the purchase order, the challans, the store register and the measured work your supervisors already send on WhatsApp, and tracks each bag to where it ended up.',crew:'supervisors',bill:'running bills'},
+ ae:{cur:'AED ',loc:'en-US',price:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',st:['On the LPO','On delivery notes','In the store','In the work'],
+  who:'For contractors doing AED 20–200 M of work a year.',made:'Made in India, for builders in India and the UAE.',hs1:'LPOs, delivery notes and store registers for one site. Photos and WhatsApp forwards are fine.',
+  lede:'Vera reads the LPO, the delivery notes, the store register and the measured work your foremen already send on WhatsApp, and tracks each bag to where it ended up.',crew:'foremen',bill:'IPCs'}};
+let mkt='in',stage=0,auto=!RM;const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(M[mkt].loc);
+const COUNT=[500,500,482,441];
+/* which bags go missing, and where: a fixed draw so the story is repeatable */
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const idx=[...Array(500).keys()];for(let i=499;i>0;i--){const j=Math.floor(rnd()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}
+const GROUPS=[['Store gate',8,2],['Rear bay',10,2],['Floor 1 slab',6,3],['Floor 2 columns',12,3],['Floor 3 slab',9,3],['Floor 4 blockwork',14,3]];
+const fate=new Array(500).fill(-1);let q=0;GROUPS.forEach((g,gi)=>{for(let k=0;k<g[1];k++)fate[idx[q++]]=gi});
+const where=i=>{const s=Math.floor(i*7/500);return ['Floor 1 slab','Floor 1 slab','Floor 2 columns','Floor 2 columns','Floor 3 slab','Floor 4 blockwork','Floor 4 blockwork'][s]};
+const cv=$('cv'),ctx=cv.getContext('2d');let W=0,H=0,S=1,cell=0,r=0,ox=0,oy=0,side=null;
+const dots=[...Array(500)].map((_,i)=>({i,x:0,y:0,fx:0,fy:0,tx:0,ty:0,t0:0,dur:1,ring:0,ringT:0,ring0:0}));
+function geometry(){const w=cv.clientWidth;const narrow=w<560;S=Math.min(devicePixelRatio||1,2);
+  /* grid on the left, the lost bags gather on the right (or below on a phone) */
+  const gw=narrow?w:w*.62;cell=gw/25;r=cell*.3;ox=cell/2;oy=cell/2;
+  const gh=cell*20;const h=narrow?gh+330:Math.max(gh,420);
+  cv.style.height=h+'px';W=w;H=h;cv.width=Math.round(w*S);cv.height=Math.round(h*S);
+  side=narrow?{x:0,y:gh+30,w:w,h:300,narrow}:{x:gw+cell*1.2,y:0,w:w-gw-cell*1.2,h:h,narrow}}
+function home(i){return [ox+(i%25)*cell,oy+Math.floor(i/25)*cell]}
+function slot(gi,k){const s=side,tc=Math.max(cell*.92,11);
+  /* six labelled clusters: two store places, four floors */
+  const col=s.narrow?(gi%2):(gi<2?gi:(gi-2)%2),row=s.narrow?Math.floor(gi/2):(gi<2?0:1+Math.floor((gi-2)/2));
+  const cw=s.w/2,bx=s.x+col*cw,by=s.y+(s.narrow?row*100:row*(s.h/3))+34;const per=Math.max(4,Math.floor((cw-16)/tc));
+  return [bx+tc/2+(k%per)*tc,by+tc/2+Math.floor(k/per)*tc]}
+function targets(now,instant){const ks=new Array(6).fill(0);let n=0;
+  dots.forEach(d=>{const g=fate[d.i];let gone=g>=0&&((g<2&&stage>=2)||(g>=2&&stage>=3));
+    let [tx,ty]=home(d.i);if(gone){[tx,ty]=slot(g,ks[g]++)}
+    const was=d.ring;d.ring=gone?1:0;
+    if(tx!==d.tx||ty!==d.ty||instant){d.fx=instant?tx:d.x;d.fy=instant?ty:d.y;d.tx=tx;d.ty=ty;d.t0=now+(gone&&!instant?(n++)*14:0);d.dur=instant||RM?1:900;if(instant||RM){d.x=tx;d.y=ty}}
+    if(was!==d.ring){d.ring0=was;d.ringT=d.t0}})}
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function labels(){ctx.font='500 12px "Libre Franklin",system-ui,sans-serif';ctx.textBaseline='alphabetic';
+  GROUPS.forEach((g,gi)=>{const show=(gi<2&&stage>=2)||(gi>=2&&stage>=3);if(!show)return;const [x,y]=slot(gi,0);
+    ctx.fillStyle='#56636A';ctx.fillText(g[0],x-cell*.46,y-14);ctx.fillStyle='#8A4B12';const w=ctx.measureText(g[0]).width;ctx.font='600 12px "Libre Franklin",system-ui,sans-serif';ctx.fillText(' '+g[1],x-cell*.46+w,y-14);ctx.font='500 12px "Libre Franklin",system-ui,sans-serif'});
+  if(stage<2){ctx.fillStyle='#56636A';const s=side;ctx.fillText(stage===0?'Every bag is on the order.':'Every bag is signed for at the gate.',s.x+(s.narrow?0:4),s.y+34)}}
+function frame(now){ctx.setTransform(S,0,0,S,0,0);ctx.clearRect(0,0,W,H);let busy=false;
+  /* the grid's empty cells stay marked, so the holes read as holes */
+  ctx.strokeStyle='rgba(30,42,47,.16)';ctx.lineWidth=1;
+  dots.forEach(d=>{const k=Math.max(0,Math.min(1,(now-d.t0)/d.dur));if(k<1)busy=true;const e=ease(k);d.x=d.fx+(d.tx-d.fx)*e;d.y=d.fy+(d.ty-d.fy)*e;
+    if(d.ring){const [hx,hy]=home(d.i);ctx.beginPath();ctx.arc(hx,hy,r*.55,0,7);ctx.stroke()}});
+  dots.forEach(d=>{const kr=Math.max(0,Math.min(1,(now-d.ringT)/(RM?1:600)));const ring=d.ring0+(d.ring-d.ring0)*kr;
+    ctx.beginPath();ctx.arc(d.x,d.y,r,0,7);
+    if(ring>.5){ctx.lineWidth=1.6;ctx.strokeStyle='#B97A26';ctx.stroke()}else{ctx.fillStyle=d.i===hover?'#B97A26':'#1E2A2F';ctx.fill()}});
+  labels();
+  if(busy)requestAnimationFrame(frame)}
+let hover=-1;
+function tabs(){const t=M[mkt];$('tabs').innerHTML=COUNT.map((c,i)=>`<button role="tab" aria-selected="${i===stage}" class="${i>=2?'lost':''}" data-i="${i}"><b>${c}</b><span>${t.st[i]}</span></button>`).join('');
+  $('tabs').querySelectorAll('button').forEach(b=>{b.onclick=()=>{auto=false;go(+b.dataset.i)};b.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();auto=false;go((stage+(e.key==='ArrowRight'?1:3))%4);$('tabs').children[stage].focus()}}})}
+function readout(){const t=M[mkt],lost=500-COUNT[stage];
+  $('rr').innerHTML=lost?`<b>${lost} bags · ${fmt(lost*t.price)}</b> not where the records say`:'Nothing missing on paper';
+  cv.setAttribute('aria-label',`Sample data. 500 dots, one per cement bag. ${t.st[stage]}: ${COUNT[stage]}. `+(stage>=2?'8 bags stopped at the store gate and 10 at the rear bay. ':'')+(stage>=3?'6 are missing from the floor 1 slab, 12 from floor 2 columns, 9 from the floor 3 slab and 14 from floor 4 blockwork.':''))}
+function go(s){stage=s;$('tabs').querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-selected',i===s));targets(performance.now(),false);readout();requestAnimationFrame(frame)}
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('wa').placeholder=t.ph;$('who').textContent=t.who;$('made').textContent=t.made;$('hs1').textContent=t.hs1;$('lede').textContent=t.lede;$('rl').textContent='Sample data · '+t.site+' · Cement OPC 53';
+  tabs();readout();desks()}
+function desks(){const t=M[mkt];$('dk').innerHTML=[
+ ['Material Leak Check','Free · day one',`Three months of ${mkt==='in'?'POs, challans':'LPOs, delivery notes'}, store issues and BOQ, matched line by line. A one-page summary of where money leaked.`],
+ ['One-Day Mobilisation','For developers opening sites','Certificates and checklists cleared on WhatsApp before anyone travels, so the set-up inspection takes one day instead of two or three.'],
+ ['Site Record Desk','Core · monthly',`Daily progress, labour, materials and hindrances, written up from what ${t.crew} already send. An 8 AM summary across every site.`],
+ ['Bill-to-Cash Desk','Add-on · from month two or three',`Builds the ${t.bill} pack from the site record and follows up until it is paid.`]].map(d=>`<div><span>${d[1]}</span><b>${d[0]}</b><p>${d[2]}</p></div>`).join('')}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const d=$('wa').value.replace(/\D/g,'');
+  $('fine').textContent=d.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+/* hover a dot to see where that bag ended up */
+const tip=$('tip');
+cv.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;let best=-1,bd=(cell*.6)**2;
+  dots.forEach(d=>{const dd=(d.x-x)**2+(d.y-y)**2;if(dd<bd){bd=dd;best=d.i}});
+  if(best!==hover){hover=best;requestAnimationFrame(frame)}
+  if(best<0){tip.style.opacity=0;return}
+  const g=fate[best],gone=dots[best].ring;
+  tip.textContent=`Bag ${best+1} of 500 · `+(gone?(g<2?`signed for, never entered the store (${GROUPS[g][0].toLowerCase()})`:`issued to ${GROUPS[g][0].toLowerCase()}, not in the measured work`):(stage>=3?`in the work, ${where(best).toLowerCase()}`:stage===2?'in the store':stage===1?'signed for at the gate':'on the order'));
+  tip.style.left=Math.min(innerWidth-250,e.clientX+14)+'px';tip.style.top=(e.clientY+14)+'px';tip.style.opacity=1});
+cv.addEventListener('pointerleave',()=>{tip.style.opacity=0;hover=-1;requestAnimationFrame(frame)});
+function init(){geometry();targets(0,true);requestAnimationFrame(frame)}
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,150)});
+setM('in');document.fonts.ready.then(()=>{init();if(RM)go(3)});
+/* autoplay walks the story once, then holds on the result until someone takes over */
+if(auto){let s=0;const step=()=>{if(!auto)return;s++;if(s<=3){go(s);setTimeout(step,s===3?0:2600)}};setTimeout(step,1800)}
+})();
+</script>
+</body>
+</html>
