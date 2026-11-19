@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Basin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Rethink+Sans:wght@400..800&display=swap">
+<style>
+/* Basin: a marbling bath. Indigo ink moves on cool paper; as the delivery is followed stage by stage, the lost material spreads through it as vermilion dye. */
+:root{
+  --paper:#F3F4F6; --ink:#12162A; --ink-2:#434862; --ink-3:#62677F; --rule:#D9DBE3; --indigo:#18265E; --dye:#C8361A;
+  --serif:"Gloock",ui-serif,Georgia,serif; --sans:"Rethink Sans",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--dye);outline-offset:3px}
+.wrap{padding-left:5vw;padding-right:5vw}
+@media (max-width:600px){.wrap{padding-left:20px;padding-right:20px}}
+header{position:relative;z-index:2;display:flex;align-items:center;gap:32px;padding-top:24px;padding-bottom:24px}
+.logo{font-family:var(--serif);font-size:28px;text-decoration:none;line-height:1}
+nav{display:flex;gap:26px;font-size:15px}nav a{text-decoration:none;color:var(--ink-2)}nav a:hover{color:var(--ink)}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--ink);border-radius:99px;overflow:hidden}
+.mkt button{font:500 14px var(--sans);border:0;background:none;color:var(--ink);padding:8px 15px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.hero{position:relative;min-height:calc(100vh - 80px);display:flex;align-items:flex-end;padding-bottom:56px}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.copy{position:relative;width:min(560px,46vw)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,5.6vw,92px);line-height:.98;letter-spacing:-.02em;margin:0 0 22px}
+.lede{font-size:18px;line-height:1.55;color:var(--ink-2);margin:0 0 26px;max-width:44ch}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+form label{grid-column:1/-1;font-size:14px;color:var(--ink-2)}
+input{font:400 17px var(--sans);padding:15px 18px;border:1px solid var(--ink);border-radius:4px;background:#fff;color:var(--ink);min-width:0}
+form button{font:600 16px var(--sans);padding:15px 22px;border-radius:4px;border:0;background:var(--ink);color:#fff;cursor:pointer;white-space:nowrap}
+form button:hover{background:var(--indigo)}
+.fine{font-size:14px;color:var(--ink-3);margin:12px 0 0}
+.follow{position:absolute;right:max(20px,5vw);bottom:56px;width:min(420px,34vw);background:rgba(243,244,246,.94);border:1px solid var(--rule);border-radius:6px;padding-top:18px;padding-bottom:18px;padding-left:20px;padding-right:20px}
+.follow .h{font-size:14px;color:var(--ink-3);margin:0 0 12px}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.seg button{font:500 13px var(--sans);border:1px solid var(--rule);background:#fff;color:var(--ink-2);padding:9px 6px;border-radius:4px;cursor:pointer;line-height:1.25}
+.seg button[aria-checked=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.read{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;gap:12px}
+.read b{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.read span{font-size:14px;color:var(--ink-2);text-align:right}
+.traces{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:96px;padding-bottom:80px;border-top:1px solid var(--rule);background:#fff}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.4vw,52px);line-height:1.02;margin:0 0 16px}
+.traces p{color:var(--ink-2);line-height:1.6;margin:0;max-width:38ch}
+.tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.tl li{padding-top:22px;padding-bottom:22px;padding-left:20px;padding-right:20px;background:var(--paper);display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;font-variant-numeric:tabular-nums}
+.tl svg{display:block}
+.tl b{display:block;font-weight:600;font-size:16px}
+.tl span{font-size:14px;color:var(--ink-2);line-height:1.45}
+.tl em{font-style:normal;display:block;font-size:14px;color:var(--ink)}
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:80px;padding-bottom:110px;background:#fff;border-top:1px solid var(--rule)}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.55;font-size:15px}
+ol li::before{content:counter(s);display:block;font-family:var(--serif);font-size:40px;line-height:1;color:var(--dye);margin-bottom:12px}
+ol li b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+.team{display:flex;gap:44px;flex-wrap:wrap;margin-top:52px;font-size:14px;color:var(--ink-3)}
+.team b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+.sample{font-size:13px;color:var(--ink-3);margin-top:14px}
+@media (max-width:960px){
+  nav{display:none}header{gap:16px}
+  .hero{display:block;min-height:0;padding-bottom:40px}
+  #gl{position:relative;height:56vh;margin-left:-5vw;width:calc(100% + 10vw)}
+  @media (max-width:600px){#gl{margin-left:-20px;width:calc(100% + 40px)}}
+  .copy{width:auto;margin-top:28px}
+  .follow{position:relative;right:auto;bottom:auto;width:auto;margin-top:28px}
+  form{grid-template-columns:1fr}
+  .traces,.how{grid-template-columns:1fr;gap:28px}
+  .tl,ol{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#traces">Traces</a><a href="#how">How it works</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="copy">
+      <h1>Every lost bag leaves a trace.</h1>
+      <p class="lede" id="lede">Vera reads the challans, store slips and WhatsApp notes from your sites and follows each delivery to the work. What goes missing shows up, stage by stage, in bags and rupees.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free.</p>
+    </div>
+    <div class="follow">
+      <p class="h" id="fh">Follow 500 bags of cement · Site 03, Indore · sample data</p>
+      <div class="seg" role="radiogroup" aria-label="Stage" id="seg"></div>
+      <div class="read"><b id="rv">0 bags</b><span id="rs">Ordered on the purchase order</span></div>
+    </div>
+  </section>
+  <section class="traces wrap" id="traces">
+    <div><h2>Six traces, one site</h2><p>Each ring is a bag that left the record. Two leaks at the store, four between issue and the measured work.</p><p class="sample">Sample data · Jul–Sep</p></div>
+    <ul class="tl" id="tl"></ul>
+  </section>
+  <section class="how wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b><span id="s1">POs, challans and store registers for one site. Photos are fine.</span></li>
+        <li><b>We follow every delivery</b>From the order to the work it was meant for.</li>
+        <li><b>You get the traces</b>Stage, place, quantity and value for each leak, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',loc:'en-IN',price:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',st:['Purchase order','Challan','Store issue','In the work'],
+   say:['Ordered on the purchase order','Signed for on the challan','Entered in the store register','Measured in the work'],
+   lede:'Vera reads the challans, store slips and WhatsApp notes from your sites and follows each delivery to the work. What goes missing shows up, stage by stage, in bags and rupees.',
+   s1:'POs, challans and store registers for one site. Photos are fine.'},
+ ae:{cur:'AED ',loc:'en-US',price:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',st:['LPO','Delivery note','Store issue','In the work'],
+   say:['Ordered on the LPO','Signed for on the delivery note','Entered in the store register','Measured in the work'],
+   lede:'Vera reads the delivery notes, store slips and WhatsApp notes from your sites and follows each delivery to the work. What goes missing shows up, stage by stage, in bags and dirhams.',
+   s1:'LPOs, delivery notes and store registers for one site. Photos are fine.'}
+};
+const Q=[500,500,482,441];
+const TR=[['Store gate','Delivered, never entered store',8],['Rear bay','Delivered, never entered store',10],['Floor 1 slab','Issued, not in the work',6],
+  ['Floor 2 columns','Issued, not in the work',12],['Floor 3 slab','Issued, not in the work',9],['Floor 4 blockwork','Issued, not in the work',14]];
+let mkt='in', stage=0, D=0, Dt=0;
+const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(M[mkt].loc);
+function rings(n){let s='';const k=Math.ceil(n/2);for(let i=0;i<k;i++){s+=`<circle cx="30" cy="30" r="${4+i*3.4}" fill="none" stroke="${i===k-1?'#C8361A':'#18265E'}" stroke-width="1.2" opacity="${.35+.65*(i+1)/k}"/>`}return `<svg width="60" height="60" viewBox="0 0 60 60" aria-hidden="true">${s}</svg>`}
+function draw(){const t=M[mkt];
+  document.querySelectorAll('#seg button').forEach((b,i)=>{b.textContent=t.st[i];b.setAttribute('aria-checked',i===stage);b.tabIndex=i===stage?0:-1});
+  const lost=Q[0]-Q[stage];
+  $('rv').textContent=stage===0?'500 bags':`${lost} lost`;
+  $('rs').textContent=stage===0?t.say[0]:`${t.say[stage]} · ${fmt(lost*t.price)}`;
+  $('fh').textContent=`Follow 500 bags of cement · ${t.site} · sample data`;
+  Dt=lost/59;
+  $('tl').innerHTML=TR.map(r=>`<li>${rings(r[2])}<div><b>${r[0]}</b><span>${r[1]}</span><em>${r[2]} bags · ${fmt(r[2]*t.price)}</em></div></li>`).join('');
+}
+const seg=$('seg');
+for(let i=0;i<4;i++){const b=document.createElement('button');b.setAttribute('role','radio');b.onclick=()=>{stage=i;draw()};
+  b.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();stage=(stage+(e.key==='ArrowRight'?1:3))%4;draw();seg.children[stage].focus()}};seg.appendChild(b)}
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('lede').textContent=t.lede;$('wa').placeholder=t.ph;$('s1').textContent=t.s1;draw()}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const d=$('wa').value.replace(/\D/g,'');
+  $('fine').textContent=d.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+setM('in');
+/* auto-follow once on load so the dye is seen, unless reduced motion */
+if(!RM){let i=0;const iv=setInterval(()=>{if(++i>3){clearInterval(iv);return}stage=i;draw()},1600);seg.addEventListener('pointerdown',()=>clearInterval(iv),{once:true})}
+
+/* marbling shader */
+const cv=$('gl'), gl=cv.getContext('webgl',{antialias:false,preserveDrawingBuffer:true});
+if(!gl)return;
+const vs=`attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}`;
+const fs=`precision highp float;
+uniform vec2 R;uniform float T;uniform vec2 Mo;uniform float D;uniform float L;uniform vec2 S;
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float s=0.,a=.5;for(int i=0;i<5;i++){s+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return s;}
+void main(){
+ vec2 uv=gl_FragCoord.xy/R; float asp=R.x/R.y;
+ vec2 p=vec2(uv.x*asp,uv.y)*1.5;
+ vec2 m=vec2(Mo.x*asp,Mo.y)*1.5; vec2 d=p-m; float k=exp(-dot(d,d)*4.)*2.2;
+ float c=cos(k),s=sin(k); p=m+mat2(c,-s,s,c)*d;
+ float t=T*.03;
+ vec2 q=vec2(fbm(p+vec2(0.,t)),fbm(p+vec2(5.2,1.3)-t));
+ vec2 r=vec2(fbm(p+2.4*q+vec2(1.7,9.2)+t*1.2),fbm(p+2.4*q+vec2(8.3,2.8)-t));
+ float f=fbm(p+2.2*r);
+ float vein=sin((f+r.x*.7)*20.);
+ float ink=smoothstep(.1,.85,vein)*smoothstep(.42,.72,f+q.y*.3);
+ float hair=smoothstep(.93,1.,abs(sin((f+q.x)*48.)))*.45;
+ float mask=smoothstep(L,L+.22,uv.x);
+ vec3 paper=vec3(.953,.957,.965);
+ vec3 inkc=mix(vec3(.094,.149,.369),vec3(.16,.30,.86),smoothstep(.35,.75,q.x));
+ vec3 col=mix(paper,inkc,clamp(ink*.94+hair,0.,1.)*mask);
+ vec2 sd=vec2(S.x*asp,S.y)*1.5; float dist=length(p-sd)+(r.y-.5)*1.1;
+ float rad=D*.9;
+ float dye=(1.-smoothstep(rad-.1,rad+.03,dist))*step(.004,D);
+ float dv=.5+.5*smoothstep(-.4,.9,vein);
+ col=mix(col,mix(vec3(.86,.22,.08),vec3(1.,.47,.15),smoothstep(.3,.8,q.y)),dye*dv*max(mask,.0));
+ gl_FragColor=vec4(col,1.);
+}`;
+function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const al=gl.getAttribLocation(pr,'a');gl.enableVertexAttribArray(al);gl.vertexAttribPointer(al,2,gl.FLOAT,false,0,0);
+const U=n=>gl.getUniformLocation(pr,n);const uR=U('R'),uT=U('T'),uM=U('Mo'),uD=U('D'),uL=U('L'),uS=U('S');
+let mx=.75,my=.55,tx=.75,ty=.55;
+const mob=()=>innerWidth<=960;
+function size(){const s=.7;cv.width=Math.round(cv.clientWidth*s);cv.height=Math.round(cv.clientHeight*s);gl.viewport(0,0,cv.width,cv.height)}
+addEventListener('resize',size);size();
+document.querySelector('.hero').addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=1-(e.clientY-r.top)/r.height});
+let vis=true;new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(cv);
+function frame(ms){
+  mx+=(tx-mx)*.05;my+=(ty-my)*.05;D+=(Dt-D)*(RM?1:.035);
+  gl.uniform2f(uR,cv.width,cv.height);gl.uniform1f(uT,RM?8:ms/1000+8);gl.uniform2f(uM,mx,my);gl.uniform1f(uD,D);
+  gl.uniform1f(uL,mob()?-1:.4);gl.uniform2f(uS,mob()?.5:.66,mob()?.45:.6);
+  gl.drawArrays(gl.TRIANGLES,0,3);
+}
+function loop(ms){if(vis)frame(ms);requestAnimationFrame(loop)}
+if(RM){frame(0);const o=draw;}
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

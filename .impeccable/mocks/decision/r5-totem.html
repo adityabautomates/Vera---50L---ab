@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Totem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400..900&family=Red+Hat+Text:wght@400..700&display=swap">
+<style>
+/* Totem: one saturated ultramarine field and one enormous segment figure, the money your sites lost, with unlit cells showing how big it could get. Below it, a departures-style board of sites that re-ranks. */
+:root{
+  --ultra:#1430E6; --deep:#0C1F9E; --ink:#FFFFFF; --ink-2:#D3D9FF; --ink-3:#B7C1FF; --line:rgba(255,255,255,.2); --lit:#FFC83D;
+  --disp:"Red Hat Display",ui-sans-serif,system-ui,sans-serif; --sans:"Red Hat Text",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ultra);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--lit);outline-offset:3px}
+.wrap{padding-left:max(20px,5vw);padding-right:max(20px,5vw)}
+header{display:flex;align-items:center;gap:32px;padding-top:24px;padding-bottom:24px}
+.logo{font-family:var(--disp);font-weight:900;font-size:24px;letter-spacing:-.03em;text-decoration:none}
+nav{display:flex;gap:26px;font-size:15px}nav a{text-decoration:none;color:var(--ink-2)}nav a:hover{color:#fff}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid var(--line);border-radius:99px;padding:3px}
+.mkt button{font:500 14px var(--sans);border:0;background:none;color:#fff;padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:#fff;color:var(--ultra)}
+.hero{padding-top:7vh;padding-bottom:40px}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(24px,2.3vw,34px);letter-spacing:-.02em;line-height:1.2;margin:0;max-width:30ch}
+.totem{display:flex;align-items:flex-start;gap:1.2vw;margin-top:28px}
+.totem .cur{font-family:var(--disp);font-weight:800;font-size:clamp(48px,8vw,128px);line-height:.9;color:var(--lit)}
+.totem svg{display:block;height:clamp(110px,19vw,290px);width:auto;max-width:100%}
+.meta{display:flex;gap:40px;flex-wrap:wrap;margin-top:26px;font-size:15px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.meta b{display:block;font-family:var(--disp);font-weight:700;font-size:24px;color:#fff}
+.act{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:end;padding-top:40px;padding-bottom:72px;border-bottom:1px solid var(--line)}
+.lede{font-size:18px;line-height:1.55;color:var(--ink-2);margin:0;max-width:46ch}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+form label{grid-column:1/-1;font-size:14px;color:var(--ink-2)}
+input{font:400 17px var(--sans);padding:15px 18px;border:0;border-radius:4px;background:#fff;color:#0B1240;min-width:0}
+form button{font:700 16px var(--sans);padding:15px 22px;border-radius:4px;border:0;background:var(--lit);color:#0B1240;cursor:pointer;white-space:nowrap}
+form button:hover{background:#FFD76A}
+.fine{font-size:14px;color:var(--ink-2);margin:12px 0 0}
+.board{padding-top:72px;padding-bottom:80px}
+.bh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,3vw,46px);letter-spacing:-.03em;line-height:1.05;margin:0}
+.sort{display:flex;gap:4px;flex-wrap:wrap}
+.sort span{font-size:13px;color:var(--ink-3);margin-right:8px;align-self:center}
+.sort button{font:500 14px var(--sans);border:1px solid var(--line);background:none;color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer}
+.sort button[aria-pressed=true]{background:#fff;color:var(--ultra);border-color:#fff}
+.rows{position:relative;border-top:1px solid var(--line)}
+.r{display:grid;grid-template-columns:44px minmax(0,1.4fr) minmax(0,2fr) 110px 130px 110px;gap:16px;align-items:center;padding-top:18px;padding-bottom:18px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;cursor:pointer;background:var(--ultra);width:100%;border-left:0;border-right:0;border-top:0;color:#fff;font:inherit;text-align:left}
+.r:hover{background:#1A38F0}
+.r[aria-pressed=true]{background:var(--deep)}
+.r .n{font-family:var(--disp);font-weight:800;font-size:22px;color:var(--ink-3)}
+.r .s{font-family:var(--disp);font-weight:700;font-size:19px}
+.r .s small{display:block;font-family:var(--sans);font-weight:400;font-size:13px;color:var(--ink-3)}
+.r .p{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink-2)}
+.r .p i{position:relative;flex:1;height:6px;background:rgba(255,255,255,.16);border-radius:3px;overflow:hidden}
+.r .p i::after{content:"";position:absolute;inset:0;width:var(--w);background:#fff;border-radius:3px}
+.r .b{text-align:right;color:var(--ink-2)}
+.r .v{text-align:right;font-family:var(--disp);font-weight:700;font-size:19px}
+.r .st{justify-self:end;font-size:13px;font-weight:700;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;border-radius:3px;border:1px solid var(--line);color:var(--ink-2)}
+.r .st.alert{background:var(--lit);border-color:var(--lit);color:#0B1240}
+.sample{font-size:13px;color:var(--ink-3);margin-top:14px}
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:72px;padding-bottom:110px;border-top:1px solid var(--line)}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.55;font-size:15px}
+ol li::before{content:counter(s);display:block;font-family:var(--disp);font-weight:800;font-size:44px;line-height:1;color:var(--lit);margin-bottom:12px}
+ol li b{display:block;color:#fff;font-weight:700;margin-bottom:4px}
+.team{display:flex;gap:44px;flex-wrap:wrap;margin-top:52px;font-size:14px;color:var(--ink-3)}
+.team b{display:block;color:#fff;font-weight:700;font-size:15px}
+@media (max-width:960px){
+  nav{display:none}header{gap:16px}
+  .act,.how{grid-template-columns:1fr;gap:28px}
+  form{grid-template-columns:1fr}
+  ol{grid-template-columns:1fr}
+  .r{grid-template-columns:28px minmax(0,1fr) auto;row-gap:8px}
+  .r .p{grid-column:2/-1;grid-row:2}
+  .r .b{display:none}
+  .r .st{grid-column:2;grid-row:3;justify-self:start}
+  .r .v{grid-row:1;grid-column:3}
+}
+@media (prefers-reduced-motion:reduce){.r{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="logo" href="#">Vera</a>
+  <nav aria-label="Main"><a href="#board">Site board</a><a href="#how">How it works</a><a href="#team">Team</a></nav>
+  <span class="sp"></span>
+  <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+</header>
+<main>
+  <section class="hero wrap">
+    <h1 id="h1">Cement your four sites paid for and never used, Jul–Sep:</h1>
+    <div class="totem" role="img" id="totem" aria-label="₹86,970"><span class="cur" id="cur">₹</span><svg id="seg" viewBox="0 0 520 110"></svg></div>
+    <div class="meta" id="meta"></div>
+  </section>
+  <section class="act wrap">
+    <p class="lede" id="lede">Vera matches every purchase order, challan and store issue against the measured work, from the WhatsApp notes your supervisors already send. The figure above is what that looks like on a typical quarter, sample data.</p>
+    <div>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free.</p>
+    </div>
+  </section>
+  <section class="board wrap" id="board">
+    <div class="bh"><h2>Site board</h2>
+      <div class="sort" role="group" aria-label="Sort sites"><span>Rank by</span><button data-s="v" aria-pressed="true">Money lost</button><button data-s="p" aria-pressed="false">Reaching the work</button><button data-s="n" aria-pressed="false">Site</button></div></div>
+    <div class="rows" id="rows"></div>
+    <p class="sample">Sample data. Select a site to put it on the counter; select it again for all sites.</p>
+  </section>
+  <section class="how wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b><span id="s1">POs, challans and store registers for one site. Photos are fine.</span></li>
+        <li><b>We match every line</b>Orders against deliveries, store issues and the measured work.</li>
+        <li><b>You get the figure</b>And every leak behind it, by stage and place, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',loc:'en-IN',price:390,ph:'+91 98xxx xxxxx',
+   lede:'Vera matches every purchase order, challan and store issue against the measured work, from the WhatsApp notes your supervisors already send. The figure above is what that looks like on a typical quarter, sample data.',
+   s1:'POs, challans and store registers for one site. Photos are fine.',
+   sites:[['Nagpur','Site 01',31200,84.0],['Wakad','Site 02',18720,90.4],['Indore','Site 03',23010,88.2],['Surat','Site 04',14040,92.8]]},
+ ae:{cur:'AED',loc:'en-US',price:18,ph:'+971 5x xxx xxxx',
+   lede:'Vera matches every LPO, delivery note and store issue against the measured work, from the WhatsApp notes your foremen already send. The figure above is what that looks like on a typical quarter, sample data.',
+   s1:'LPOs, delivery notes and store registers for one site. Photos are fine.',
+   sites:[['JVC','Site 01',1440,89.0],['Business Bay','Site 02',2106,85.6],['Al Quoz','Site 03',1062,88.2],['Dubai South','Site 04',648,94.0]]}
+};
+let mkt='in', sort='v', pick=-1, shown=0, raf=0;
+/* seven segments */
+const T=11;
+const Hs=(cx,cy,L)=>`${cx-L/2},${cy} ${cx-L/2+T/2},${cy-T/2} ${cx+L/2-T/2},${cy-T/2} ${cx+L/2},${cy} ${cx+L/2-T/2},${cy+T/2} ${cx-L/2+T/2},${cy+T/2}`;
+const Vs=(cx,cy,L)=>`${cx},${cy-L/2} ${cx+T/2},${cy-L/2+T/2} ${cx+T/2},${cy+L/2-T/2} ${cx},${cy+L/2} ${cx-T/2},${cy+L/2-T/2} ${cx-T/2},${cy-L/2+T/2}`;
+const SEG={a:Hs(30,6,42),b:Vs(53,30,44),c:Vs(53,78,44),d:Hs(30,102,42),e:Vs(7,78,44),f:Vs(7,30,44),g:Hs(30,54,42)};
+const DIG=['abcdef','bc','abdeg','abcdg','bcfg','acdfg','acdefg','abc','abcdefg','abcdfg'];
+const CELLS=7, CW=66, COMMA=18;
+function render(n){
+  const s=Math.round(n).toLocaleString(M[mkt].loc); const digits=s.replace(/\D/g,'').length;
+  let x=0,out='';
+  for(let i=0;i<CELLS-digits;i++){out+=cell(x,null);x+=CW}
+  for(const ch of s){ if(ch===','){out+=`<path d="M${x+2},96 h9 v9 l-6,10 h-4 l3,-10 h-2z" fill="var(--lit)"/>`;x+=COMMA}else{out+=cell(x,+ch);x+=CW} }
+  const svg=$('seg');svg.setAttribute('viewBox',`0 0 ${x} 118`);svg.innerHTML=`<g transform="skewX(-6) translate(8,0)">${out}</g>`;
+}
+function cell(x,d){let o='';for(const k in SEG){const on=d!==null&&DIG[d].includes(k);o+=`<polygon points="${SEG[k]}" fill="${on?'var(--lit)':'rgba(255,255,255,.09)'}"/>`}return `<g transform="translate(${x},4)">${o}</g>`}
+const fmt=n=>M[mkt].cur+(mkt==='ae'?' ':'')+Math.round(n).toLocaleString(M[mkt].loc);
+function data(){const t=M[mkt];return t.sites.map(([n,id,v,p],i)=>{const bags=Math.round(v/t.price),po=Math.round(bags/(1-p/100));return {i,n,id,v,p,bags,po}})}
+function target(){const d=data();return pick<0?d.reduce((a,b)=>a+b.v,0):d[pick].v}
+function count(){const to=target(),from=shown;cancelAnimationFrame(raf);
+  const totals=data(),sel=pick<0?totals:[totals[pick]],bags=sel.reduce((a,b)=>a+b.bags,0),po=sel.reduce((a,b)=>a+b.po,0);
+  $('totem').setAttribute('aria-label',fmt(to));
+  $('h1').textContent=pick<0?'Cement your four sites paid for and never used, Jul–Sep:':`Cement ${sel[0].id}, ${sel[0].n} paid for and never used, Jul–Sep:`;
+  $('meta').innerHTML=`<span><b>${po.toLocaleString(M[mkt].loc)}</b>bags ordered</span><span><b>${(po-bags).toLocaleString(M[mkt].loc)}</b>bags in the work</span><span><b>${bags}</b>bags lost</span><span><b>${(100*(po-bags)/po).toFixed(1)}%</b>reaching the work</span>`;
+  if(RM){shown=to;render(to);return}
+  const t0=performance.now();const step=t=>{const k=Math.max(0,Math.min(1,(t-t0)/800)),e=1-Math.pow(1-k,4);shown=from+(to-from)*e;render(shown);if(k<1)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)}
+function board(){
+  const d=data(); const worst=d.reduce((a,b)=>b.v>a.v?b:a);
+  const ord=[...d].sort((a,b)=>sort==='v'?b.v-a.v:sort==='p'?a.p-b.p:a.id.localeCompare(b.id));
+  const rows=$('rows'), first={};rows.querySelectorAll('.r').forEach(r=>first[r.dataset.i]=r.getBoundingClientRect().top);
+  rows.innerHTML=ord.map((s,k)=>`<button class="r" data-i="${s.i}" aria-pressed="${pick===s.i}"><span class="n">${k+1}</span><span class="s">${s.n}<small>${s.id} · cement</small></span><span class="p"><i style="--w:${s.p}%"></i>${s.p.toFixed(1)}% reaching work</span><span class="b">${s.bags} bags</span><span class="v">${fmt(s.v)}</span><span class="st ${s===worst?'alert':''}">${s===worst?'Check first':s.p<90?'Watch':'On track'}</span></button>`).join('');
+  rows.querySelectorAll('.r').forEach(r=>{r.onclick=()=>{const i=+r.dataset.i;pick=pick===i?-1:i;board();count()};
+    const f=first[r.dataset.i];if(f!==undefined&&!RM){const dy=f-r.getBoundingClientRect().top;if(dy){r.style.transform=`translateY(${dy}px)`;r.style.transition='none';
+      requestAnimationFrame(()=>{r.style.transition='transform .55s cubic-bezier(.2,.7,.2,1)';r.style.transform=''})}}});
+}
+document.querySelectorAll('.sort button').forEach(b=>b.onclick=()=>{sort=b.dataset.s;document.querySelectorAll('.sort button').forEach(o=>o.setAttribute('aria-pressed',o===b));board()});
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('cur').textContent=t.cur;$('lede').textContent=t.lede;$('wa').placeholder=t.ph;$('s1').textContent=t.s1;pick=-1;shown=0;board();count()}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const d=$('wa').value.replace(/\D/g,'');
+  $('fine').textContent=d.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+setM('in');
+})();
+</script>
+</body>
+</html>

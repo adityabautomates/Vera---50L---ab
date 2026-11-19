@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Cyclorama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400..800&display=swap">
+<style>
+/* Cyclorama: the hero is a lit stage wall. Scrub the cue line from order to work and the light rises from night to morning; the material that drops out pools as a hot band on the horizon. */
+:root{
+  --night:#05060F; --ink:#0D0F1C; --ink-2:#454A60; --ink-3:#626780; --rule:#E2E4EC; --hot:#FF5A2E; --pale:#F6F7FB;
+  --sans:"Epilogue",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.wrap{padding-left:5vw;padding-right:5vw}
+@media (max-width:600px){.wrap{padding-left:20px;padding-right:20px}.cue:nth-of-type(2),.cue:nth-of-type(3){font-size:0;gap:0}}
+.hero{position:relative;min-height:max(100vh,760px);background:var(--night);color:#fff;display:flex;flex-direction:column}
+#cyc{position:absolute;inset:0;width:100%;height:100%;display:block}
+header{position:relative;display:flex;align-items:center;gap:32px;padding-top:24px;padding-bottom:24px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.04em;text-decoration:none}
+nav{display:flex;gap:26px;font-size:15px}nav a{text-decoration:none;color:rgba(255,255,255,.86)}nav a:hover{color:#fff}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:3px}
+.mkt button{font:500 14px var(--sans);border:0;background:none;color:#fff;padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:#fff;color:var(--ink)}
+.top{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:56px;align-items:end;padding-top:6vh}
+h1{font-weight:700;font-size:clamp(42px,5.4vw,86px);line-height:.98;letter-spacing:-.045em;margin:0;text-wrap:balance}
+.lede{font-size:18px;line-height:1.55;color:rgba(255,255,255,.88);margin:0 0 22px;max-width:44ch}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+form label{grid-column:1/-1;font-size:14px;color:rgba(255,255,255,.88)}
+input{font:400 17px var(--sans);padding:15px 18px;border:0;border-radius:6px;background:#fff;color:var(--ink);min-width:0}
+form button{font:600 16px var(--sans);padding:15px 22px;border-radius:6px;border:0;background:var(--hot);color:var(--night);cursor:pointer;white-space:nowrap}
+form button:hover{background:#FF7A55}
+.fine{font-size:14px;color:rgba(255,255,255,.82);margin:12px 0 0}
+.floor{position:relative;margin-top:auto;padding-bottom:34px}
+.read{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap;margin-bottom:22px}
+.read b{font-weight:700;font-size:clamp(44px,5vw,76px);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.read span{font-size:16px;color:rgba(255,255,255,.88);max-width:46ch;line-height:1.45}
+.read em{font-style:normal;color:#FF8A66}
+.track{position:relative;height:56px;cursor:pointer;touch-action:none}
+.track .line{position:absolute;left:0;right:0;top:20px;height:2px;background:rgba(255,255,255,.3)}
+.track .fill{position:absolute;left:0;top:20px;height:2px;background:#fff}
+.cue{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.82);white-space:nowrap;border:0;background:none;padding:0;cursor:pointer;font-family:var(--sans)}
+.cue i{width:10px;height:10px;border-radius:50%;background:var(--night);border:2px solid rgba(255,255,255,.7);margin-top:16px}
+.cue.on{color:#fff}.cue.on i{background:#fff;border-color:#fff}
+.cue:first-of-type{transform:none;align-items:flex-start}.cue:last-of-type{transform:translateX(-100%);align-items:flex-end}
+.head{position:absolute;top:12px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--hot);border:3px solid #fff}
+.track:focus-visible{outline:2px solid #fff;outline-offset:6px}
+.plot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:96px;padding-bottom:72px}
+h2{font-weight:700;font-size:clamp(30px,3vw,46px);letter-spacing:-.04em;line-height:1.04;margin:0 0 14px;text-wrap:balance}
+.plot p{color:var(--ink-2);line-height:1.6;margin:0;max-width:38ch}
+.sample{font-size:13px;color:var(--ink-3);margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:500;font-size:13px;color:var(--ink-3);padding-bottom:12px;padding-right:12px;border-bottom:1px solid var(--rule)}
+td{padding-top:16px;padding-bottom:16px;padding-right:12px;border-bottom:1px solid var(--rule)}
+td:first-child{width:56px}
+td:first-child span{display:inline-block;width:34px;height:34px;border-radius:50%;}
+th:nth-child(n+3),td:nth-child(n+3){text-align:right}
+td.hot{color:#C23A12;font-weight:600}
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:72px;padding-bottom:110px;border-top:1px solid var(--rule)}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.55;font-size:15px}
+ol li::before{content:"Cue " counter(s);display:block;font-size:13px;font-weight:600;color:var(--ink-3);margin-bottom:10px}
+ol li b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+.team{display:flex;gap:44px;flex-wrap:wrap;margin-top:52px;font-size:14px;color:var(--ink-3)}
+.team b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+@media (max-width:960px){
+  nav{display:none}header{gap:16px}
+  .hero{min-height:0}
+  .top{grid-template-columns:1fr;gap:28px;padding-top:24px}
+  .floor{margin-top:56px}
+  form{grid-template-columns:1fr}
+  .plot,.how{grid-template-columns:1fr;gap:28px}
+  ol{grid-template-columns:1fr}
+  .cue{font-size:12px}
+  .tw{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<section class="hero" aria-label="Introduction">
+  <canvas id="cyc" aria-hidden="true"></canvas>
+  <header class="wrap">
+    <a class="logo" href="#">Vera</a>
+    <nav aria-label="Main"><a href="#plot">Cue sheet</a><a href="#how">How it works</a><a href="#team">Team</a></nav>
+    <span class="sp"></span>
+    <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+  </header>
+  <div class="top wrap">
+    <h1>See exactly where the bags stop.</h1>
+    <div>
+      <p class="lede" id="lede">Vera follows each delivery through your purchase orders, challans, store registers and measured work, using the WhatsApp notes your supervisors already send.</p>
+      <form id="f" novalidate>
+        <label for="wa">WhatsApp number for your free leak check</label>
+        <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+        <button type="submit">Start free leak check</button>
+      </form>
+      <p class="fine" id="fine">One site, three months of records, free.</p>
+    </div>
+  </div>
+  <div class="floor wrap">
+    <div class="read" aria-live="polite"><b id="rv">500</b><span id="rs">bags of cement on the purchase order. Site 03, Indore, Jul–Sep, sample data.</span></div>
+    <div class="track" id="track" role="slider" tabindex="0" aria-label="Follow the delivery from order to work" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+      <div class="line"></div><div class="fill" id="fill"></div>
+      <div id="cues"></div>
+      <div class="head" id="head"></div>
+    </div>
+  </div>
+</section>
+<main>
+  <section class="plot wrap" id="plot">
+    <div><h2>The cue sheet</h2><p>Each register is a cue. The light only comes fully up when what was ordered is what was built.</p><p class="sample" id="sm">Site 03, Indore · cement · sample data</p></div>
+    <div class="tw"><table><thead><tr><th></th><th>Register</th><th>Bags</th><th>Lost here</th><th>Value</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+  <section class="how wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b><span id="s1">POs, challans and store registers for one site. Photos are fine.</span></li>
+        <li><b>We follow every delivery</b>From the order to the work it was meant for.</li>
+        <li><b>You get the leaks</b>Stage, place, quantity and value for each one, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',loc:'en-IN',price:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',st:['Purchase order','Challan','Store issue','In the work'],
+   say:['on the purchase order','signed for on the challan','entered in the store register','measured in the work'],
+   lede:'Vera follows each delivery through your purchase orders, challans, store registers and measured work, using the WhatsApp notes your supervisors already send.',
+   s1:'POs, challans and store registers for one site. Photos are fine.'},
+ ae:{cur:'AED ',loc:'en-US',price:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',st:['LPO','Delivery note','Store issue','In the work'],
+   say:['on the LPO','signed for on the delivery note','entered in the store register','measured in the work'],
+   lede:'Vera follows each delivery through your LPOs, delivery notes, store registers and measured work, using the WhatsApp notes your foremen already send.',
+   s1:'LPOs, delivery notes and store registers for one site. Photos are fine.'}
+};
+const Q=[500,500,482,441];
+const NOTE=['','','8 at the store gate, 10 at the rear bay','across floors 1 to 4'];
+/* sky stops: top, upper, mid, horizon; floor top, floor bottom */
+const PAL=[
+ ['#04050E','#0A0F33','#16206E','#2C2F8C','#0A0B1E','#04050C'],
+ ['#060A26','#122090','#3046D2','#7C6BE8','#151541','#05060F'],
+ ['#0B1250','#3236B8','#B24896','#FF7A55','#2A1638','#07060F'],
+ ['#1E3FBF','#5A78EE','#E79AB4','#FFE2CF','#3B2B4A','#0B0912']];
+const LAMPS=[.12,.37,.63,.88];
+let mkt='in', pos=0, want=0, auto=!RM, raf=0;
+const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(M[mkt].loc);
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mix=(a,b,k)=>{const A=hx(a),B=hx(b);return `rgb(${A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(',')})`};
+const cv=$('cyc'),cx=cv.getContext('2d');
+function size(){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio,2);cv.width=r.width*d;cv.height=r.height*d;paint()}
+function bags(p){const i=Math.min(2,Math.floor(p)),k=p-i;return Q[i]+(Q[i+1]-Q[i])*k}
+function paint(){
+  const W=cv.width,H=cv.height,i=Math.min(2,Math.floor(pos)),k=pos-i,P=PAL[i].map((c,j)=>mix(c,PAL[i+1][j],k));
+  const hz=H*(innerWidth<=960?.72:.62);
+  let g=cx.createLinearGradient(0,0,0,hz);g.addColorStop(0,P[0]);g.addColorStop(.4,P[1]);g.addColorStop(.78,P[2]);g.addColorStop(1,P[3]);
+  cx.fillStyle=g;cx.fillRect(0,0,W,hz);
+  g=cx.createLinearGradient(0,hz,0,H);g.addColorStop(0,P[4]);g.addColorStop(1,P[5]);cx.fillStyle=g;cx.fillRect(0,hz,W,H-hz);
+  /* cyc lamps: soft pools from the top batten, brighter as the cues advance */
+  for(const lx of LAMPS){const r=W*.32,a=.05+pos*.035;const rg=cx.createRadialGradient(lx*W,-H*.05,0,lx*W,-H*.05,r);
+    rg.addColorStop(0,`rgba(255,255,255,${a})`);rg.addColorStop(1,'rgba(255,255,255,0)');cx.fillStyle=rg;cx.fillRect(0,0,W,hz)}
+  /* the horizon: lost material pools here as a hot band */
+  const lost=Q[0]-bags(pos), bh=(1.5+lost*.55)*(H/900);
+  g=cx.createLinearGradient(0,hz-bh,0,hz+bh*.6);g.addColorStop(0,'rgba(255,90,46,0)');g.addColorStop(.55,'rgba(255,90,46,.95)');g.addColorStop(.75,'rgba(255,170,90,1)');g.addColorStop(1,'rgba(255,90,46,0)');
+  cx.fillStyle=g;cx.fillRect(0,hz-bh,W,bh*1.6);
+  /* reflection on the stage floor */
+  g=cx.createLinearGradient(0,hz,0,hz+H*.18);g.addColorStop(0,`rgba(255,90,46,${Math.min(.35,lost/170)})`);g.addColorStop(1,'rgba(255,90,46,0)');
+  cx.fillStyle=g;cx.fillRect(0,hz,W,H*.18);
+  cx.fillStyle='rgba(255,255,255,.55)';cx.fillRect(0,hz-1,W,Math.max(1,H/900));
+}
+function ui(){
+  const t=M[mkt],n=Math.round(pos),b=Math.round(bags(pos)),lost=500-b;
+  $('rv').textContent=b;
+  $('rs').innerHTML=`bags of cement ${t.say[n]}${lost>0?`. <em>${lost} gone, ${fmt(lost*t.price)}</em>`:''}. ${t.site}, Jul–Sep, sample data.`;
+  const pc=pos/3*100;$('head').style.left=pc+'%';$('fill').style.width=pc+'%';
+  $('track').setAttribute('aria-valuenow',n);$('track').setAttribute('aria-valuetext',`${t.st[n]}: ${Q[n]} bags`);
+  document.querySelectorAll('.cue').forEach((c,i)=>c.classList.toggle('on',i<=n));
+}
+function tick(){const d=want-pos;pos+=RM?d:d*.08;if(Math.abs(want-pos)<.002)pos=want;paint();ui();if(pos!==want)raf=requestAnimationFrame(tick)}
+function go(v){want=Math.max(0,Math.min(3,v));cancelAnimationFrame(raf);raf=requestAnimationFrame(tick)}
+function cues(){const t=M[mkt];$('cues').innerHTML=t.st.map((s,i)=>`<button class="cue" tabindex="-1" style="left:${i/3*100}%" data-i="${i}"><i></i>${s}</button>`).join('');
+  document.querySelectorAll('.cue').forEach(c=>c.onclick=e=>{e.stopPropagation();auto=false;go(+c.dataset.i)})}
+const tr=$('track');
+function fromX(e){const r=tr.getBoundingClientRect();return (e.clientX-r.left)/r.width*3}
+tr.addEventListener('pointerdown',e=>{auto=false;tr.setPointerCapture(e.pointerId);pos=want=Math.max(0,Math.min(3,fromX(e)));paint();ui();
+  const mv=ev=>{pos=want=Math.max(0,Math.min(3,fromX(ev)));paint();ui()};const up=()=>{tr.removeEventListener('pointermove',mv);go(Math.round(pos))};
+  tr.addEventListener('pointermove',mv);tr.addEventListener('pointerup',up,{once:true})});
+tr.addEventListener('keydown',e=>{const n=Math.round(want);if(['ArrowRight','ArrowUp'].includes(e.key)){auto=false;go(n+1);e.preventDefault()}
+  if(['ArrowLeft','ArrowDown'].includes(e.key)){auto=false;go(n-1);e.preventDefault()}if(e.key==='Home'){go(0)}if(e.key==='End'){go(3)}});
+function rows(){const t=M[mkt];$('rows').innerHTML=Q.map((q,i)=>{const l=i?Q[i-1]-q:0;const c=PAL[i][3];
+  return `<tr><td><span style="background:linear-gradient(${PAL[i][1]},${c})"></span></td><td>${t.st[i]}${NOTE[i]&&l?`<br><small style="color:var(--ink-3)">${NOTE[i]}</small>`:''}</td><td>${q}</td><td class="${l?'hot':''}">${l||'–'}</td><td>${l?fmt(l*t.price):'–'}</td></tr>`}).join('');
+  $('sm').textContent=`${t.site} · cement · sample data`}
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('lede').textContent=t.lede;$('wa').placeholder=t.ph;$('s1').textContent=t.s1;cues();rows();ui()}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const d=$('wa').value.replace(/\D/g,'');
+  $('fine').textContent=d.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+addEventListener('resize',size);setM('in');size();
+if(auto){let n=0;const iv=setInterval(()=>{if(!auto||n>=3){clearInterval(iv);return}go(++n)},1500)}else go(3);
+})();
+</script>
+</body>
+</html>

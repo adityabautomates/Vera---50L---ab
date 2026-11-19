@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vera · Gates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400..700&display=swap">
+<style>
+/* Gates: five hundred points of light stream through four rings, one per register. The ones that leave the stream fall out of it, turn hot, and settle in a pool below. */
+:root{
+  --night:#070A1F; --ink:#0B0E22; --ink-2:#464B66; --ink-3:#5F6482; --rule:#E1E3EC; --pale:#F4F5F9; --hot:#FF5A36;
+  --sans:"Familjen Grotesk",ui-sans-serif,system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid #7FD8FF;outline-offset:3px}
+.wrap{padding-left:max(20px,5vw);padding-right:max(20px,5vw)}
+.hero{position:relative;min-height:max(100vh,760px);background:radial-gradient(120% 90% at 70% 40%,#1C1F6B 0%,#0E1240 45%,var(--night) 100%);color:#fff;overflow:hidden}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+header{position:relative;z-index:2;display:flex;align-items:center;gap:32px;padding-top:24px;padding-bottom:24px}
+.logo{font-weight:700;font-size:24px;letter-spacing:-.03em;text-decoration:none}
+nav{display:flex;gap:26px;font-size:15px}nav a{text-decoration:none;color:rgba(255,255,255,.84)}nav a:hover{color:#fff}
+.sp{flex:1}
+.mkt{display:flex;border:1px solid rgba(255,255,255,.4);border-radius:99px;padding:3px}
+.mkt button{font:500 14px var(--sans);border:0;background:none;color:#fff;padding:7px 14px;border-radius:99px;cursor:pointer}
+.mkt button[aria-pressed=true]{background:#fff;color:var(--night)}
+.copy{position:relative;z-index:2;width:min(580px,40vw);padding-top:5vh}
+h1{font-weight:600;font-size:clamp(40px,4.2vw,64px);line-height:1;letter-spacing:-.035em;margin:0 0 20px;text-wrap:balance}
+.lede{font-size:18px;line-height:1.55;color:rgba(255,255,255,.86);margin:0 0 24px;max-width:44ch}
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+form label{grid-column:1/-1;font-size:14px;color:rgba(255,255,255,.86)}
+input{font:400 17px var(--sans);padding:15px 18px;border:0;border-radius:99px;background:#fff;color:var(--ink);min-width:0}
+form button{font:600 16px var(--sans);padding:15px 24px;border-radius:99px;border:0;background:var(--hot);color:var(--night);cursor:pointer;white-space:nowrap}
+form button:hover{background:#FF7A5C}
+.fine{font-size:14px;color:rgba(255,255,255,.8);margin:12px 0 0}
+.lab{position:absolute;z-index:2;transform:translate(-50%,-100%);font:500 13px var(--sans);color:#fff;background:rgba(7,10,31,.72);border:1px solid rgba(255,255,255,.28);border-radius:99px;padding:6px 12px;white-space:nowrap;cursor:pointer;font-variant-numeric:tabular-nums}
+.lab b{font-weight:700;margin-left:6px}
+.lab[aria-pressed=true]{background:#fff;color:var(--night);border-color:#fff}
+.pool{position:absolute;z-index:2;transform:translate(-50%,0);font-size:14px;color:#FFB7A3;white-space:nowrap;text-align:center;line-height:1.35;pointer-events:none}
+.pool b{display:block;font-size:20px;color:#fff}
+.read{position:absolute;z-index:2;right:max(20px,5vw);bottom:40px;width:min(340px,30vw);font-size:15px;line-height:1.5;color:rgba(255,255,255,.86)}
+.read b{display:block;color:#fff;font-size:17px;margin-bottom:4px}
+.sample{font-size:13px;color:var(--ink-3);margin-top:14px}
+.went{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:96px;padding-bottom:72px}
+h2{font-weight:600;font-size:clamp(30px,3vw,46px);letter-spacing:-.03em;line-height:1.05;margin:0 0 14px;text-wrap:balance}
+.went p{color:var(--ink-2);line-height:1.6;margin:0;max-width:38ch}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.grid div{background:var(--pale);padding-top:22px;padding-bottom:22px;padding-left:20px;padding-right:20px;font-variant-numeric:tabular-nums}
+.grid b{display:block;font-size:30px;font-weight:600;letter-spacing:-.02em;color:#C93A16}
+.grid span{display:block;font-weight:600;margin-top:8px}
+.grid small{display:block;font-size:14px;color:var(--ink-2);margin-top:2px}
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:56px;padding-top:72px;padding-bottom:110px;border-top:1px solid var(--rule)}
+ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;counter-reset:s}
+ol li{counter-increment:s;color:var(--ink-2);line-height:1.55;font-size:15px}
+ol li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--ink);font-weight:600;color:var(--ink);margin-bottom:14px}
+ol li b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+.team{display:flex;gap:44px;flex-wrap:wrap;margin-top:52px;font-size:14px;color:var(--ink-3)}
+.team b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+@media (max-width:960px){
+  nav{display:none}header{gap:16px}
+  .hero{min-height:0;padding-bottom:36px}
+  .stagebox{position:relative;height:62vh;margin-top:8px}
+  #gl{position:absolute}
+  .copy{width:auto;padding-top:8px}
+  .read{position:relative;right:auto;bottom:auto;width:auto;margin-top:24px}
+  form{grid-template-columns:1fr}
+  .went,.how{grid-template-columns:1fr;gap:28px}
+  .grid,ol{grid-template-columns:1fr}
+  .lab{font-size:12px;padding:5px 9px}
+}
+@media (min-width:961px){.stagebox{position:absolute;inset:0}}
+</style>
+</head>
+<body>
+<section class="hero" aria-label="Introduction">
+  <header class="wrap">
+    <a class="logo" href="#">Vera</a>
+    <nav aria-label="Main"><a href="#went">Where it went</a><a href="#how">How it works</a><a href="#team">Team</a></nav>
+    <span class="sp"></span>
+    <div class="mkt" role="group" aria-label="Market"><button aria-pressed="true" data-m="in">India</button><button aria-pressed="false" data-m="ae">UAE</button></div>
+  </header>
+  <div class="stagebox" id="box"><canvas id="gl" aria-hidden="true"></canvas><div id="labs"></div></div>
+  <div class="copy wrap">
+    <h1>Five hundred bags go in. Watch which ones come out.</h1>
+    <p class="lede" id="lede">Every point is a bag of cement on one site. Vera follows each through the purchase order, the challan, the store and the measured work, from the WhatsApp notes your supervisors already send.</p>
+    <form id="f" novalidate>
+      <label for="wa">WhatsApp number for your free leak check</label>
+      <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98xxx xxxxx">
+      <button type="submit">Start free leak check</button>
+    </form>
+    <p class="fine" id="fine">One site, three months of records, free.</p>
+  </div>
+  <div class="read wrap" id="read" aria-live="polite"></div>
+</section>
+<main>
+  <section class="went wrap" id="went">
+    <div><h2>Where the 59 went</h2><p>Two leaks at the store, four between store issue and the measured work. Each one has a place, a date and a person who signed.</p><p class="sample" id="sm">Site 03, Indore · Jul–Sep · sample data</p></div>
+    <div class="grid" id="grid"></div>
+  </section>
+  <section class="how wrap" id="how">
+    <h2>How the free check works</h2>
+    <div>
+      <ol>
+        <li><b>Send three months</b><span id="s1">POs, challans and store registers for one site. Photos are fine.</span></li>
+        <li><b>We follow every bag</b>Through each register to the work it was meant for.</li>
+        <li><b>You see what fell out</b>Stage, place, quantity and value for each leak, in about ten working days.</li>
+      </ol>
+      <div class="team" id="team"><span><b>Rishiraj Nath</b>IIM Calcutta</span><span><b>Shivam Vatkar</b>IIM Calcutta</span><span><b>Aditya Bhagat</b>IIM Indore</span></div>
+    </div>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+const M={
+ in:{cur:'₹',loc:'en-IN',price:390,ph:'+91 98xxx xxxxx',site:'Site 03, Indore',st:['Purchase order','Challan','Store issue','In the work'],
+   lede:'Every point is a bag of cement on one site. Vera follows each through the purchase order, the challan, the store and the measured work, from the WhatsApp notes your supervisors already send.',
+   s1:'POs, challans and store registers for one site. Photos are fine.'},
+ ae:{cur:'AED ',loc:'en-US',price:18,ph:'+971 5x xxx xxxx',site:'Site 03, Al Quoz',st:['LPO','Delivery note','Store issue','In the work'],
+   lede:'Every point is a bag of cement on one site. Vera follows each through the LPO, the delivery note, the store and the measured work, from the WhatsApp notes your foremen already send.',
+   s1:'LPOs, delivery notes and store registers for one site. Photos are fine.'}
+};
+const Q=[500,500,482,441];
+const WHY=['Ordered for the quarter.','Every bag signed for at the gate.','18 delivered bags never entered the store: 8 at the store gate, 10 at the rear bay.','41 issued bags are not in the measured work, across floors 1 to 4.'];
+const LEAKS=[['Store gate','Delivered, never entered store',8],['Rear bay','Delivered, never entered store',10],['Floor 1 slab','Issued, not in the work',6],['Floor 2 columns','Issued, not in the work',12],['Floor 3 slab','Issued, not in the work',9],['Floor 4 blockwork','Issued, not in the work',14]];
+let mkt='in', focus=-1;
+const fmt=n=>M[mkt].cur+Math.round(n).toLocaleString(M[mkt].loc);
+function read(){const t=M[mkt];const i=focus<0?3:focus;const lost=500-Q[i];
+  $('read').innerHTML=`<b>${t.st[i]} · ${Q[i]} bags</b>${WHY[i]}${lost?` ${lost} lost so far, ${fmt(lost*t.price)}.`:''} Sample data.`}
+function grid(){const t=M[mkt];$('grid').innerHTML=LEAKS.map(l=>`<div><b>${l[2]}</b><span>${l[0]}</span><small>${l[1]} · ${fmt(l[2]*t.price)}</small></div>`).join('');$('sm').textContent=`${t.site} · Jul–Sep · sample data`}
+function setM(m){mkt=m;const t=M[m];document.querySelectorAll('.mkt button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('lede').textContent=t.lede;$('wa').placeholder=t.ph;$('s1').textContent=t.s1;grid();read();labels()}
+document.querySelectorAll('.mkt button').forEach(b=>b.onclick=()=>setM(b.dataset.m));
+$('f').addEventListener('submit',e=>{e.preventDefault();const d=$('wa').value.replace(/\D/g,'');
+  $('fine').textContent=d.length>=9?'Thanks. We will message you on WhatsApp within one working day.':'Enter a WhatsApp number with country code, for example '+M[mkt].ph+'.'});
+
+/* scene */
+const box=$('box'), cv=$('gl');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const S=new THREE.Scene(), C=new THREE.PerspectiveCamera(38,1,.1,100);
+const mob=()=>innerWidth<=960;
+const P=u=>new THREE.Vector3(-8+16*u, Math.sin(u*Math.PI*1.15)*1.1-.3, Math.cos(u*Math.PI*1.6)*1.2);
+const GU=[.15,.38,.61,.84], LU=[.5,.73];
+/* gates */
+const gates=GU.map((u,i)=>{const g=new THREE.Mesh(new THREE.TorusGeometry(1.15,.014,8,120),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.55}));
+  g.position.copy(P(u));g.rotation.y=Math.PI/2+.25;S.add(g);return g});
+/* faint path */
+{const pts=[];for(let k=0;k<=200;k++)pts.push(P(k/200));const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x8FB8FF,transparent:true,opacity:.18}));S.add(l)}
+/* pool */
+const POOL=new THREE.Vector3(3.7,-3.4,.4);
+{const pts=[];for(let k=0;k<=96;k++){const a=k/96*Math.PI*2;pts.push(new THREE.Vector3(POOL.x+Math.cos(a)*2.6,POOL.y,POOL.z+Math.sin(a)*1.1))}
+ S.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xFF8A6B,transparent:true,opacity:.45})))}
+/* particles */
+const N=500, LN=59;
+const pos=new Float32Array(N*3), col=new Float32Array(N*3), sz=new Float32Array(N);
+const ph=[],ang=[],rad=[],pool=[];
+for(let i=0;i<N;i++){ph.push(Math.random());ang.push(Math.random()*Math.PI*2);rad.push(Math.sqrt(Math.random())*.62);
+  const a=Math.random()*Math.PI*2,r=Math.sqrt(Math.random());pool.push(new THREE.Vector3(POOL.x+Math.cos(a)*r*2.3,POOL.y+.04,POOL.z+Math.sin(a)*r*.95));sz[i]=i<LN?1.25:1}
+const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));geo.setAttribute('s',new THREE.BufferAttribute(sz,1));
+const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,vertexColors:true,uniforms:{px:{value:R.getPixelRatio()}},
+ vertexShader:`attribute float s;varying vec3 vC;uniform float px;void main(){vC=color;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=s*px*240./-mv.z;gl_Position=projectionMatrix*mv;}`,
+ fragmentShader:`varying vec3 vC;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,.0,d);a=a*a*a*1.6;gl_FragColor=vec4(vC*a,a);}`});
+S.add(new THREE.Points(geo,mat));
+const cA=new THREE.Color('#6FD0FF'),cB=new THREE.Color('#FFFFFF'),cH=new THREE.Color('#FF5A36'),tmp=new THREE.Color(),o=new THREE.Vector3();
+function step(time){
+  for(let i=0;i<N;i++){
+    const u=(ph[i]+time*.032)%1; const lu=i<18?LU[0]:i<LN?LU[1]:2;
+    const base=P(Math.min(u,lu)); o.set(0,Math.cos(ang[i]+u*9)*rad[i],Math.sin(ang[i]+u*9)*rad[i]); base.add(o);
+    if(u>lu){const s=Math.min(1,(u-lu)/(.14)), e=s*s; const tgt=pool[i];
+      base.x+= (tgt.x-base.x)*s; base.z+=(tgt.z-base.z)*s; base.y+=(tgt.y-base.y)*e;
+      tmp.copy(cB).lerp(cH,Math.min(1,s*1.6))}
+    else tmp.copy(cA).lerp(cB,u);
+    const f=u<.04?u/.04:u>.97?(1-u)/.03:1; /* fade in/out at the ends */
+    pos[i*3]=base.x;pos[i*3+1]=base.y;pos[i*3+2]=base.z;col[i*3]=tmp.r*f;col[i*3+1]=tmp.g*f;col[i*3+2]=tmp.b*f}
+  geo.attributes.position.needsUpdate=true;geo.attributes.color.needsUpdate=true;
+}
+/* labels */
+let labEls=[];
+function labels(){const t=M[mkt];const L=$('labs');
+  L.innerHTML=t.st.map((s,i)=>`<button class="lab" data-i="${i}" aria-pressed="${focus===i}">${s}<b>${Q[i]}</b></button>`).join('')+`<div class="pool" id="pl"><b>59 bags</b>${fmt(59*t.price)} fell out</div>`;
+  labEls=[...L.querySelectorAll('.lab')];labEls.forEach(b=>b.onclick=()=>{focus=focus===+b.dataset.i?-1:+b.dataset.i;labEls.forEach(x=>x.setAttribute('aria-pressed',+x.dataset.i===focus));read();if(RM)render(9)})}
+const v=new THREE.Vector3();
+function place(){const w=box.clientWidth,h=box.clientHeight;
+  const below=mob();labEls.forEach((b,i)=>{const dn=below&&i%2;v.copy(gates[i].position);v.y+=dn?-1.3:1.3;v.project(C);b.style.left=((v.x+1)/2*w)+'px';b.style.top=((1-v.y)/2*h)+'px';b.style.transform=dn?'translate(-50%,0)':''});
+  const pl=$('pl');if(pl){v.copy(POOL);v.y-=.35;v.project(C);pl.style.left=((v.x+1)/2*w)+'px';pl.style.top=((1-v.y)/2*h)+'px'}}
+let mx=0,my=0,cx=0,cy=0,camX=0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+function size(){const w=box.clientWidth,h=box.clientHeight;R.setSize(w,h,false);C.aspect=w/h;
+  if(mob()){C.fov=52;C.setViewOffset(w,h,0,0,w,h)}else{C.fov=36;C.setViewOffset(w,h,-w*.2,h*.03,w,h)}C.updateProjectionMatrix()}
+addEventListener('resize',size);size();
+function render(time){
+  cx+=(mx-cx)*.04;cy+=(my-cy)*.04;
+  const fx=focus<0?0:gates[focus].position.x*.55; camX+=(fx-camX)*(RM?1:.05);
+  const dist=mob()?23:focus<0?24:18;
+  C.position.set(camX+cx*2.2+(mob()?0:-1),2.4-cy*1.4,dist);C.lookAt(camX,-.6,0);
+  step(time);R.render(S,C);place()}
+let vis=true;new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(box);
+setM('in');
+if(RM){render(9)}else{const t0=performance.now();const loop=n=>{if(vis)render(9+(n-t0)/1000);requestAnimationFrame(loop)};requestAnimationFrame(loop)}
+})();
+</script>
+</body>
+</html>
